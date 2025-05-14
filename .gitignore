@@ -1,0 +1,25 @@
+# 🔁 Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# 🐍 Entornos virtuales (dentro de backend)
+backend/env/
+backend/venv/
+
+# 📦 Dependencias de Node (si agregan algo al frontend)
+frontend/node_modules/
+
+# ⚙️ Archivos de configuración o entorno
+*.env
+*.log
+*.sqlite3
+
+# 📁 Archivos generados por Django
+backend/media/
+
+# 🔄 Archivos de caché de VSCode o editor
+.vscode/
+.DS_Store
+*.swp
