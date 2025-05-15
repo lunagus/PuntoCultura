@@ -19,6 +19,11 @@ class CategoriaSerializer(serializers.ModelSerializer):
         model = Categoria
         fields = '__all__'
 
+    def validate_nombre(self, value):
+        if Categoria.objects.filter(nombre__iexact=value).exists():
+            raise serializers.ValidationError("Esta categoría ya existe.")
+        return value
+
 class CentroCulturalSerializer(serializers.ModelSerializer):
     class Meta:
         model = CentroCultural

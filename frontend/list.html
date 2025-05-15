@@ -2,12 +2,119 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lista de Eventos</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet" />
   <script defer src="js/list.js"></script>
+  <style>
+    body {
+      background-color: #e5e2f1;
+      font-family: 'Host Grotesk', sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: rgb(113, 99, 240);
+      padding: 15px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header .logo-text p {
+      margin: 0;
+      line-height: 1.2;
+      font-weight: 600;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+    nav ul li a:hover, nav ul li a.active {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 12px;
+      padding: 30px 40px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin-bottom: 25px;
+      font-weight: 700;
+      color: rgb(113, 99, 240);
+      text-align: center;
+    }
+    ul#eventos-list {
+      list-style: none;
+      padding: 0;
+    }
+    ul#eventos-list li {
+      padding: 15px 20px;
+      border-bottom: 1px solid #ddd;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 6px rgba(113, 99, 240, 0.1);
+    }
+    ul#eventos-list li:hover {
+      background-color: rgb(137, 126, 243);
+      color: white;
+    }
+    #mensaje {
+      text-align: center;
+      margin-top: 20px;
+      color: #777;
+      font-style: italic;
+    }
+    footer {
+      margin-top: 50px;
+      text-align: center;
+      color: #555;
+      font-size: 14px;
+      padding: 20px 10px;
+      border-top: 1px solid #ddd;
+    }
+  </style>
 </head>
 <body>
-  <h1>Eventos</h1>
-  <ul id="eventos-list"></ul>
-  <div id="mensaje"></div>
+  <header>
+    <a href="index.html" class="logo-text">
+      <p>Subsecretaría de Cultura</p>
+      <p>Casa Castro</p>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="list.html" class="active">Eventos</a></li>
+        <li><a href="post.html">Crear Evento (placeholder)</a></li>
+        <li><a href="#">Personalidades</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h1>Eventos</h1>
+    <ul id="eventos-list"></ul>
+    <div id="mensaje"></div>
+  </main>
+  <footer>
+    &copy; 2025 Subsecretaría de Cultura - Casa Castro
+  </footer>
 </body>
 </html>

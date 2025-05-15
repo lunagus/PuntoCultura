@@ -4,32 +4,75 @@
   <meta charset="UTF-8" />
   <title>Crear Evento</title>
   <script defer src="js/main.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>Crear Nuevo Evento</h1>
+<body class="bg-gray-100 p-10">
+  <div class="max-w-xl mx-auto bg-white p-8 rounded shadow">
+    <h1 class="text-2xl font-bold mb-6 text-center">Crear Evento Cultural</h1>
+    <form id="eventoForm" enctype="multipart/form-data" class="space-y-4">
+      <input type="text" name="titulo" placeholder="Título" required class="w-full border px-4 py-2 rounded" />
+      <textarea name="descripcion" placeholder="Descripción" required class="w-full border px-4 py-2 rounded"></textarea>
+      <input type="date" name="fecha" required class="w-full border px-4 py-2 rounded" />
+      <input type="file" name="imagen" accept="image/*" class="w-full border px-4 py-2 rounded" />
 
-  <form id="eventoForm">
-    <label for="titulo">Título:</label>
-    <input type="text" id="titulo" name="titulo" required><br><br>
+      <select name="centro_cultural" class="w-full border px-4 py-2 rounded">
+        <option value="">Selecciona un Centro Cultural (opcional)</option>
+      </select>
 
-    <label for="descripcion">Descripción:</label><br>
-    <textarea id="descripcion" name="descripcion" required></textarea><br><br>
+      <select name="categoria" class="w-full border px-4 py-2 rounded">
+        <option value="">Selecciona una categoría</option>
+      </select>
 
-    <label for="fecha">Fecha:</label>
-    <input type="date" id="fecha" name="fecha" required><br><br>
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+        Publicar Evento
+      </button>
+    </form>
+    <p id="mensaje" class="mt-4 text-green-600 font-medium text-center hidden">¡Evento creado con éxito!</p>
+  </div>
 
-    <label for="imagen">Imagen:</label>
-    <input type="file" id="imagen" name="imagen" accept="image/*"><br><br>
+  <script>
+    // Lógica JS para enviar el formulario
+    document.getElementById('eventoForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
 
-    <label for="categoria">Categoría (ID):</label>
-    <input type="number" id="categoria" name="categoria"><br><br>
+      const response = await fetch('http://127.0.0.1:8000/api/eventos/', {
+        method: 'POST',
+        body: data,
+      });
 
-    <label for="centro_cultural">Centro cultural (ID):</label>
-    <input type="number" id="centro_cultural" name="centro_cultural"><br><br>
+      if (response.ok) {
+        document.getElementById('mensaje').classList.remove('hidden');
+        form.reset();
+      } else {
+        alert('Error al crear el evento');
+      }
+    });
 
-    <button type="submit">Crear Evento</button>
-  </form>
+    // Cargar centros y categorías desde la API
+    async function cargarOpciones() {
+      const centros = await fetch('http://127.0.0.1:8000/api/centros/').then(r => r.json());
+      const categorias = await fetch('http://127.0.0.1:8000/api/categorias/').then(r => r.json());
 
-  <div id="mensaje"></div>
+      const centroSelect = document.querySelector('select[name="centro_cultural"]');
+      centros.forEach(c => {
+        const option = document.createElement('option');
+        option.value = c.id;
+        option.textContent = c.nombre;
+        centroSelect.appendChild(option);
+      });
+
+      const categoriaSelect = document.querySelector('select[name="categoria"]');
+      categorias.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat.id;
+        option.textContent = cat.nombre;
+        categoriaSelect.appendChild(option);
+      });
+    }
+
+    cargarOpciones();
+  </script>
 </body>
 </html>

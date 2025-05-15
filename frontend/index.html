@@ -29,9 +29,9 @@
                 </label>
             </a>
             <ul class="nav-options">
-                <li><a href="#">Eventos</a></li>
-                <li><a href="#">Biblioteca</a></li>
-                <li><a href="#">Personalidades</a></li>
+                <li><a href="list.html">Eventos</a></li>
+                <li><a href="post.html">Crear Evento</a></li>
+                <li><a href="crearcategoria.html">Crear Categoría</a></li>
                 <li><a href="#">Contacto</a></li>
             </ul>
         </nav>
@@ -41,10 +41,10 @@
         <section class="carousel-section">
             <div class="carousel-3d-container">
                 <div class="carousel-3d" id="carousel">
-                    <div class="card"><img src="img/1.jpg" alt="Trabajo 1"></div>
-                    <div class="card"><img src="img/2.jpg" alt="Trabajo 2"></div>
-                    <div class="card"><img src="img/3.jpg" alt="Trabajo 3"></div>
-                    <div class="card"><img src="img/4.jpg" alt="Trabajo 4"></div>
+                    <div class="card"><img src="img/carr1.jpg" alt="Puente Carretero"></div>
+                    <div class="card"><img src="img/carr2.jpg" alt="Trabajo 2"></div>
+                    <div class="card"><img src="img/carr3.jpg" alt="Estadio Unico"></div>
+                    <div class="card"><img src="img/carr4.jpg" alt="Vista Estadio"></div>
                 </div>
                 <button class="carousel-btn prev" onclick="prevSlide()">‹</button>
                 <button class="carousel-btn next" onclick="nextSlide()">›</button>
@@ -59,18 +59,14 @@
         </section>
 
         <h2>Calendario de Eventos</h2>
-        <div class="calendario">
-            <header>
-                <button id="prevMes">◀</button>
-                <h2 id="mesActual"></h2>
-                <button id="nextMes">▶</button>
-            </header>
-            <div id="diasSemana">
-                <span>Dom</span> <span>Lun</span> <span>Mar</span>
-                <span>Mié</span> <span>Jue</span> <span>Vie</span> <span>Sáb</span>
-            </div>
-            <div id="dias"></div>
-        </div>
+<div id="calendar"></div>
+<style>
+  #calendar {
+    max-width: 900px;
+    margin: 40px auto;
+  }
+</style>
+
     </main>
 
     <footer>
@@ -78,13 +74,13 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="js/calendario.js"></script>
-    <script src="js/carrusel.js"></script>
-    <script>
-        // Carrusel automático cada 5 segundos
+<script src="js/carrusel.js"></script>
+<script>
         setInterval(() => {
             nextSlide();
         }, 5000);
     </script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<script src="js/calendario.js"></script>
 </body>
 </html>
