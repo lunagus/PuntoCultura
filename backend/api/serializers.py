@@ -2,17 +2,18 @@ from rest_framework import serializers
 from .models import Evento, Categoria, CentroCultural
 
 class EventoSerializer(serializers.ModelSerializer):
-    imagen = serializers.SerializerMethodField()
+    imagen = serializers.ImageField(required=False)
 
     class Meta:
         model = Evento
         fields = '__all__'
 
-    def get_imagen(self, obj):
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
         request = self.context.get('request')
-        if obj.imagen and request:
-            return request.build_absolute_uri(obj.imagen.url)
-        return None
+        if instance.imagen and request:
+            representation['imagen'] = request.build_absolute_uri(instance.imagen.url)
+        return representation
 
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
