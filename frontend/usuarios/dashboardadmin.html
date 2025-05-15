@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administrador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Bienvenido, Administrador {{ session['usuario'] }}</h1>
+    
+    <h2>Gestión de Usuarios</h2>
+    <a href="{{ url_for('crear_usuario') }}">Crear Usuario</a>
+    <a href="{{ url_for('listar_usuarios') }}">Lista de Usuarios</a>
+    <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+</body>
+</html>

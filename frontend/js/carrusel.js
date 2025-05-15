@@ -1,62 +1,30 @@
-const carousel = document.querySelector(".carousel-3d");
-const cards = carousel.querySelectorAll(".card");
-let currentIndex = 0;
-let interval;
+const carousel = document.querySelector('.carousel-3d');
+const cards = document.querySelectorAll('.carousel-3d .card');
+
+let current = 0;
+const total = cards.length;
+const angle = 360 / total;
+
+// Posicionamos las tarjetas una vez
+cards.forEach((card, index) => {
+    const cardAngle = angle * index;
+    card.style.transform = `rotateY(${cardAngle}deg) translateZ(300px)`;
+});
 
 function updateCarousel() {
-    cards.forEach((card, index) => {
-        card.classList.remove("prev", "active", "next");
-        if (index === currentIndex) {
-            card.classList.add("active");
-        } else if (index === (currentIndex - 1 + cards.length) % cards.length) {
-            card.classList.add("prev");
-        } else if (index === (currentIndex + 1) % cards.length) {
-            card.classList.add("next");
-        }
-    });
-}
-
-function nextSlide() {
-    currentIndex = (currentIndex + 1) % cards.length;
-    updateCarousel();
+    const rotateY = current * -angle;
+    carousel.style.transform = `translateZ(-300px) rotateY(${rotateY}deg)`;
 }
 
 function prevSlide() {
-    currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+    current = (current - 1 + total) % total;
     updateCarousel();
 }
 
-function startAutoSlide() {
-    interval = setInterval(nextSlide, 3000);
+function nextSlide() {
+    current = (current + 1) % total;
+    updateCarousel();
 }
 
-function stopAutoSlide() {
-    clearInterval(interval);
-}
-
-carousel.addEventListener("mouseenter", stopAutoSlide);
-carousel.addEventListener("mouseleave", startAutoSlide);
-
+// Inicializa el carrusel
 updateCarousel();
-startAutoSlide();
-
-
-
-
-/*let currentSlide = 0;
-const slides = document.querySelectorAll('.slide');
-
-function mostrarSlide(index) {
-    slides.forEach(slide => slide.classList.remove('active'));
-    slides[index].classList.add('active');
-}
-
-function moverCarrusel(direccion) {
-    currentSlide = (currentSlide + direccion + slides.length) % slides.length;
-    mostrarSlide(currentSlide);
-}
-
-mostrarSlide(currentSlide); 
-setInterval(() => moverCarrusel(1), 5000); 
-
-*/
