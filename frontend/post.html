@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Crear Evento</title>
+  <script defer src="js/main.js"></script>
+</head>
+<body>
+  <h1>Crear Nuevo Evento</h1>
+
+  <form id="eventoForm">
+    <label for="titulo">Título:</label>
+    <input type="text" id="titulo" name="titulo" required><br><br>
+
+    <label for="descripcion">Descripción:</label><br>
+    <textarea id="descripcion" name="descripcion" required></textarea><br><br>
+
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha" name="fecha" required><br><br>
+
+    <label for="imagen">Imagen:</label>
+    <input type="file" id="imagen" name="imagen" accept="image/*"><br><br>
+
+    <label for="categoria">Categoría (ID):</label>
+    <input type="number" id="categoria" name="categoria"><br><br>
+
+    <label for="centro_cultural">Centro cultural (ID):</label>
+    <input type="number" id="centro_cultural" name="centro_cultural"><br><br>
+
+    <button type="submit">Crear Evento</button>
+  </form>
+
+  <div id="mensaje"></div>
+</body>
+</html>
