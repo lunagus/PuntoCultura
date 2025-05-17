@@ -20,11 +20,16 @@
 
     <div class="contenedor-eventos">
         <h1>EVENTOS</h1>
-        <div class="years">
-            <div class="year">2022</div>
-            <div class="year">2023</div>
-            <div class="year">2024</div>
+        <div class="filtros">
+        <input type="text" id="busqueda" placeholder="Buscar por título o descripción...">
+        <select id="filtro-anio">
+        <option value="">Todos los años</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+       </select>
         </div>
+
 
         <div id="eventos" class="events">
             <!-- Aquí aparecerán los nuevos eventos -->

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import filters
 
 # Create your views here.
 
@@ -9,6 +10,8 @@ from .serializers import EventoSerializer, CategoriaSerializer, CentroCulturalSe
 class EventoViewSet(viewsets.ModelViewSet):
     queryset = Evento.objects.all()
     serializer_class = EventoSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['titulo', 'descripcion']
     def get_serializer_context(self):
         return {'request': self.request}
 

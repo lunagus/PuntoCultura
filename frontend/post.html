@@ -12,7 +12,8 @@
       <input type="text" name="titulo" placeholder="Título" required class="w-full border px-4 py-2 rounded" />
       <textarea name="descripcion" placeholder="Descripción" required class="w-full border px-4 py-2 rounded"></textarea>
       <input type="date" name="fecha" required class="w-full border px-4 py-2 rounded" />
-      <input type="file" name="imagen" accept="image/*" class="w-full border px-4 py-2 rounded" />
+      <input type="file" name="imagen" accept="image/*" onchange="previewImage(event)" />
+      <img id="preview" class="w-full border px-4 py-2 rounded" />
 
       <select name="centro_cultural" class="w-full border px-4 py-2 rounded">
         <option value="">Selecciona un centro cultural</option>
@@ -29,7 +30,16 @@
     <p id="mensaje" class="mt-4 text-green-600 font-medium text-center hidden">¡Evento creado con éxito!</p>
   </div>
 
+
   <script>
+    function previewImage(event) {
+      const img = document.getElementById('preview');
+      img.src = URL.createObjectURL(event.target.files[0]);
+      img.classList.remove('hidden');
+    }
+  </script>
+
+  <script> 
     // Lógica JS para enviar el formulario
     document.getElementById('eventoForm').addEventListener('submit', async function (e) {
       e.preventDefault();

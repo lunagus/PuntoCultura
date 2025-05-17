@@ -3,6 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
   cargarEventos();
 });
 
+const inputBusqueda = document.getElementById("busqueda");
+const selectAnio = document.getElementById("filtro-anio");
+
+inputBusqueda.addEventListener("input", cargarEventos);
+selectAnio.addEventListener("change", cargarEventos);
+
 function mostrarFormulario() {
   document.getElementById("modal-formulario").style.display = "flex";
 }
@@ -63,10 +69,25 @@ async function cargarEventos() {
   const contenedor = document.getElementById("eventos");
   contenedor.innerHTML = "";
 
-  try {
-    const eventos = await fetch("http://127.0.0.1:8000/api/eventos/").then(res => res.json());
+  const texto = inputBusqueda?.value?.toLowerCase() || "";
+  const anio = selectAnio?.value || "";
 
-    eventos.forEach(evento => {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/eventos/");
+    const eventos = await response.json();
+
+    const filtrados = eventos.filter(evento => {
+      const coincideTexto = evento.titulo.toLowerCase().includes(texto) || evento.descripcion.toLowerCase().includes(texto);
+      const coincideAnio = anio ? new Date(evento.fecha).getFullYear().toString() === anio : true;
+      return coincideTexto && coincideAnio;
+    });
+
+    if (filtrados.length === 0) {
+      contenedor.innerHTML = "<p>No se encontraron eventos.</p>";
+      return;
+    }
+
+    filtrados.forEach(evento => {
       const eventoHTML = document.createElement("div");
       eventoHTML.classList.add("event");
       eventoHTML.innerHTML = `
