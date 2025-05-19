@@ -24,7 +24,8 @@ class Evento(models.Model):
     titulo = models.CharField(max_length=200)
     descripcion = models.TextField()
     imagen = models.ImageField(upload_to="eventos/")
-    fecha = models.DateField()
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField(null=True, blank=True)
     categoria = models.ForeignKey(
         Categoria, on_delete=models.SET_NULL, null=True, blank=True
     )

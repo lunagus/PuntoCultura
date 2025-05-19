@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   cargarOpciones();
   cargarEventos();
 });
@@ -25,10 +25,10 @@ function previsualizarArchivo() {
   if (archivo) {
     const reader = new FileReader();
     reader.onload = function (e) {
-      const media = document.createElement(archivo.type.startsWith('image/') ? 'img' : 'video');
+      const media = document.createElement(archivo.type.startsWith("image/") ? "img" : "video");
       media.src = e.target.result;
-      media.controls = archivo.type.startsWith('video/');
-      media.style.maxWidth = '200px';
+      media.controls = archivo.type.startsWith("video/");
+      media.style.maxWidth = "200px";
       preview.appendChild(media);
     };
     reader.readAsDataURL(archivo);
@@ -36,19 +36,25 @@ function previsualizarArchivo() {
 }
 
 async function agregarEvento(event) {
-  event.preventDefault(); // Evita recargar la página
+  event.preventDefault();
 
   const data = new FormData();
   data.append("titulo", document.getElementById("nombre").value);
-  data.append("fecha", document.getElementById("fecha").value);
+  data.append("fecha_inicio", document.getElementById("fecha").value);
+  const fechaFinInput = document.getElementById("fecha_fin");
+
+  if (fechaFinInput && fechaFinInput.value) {
+    data.append("fecha_fin", fechaFinInput.value);
+  }
+
   data.append("descripcion", document.getElementById("descripcion").value);
   data.append("imagen", document.getElementById("multimedia").files[0]);
   data.append("centro_cultural", document.getElementById("centro_cultural").value);
   data.append("categoria", document.getElementById("categoria").value);
 
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/eventos/', {
-      method: 'POST',
+    const response = await fetch("http://127.0.0.1:8000/api/eventos/", {
+      method: "POST",
       body: data,
     });
 
@@ -56,13 +62,18 @@ async function agregarEvento(event) {
       alert("¡Evento creado con éxito!");
       document.querySelector("form").reset();
       cerrarFormulario();
-      cargarEventos(); // recarga los eventos después de agregar
+      cargarEventos();
     } else {
       alert("Error al crear el evento");
     }
   } catch (error) {
     console.error("Error al enviar el evento:", error);
   }
+}
+
+function formatearFecha(fechaStr) {
+  const opciones = { year: "numeric", month: "long", day: "numeric" };
+  return new Date(fechaStr).toLocaleDateString("es-ES", opciones);
 }
 
 async function cargarEventos() {
@@ -76,9 +87,13 @@ async function cargarEventos() {
     const response = await fetch("http://127.0.0.1:8000/api/eventos/");
     const eventos = await response.json();
 
-    const filtrados = eventos.filter(evento => {
-      const coincideTexto = evento.titulo.toLowerCase().includes(texto) || evento.descripcion.toLowerCase().includes(texto);
-      const coincideAnio = anio ? new Date(evento.fecha).getFullYear().toString() === anio : true;
+    const filtrados = eventos.filter((evento) => {
+      const coincideTexto =
+        evento.titulo.toLowerCase().includes(texto) ||
+        evento.descripcion.toLowerCase().includes(texto);
+      const coincideAnio = anio
+        ? new Date(evento.fecha_inicio).getFullYear().toString() === anio
+        : true;
       return coincideTexto && coincideAnio;
     });
 
@@ -87,11 +102,17 @@ async function cargarEventos() {
       return;
     }
 
-    filtrados.forEach(evento => {
+    filtrados.forEach((evento) => {
+      const fechaInicio = formatearFecha(evento.fecha_inicio);
+      const fechaFin = evento.fecha_fin && evento.fecha_fin !== evento.fecha_inicio
+        ? ` al ${formatearFecha(evento.fecha_fin)}`
+        : "";
+      const fechaTexto = fechaFin ? `Del ${fechaInicio}${fechaFin}` : fechaInicio;
+
       const eventoHTML = document.createElement("div");
       eventoHTML.classList.add("event");
       eventoHTML.innerHTML = `
-        <span><strong>${evento.titulo}</strong> - ${evento.fecha}</span>
+        <span><strong>${evento.titulo}</strong> - ${fechaTexto}</span>
         <p>${evento.descripcion}</p>
         ${evento.imagen ? `<img src="${evento.imagen}" style="max-width: 200px; border-radius: 8px;">` : ""}
         <div class="icons">
@@ -101,7 +122,6 @@ async function cargarEventos() {
       `;
       contenedor.appendChild(eventoHTML);
     });
-
   } catch (error) {
     console.error("Error al cargar eventos:", error);
   }
@@ -129,11 +149,11 @@ async function eliminarEvento(id) {
 
 async function cargarOpciones() {
   try {
-    const centros = await fetch("http://127.0.0.1:8000/api/centros/").then(res => res.json());
-    const categorias = await fetch("http://127.0.0.1:8000/api/categorias/").then(res => res.json());
+    const centros = await fetch("http://127.0.0.1:8000/api/centros/").then((res) => res.json());
+    const categorias = await fetch("http://127.0.0.1:8000/api/categorias/").then((res) => res.json());
 
     const centroSelect = document.getElementById("centro_cultural");
-    centros.forEach(c => {
+    centros.forEach((c) => {
       const option = document.createElement("option");
       option.value = c.id;
       option.textContent = c.nombre;
@@ -141,7 +161,7 @@ async function cargarOpciones() {
     });
 
     const categoriaSelect = document.getElementById("categoria");
-    categorias.forEach(cat => {
+    categorias.forEach((cat) => {
       const option = document.createElement("option");
       option.value = cat.id;
       option.textContent = cat.nombre;

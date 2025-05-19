@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
           const events = data.map(evento => ({
             title: evento.titulo,       // Asegúrate que tu API devuelve un campo "titulo"
-            start: evento.fecha,        // Asegúrate que es una fecha en formato ISO o compatible
+            start: evento.fecha_inicio,
+            end: evento.fecha_fin        // Asegúrate que es una fecha en formato ISO o compatible
             // Puedes agregar más campos como "end", "url", "color", etc.
           }));
           successCallback(events);

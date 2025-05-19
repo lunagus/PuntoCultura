@@ -16,6 +16,20 @@ class EventoSerializer(serializers.ModelSerializer):
             representation["imagen"] = request.build_absolute_uri(instance.imagen.url)
         return representation
 
+    def validate(self, data):
+        fecha_inicio = data.get("fecha_inicio")
+        fecha_fin = data.get("fecha_fin")
+
+        if fecha_inicio and not fecha_fin:
+            data["fecha_fin"] = fecha_inicio
+
+        if fecha_inicio and fecha_fin:
+            if fecha_inicio > fecha_fin:
+                raise serializers.ValidationError(
+                    "La fecha de inicio no puede ser posterior a la fecha de fin."
+                )
+        return data
+
 
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:

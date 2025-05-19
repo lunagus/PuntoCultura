@@ -22,19 +22,36 @@
           required
           class="w-full border px-4 py-2 rounded"
         ></textarea>
+
+        <label class="block font-semibold">Fecha de inicio:</label>
         <input
           type="date"
-          name="fecha"
+          name="fecha_inicio"
           required
           class="w-full border px-4 py-2 rounded"
         />
+
+        <label class="flex items-center gap-2">
+          <input type="checkbox" id="eventoLargo" />
+          Evento de varios días
+        </label>
+
+        <div id="fechaFinContainer" class="hidden">
+          <label class="block font-semibold">Fecha de fin:</label>
+          <input
+            type="date"
+            name="fecha_fin"
+            class="w-full border px-4 py-2 rounded"
+          />
+        </div>
+
         <input
           type="file"
           name="imagen"
           accept="image/*"
           onchange="previewImage(event)"
         />
-        <img id="preview" class="w-full border px-4 py-2 rounded" />
+        <img id="preview" class="w-full border px-4 py-2 rounded hidden" />
 
         <select name="centro_cultural" class="w-full border px-4 py-2 rounded">
           <option value="">Selecciona un centro cultural</option>
@@ -65,53 +82,53 @@
         img.src = URL.createObjectURL(event.target.files[0]);
         img.classList.remove("hidden");
       }
-    </script>
 
-    <script>
-      // Lógica JS para enviar el formulario
-      document
-        .getElementById("eventoForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
-          const form = e.target;
-          const data = new FormData(form);
+      document.getElementById("eventoLargo").addEventListener("change", function () {
+        const fechaFin = document.getElementById("fechaFinContainer");
+        fechaFin.classList.toggle("hidden", !this.checked);
+      });
 
-          const response = await fetch("http://127.0.0.1:8000/api/eventos/", {
-            method: "POST",
-            body: data,
-          });
+      document.getElementById("eventoForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+        const submitBtn = form.querySelector("button[type='submit']");
+        submitBtn.disabled = true;
 
-          if (response.ok) {
-            document.getElementById("mensaje").classList.remove("hidden");
-            form.reset();
-          } else {
-            alert("Error al crear el evento");
-          }
+        if (!document.getElementById("eventoLargo").checked) {
+          data.delete("fecha_fin");
+        }
+
+        const response = await fetch("http://127.0.0.1:8000/api/eventos/", {
+          method: "POST",
+          body: data,
         });
 
-      // Cargar centros y categorías desde la API
-      async function cargarOpciones() {
-        const centros = await fetch("http://127.0.0.1:8000/api/centros/").then(
-          (r) => r.json()
-        );
-        const categorias = await fetch(
-          "http://127.0.0.1:8000/api/categorias/"
-        ).then((r) => r.json());
+        if (response.ok) {
+          document.getElementById("mensaje").classList.remove("hidden");
+          form.reset();
+          document.getElementById("preview").classList.add("hidden");
+          document.getElementById("fechaFinContainer").classList.add("hidden");
+        } else {
+          alert("Error al crear el evento");
+          submitBtn.disabled = false;
+        }
+      });
 
-        const centroSelect = document.querySelector(
-          'select[name="centro_cultural"]'
-        );
-        centros.forEach((c) => {
+      async function cargarOpciones() {
+        const centros = await fetch("http://127.0.0.1:8000/api/centros/").then(r => r.json());
+        const categorias = await fetch("http://127.0.0.1:8000/api/categorias/").then(r => r.json());
+
+        const centroSelect = document.querySelector('select[name="centro_cultural"]');
+        centros.forEach(c => {
           const option = document.createElement("option");
           option.value = c.id;
           option.textContent = c.nombre;
           centroSelect.appendChild(option);
         });
 
-        const categoriaSelect = document.querySelector(
-          'select[name="categoria"]'
-        );
-        categorias.forEach((cat) => {
+        const categoriaSelect = document.querySelector('select[name="categoria"]');
+        categorias.forEach(cat => {
           const option = document.createElement("option");
           option.value = cat.id;
           option.textContent = cat.nombre;
