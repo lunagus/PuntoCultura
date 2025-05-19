@@ -1,67 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/vistaeventos.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/vistaeventos.css" />
     <title>Eventos</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="sidebar">
-        <h2>Menú</h2>
-        <div class="menu">
-            <a href="post.html"><img src="img/editar.png" alt="Editar"></a>
-            <a href="agregarusers.html"><img src="img/users3.png" alt="Usuarios"></a>
-            <a href="analiticas.html"><img src="img/analisis.png" alt="Analíticas"></a>
-        </div>
+      <h2>Menú</h2>
+      <div class="menu">
+        <a href="post.html"><img src="img/editar.png" alt="Editar" /></a>
+        <a href="agregarusers.html"
+          ><img src="img/users3.png" alt="Usuarios"
+        /></a>
+        <a href="analiticas.html"
+          ><img src="img/analisis.png" alt="Analíticas"
+        /></a>
+      </div>
     </div>
 
     <div class="contenedor-eventos">
-        <h1>EVENTOS</h1>
-        <div class="filtros">
-        <input type="text" id="busqueda" placeholder="Buscar por título o descripción...">
+      <h1>EVENTOS</h1>
+      <div class="filtros">
+        <input
+          type="text"
+          id="busqueda"
+          placeholder="Buscar por título o descripción..."
+        />
         <select id="filtro-anio">
-        <option value="">Todos los años</option>
-        <option value="2022">2022</option>
-        <option value="2023">2023</option>
-        <option value="2024">2024</option>
-       </select>
+          <option value="">Todos los años</option>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+        </select>
+      </div>
+
+      <div id="eventos" class="events">
+        <!-- Aquí aparecerán los nuevos eventos -->
+      </div>
+
+      <button class="boton-flotante" onclick="mostrarFormulario()">+</button>
+
+      <div id="modal-formulario" class="modal">
+        <div class="modal-contenido">
+          <span class="cerrar" onclick="cerrarFormulario()">×</span>
+          <h2>Agregar Evento</h2>
+          <form onsubmit="agregarEvento(event)">
+            <label for="nombre">Nombre del evento:</label>
+            <input type="text" id="nombre" required />
+
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" required />
+
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" rows="3"></textarea>
+
+            <label for="multimedia">Subir multimedia:</label>
+            <input
+              type="file"
+              id="multimedia"
+              accept="image/*,video/*"
+              onchange="previsualizarArchivo()"
+            />
+            <div id="preview"></div>
+
+            <button type="submit">Guardar</button>
+          </form>
         </div>
-
-
-        <div id="eventos" class="events">
-            <!-- Aquí aparecerán los nuevos eventos -->
-        </div>
-
-        
-        <button class="boton-flotante" onclick="mostrarFormulario()">+</button>
-
-        <div id="modal-formulario" class="modal">
-            <div class="modal-contenido">
-                <span class="cerrar" onclick="cerrarFormulario()">×</span>
-                <h2>Agregar Evento</h2>
-                <form onsubmit="agregarEvento(event)">
-                    <label for="nombre">Nombre del evento:</label>
-                    <input type="text" id="nombre" required>
-
-                    <label for="fecha">Fecha:</label>
-                    <input type="date" id="fecha" required>
-
-                    <label for="descripcion">Descripción:</label>
-                    <textarea id="descripcion" rows="3"></textarea>
-
-                    <label for="multimedia">Subir multimedia:</label>
-                    <input type="file" id="multimedia" accept="image/*,video/*" onchange="previsualizarArchivo()">
-                    <div id="preview"></div>
-
-                    <button type="submit">Guardar</button>
-                </form>
-            </div>
-        </div>
+      </div>
     </div>
 
     <script src="js/eventos.js"></script>
-</body>
+  </body>
 </html>
