@@ -8,6 +8,7 @@ class EventoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evento
         fields = "__all__"
+        read_only_fields = ("creado_por", "publicado")
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -43,6 +44,16 @@ class CategoriaSerializer(serializers.ModelSerializer):
 
 
 class CentroCulturalSerializer(serializers.ModelSerializer):
+    imagen = serializers.ImageField(required=False)
+
     class Meta:
         model = CentroCultural
         fields = "__all__"
+        read_only_fields = ("creado_por", "publicado")
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        request = self.context.get("request")
+        if instance.imagen and request:
+            representation["imagen"] = request.build_absolute_uri(instance.imagen.url)
+        return representation

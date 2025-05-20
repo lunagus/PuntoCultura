@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -14,7 +15,15 @@ class CentroCultural(models.Model):
     nombre = models.CharField(max_length=200)
     descripcion = models.TextField()
     imagen = models.ImageField(upload_to="centros/")
-    ubicacion = models.CharField(max_length=255)
+    ubicacion_lat = models.DecimalField(
+        max_digits=9, decimal_places=6, null=True, blank=True
+    )
+    ubicacion_lon = models.DecimalField(
+        max_digits=9, decimal_places=6, null=True, blank=True
+    )
+    direccion = models.CharField(max_length=255, null=True, blank=True)
+    publicado = models.BooleanField(default=False)
+    creado_por = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.nombre
@@ -32,6 +41,8 @@ class Evento(models.Model):
     centro_cultural = models.ForeignKey(
         CentroCultural, on_delete=models.SET_NULL, null=True, blank=True
     )
+    publicado = models.BooleanField(default=False)
+    creado_por = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.titulo
