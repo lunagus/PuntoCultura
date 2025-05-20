@@ -45,6 +45,30 @@
           />
         </div>
 
+        <label class="block font-semibold">Latitud:</label>
+        <input
+          type="number"
+          name="latitud"
+          step="any"
+          min="-90"
+          max="90"
+          placeholder="Ejemplo: -34.6037"
+          required
+          class="w-full border px-4 py-2 rounded"
+        />
+
+        <label class="block font-semibold">Longitud:</label>
+        <input
+          type="number"
+          name="longitud"
+          step="any"
+          min="-180"
+          max="180"
+          placeholder="Ejemplo: -58.3816"
+          required
+          class="w-full border px-4 py-2 rounded"
+        />
+
         <input
           type="file"
           name="imagen"
@@ -95,32 +119,60 @@
         const submitBtn = form.querySelector("button[type='submit']");
         submitBtn.disabled = true;
 
+        // Si no es evento de varios días, eliminar fecha_fin
         if (!document.getElementById("eventoLargo").checked) {
           data.delete("fecha_fin");
         }
 
-        const response = await fetch("http://127.0.0.1:8000/api/eventos/", {
-          method: "POST",
-          body: data,
-        });
+        // Validación simple latitud/longitud
+        const lat = parseFloat(data.get("latitud"));
+        const lon = parseFloat(data.get("longitud"));
 
-        if (response.ok) {
-          document.getElementById("mensaje").classList.remove("hidden");
-          form.reset();
-          document.getElementById("preview").classList.add("hidden");
-          document.getElementById("fechaFinContainer").classList.add("hidden");
-        } else {
-          alert("Error al crear el evento");
+        if (
+          isNaN(lat) ||
+          lat < -90 ||
+          lat > 90 ||
+          isNaN(lon) ||
+          lon < -180 ||
+          lon > 180
+        ) {
+          alert("Por favor ingresa una latitud y longitud válidas.");
+          submitBtn.disabled = false;
+          return;
+        }
+
+        try {
+          const response = await fetch("http://127.0.0.1:8000/api/eventos/", {
+            method: "POST",
+            body: data,
+          });
+
+          if (response.ok) {
+            document.getElementById("mensaje").classList.remove("hidden");
+            form.reset();
+            document.getElementById("preview").classList.add("hidden");
+            document.getElementById("fechaFinContainer").classList.add("hidden");
+          } else {
+            const errData = await response.json();
+            alert("Error al crear el evento: " + JSON.stringify(errData));
+            submitBtn.disabled = false;
+          }
+        } catch (error) {
+          alert("Error en la conexión: " + error.message);
           submitBtn.disabled = false;
         }
       });
 
       async function cargarOpciones() {
-        const centros = await fetch("http://127.0.0.1:8000/api/centros/").then(r => r.json());
-        const categorias = await fetch("http://127.0.0.1:8000/api/categorias/").then(r => r.json());
+        const centros = await fetch("http://127.0.0.1:8000/api/centros/").then((r) =>
+          r.json()
+        );
+        const categorias = await fetch("http://127.0.0.1:8000/api/categorias/").then(
+          (r) => r.json()
+        );
 
         const centroSelect = document.querySelector('select[name="centro_cultural"]');
-        centros.forEach(c => {
+        centros.forEach((c) => {
           const option = document.createElement("option");
           option.value = c.id;
           option.textContent = c.nombre;
@@ -128,7 +180,7 @@
         });
 
         const categoriaSelect = document.querySelector('select[name="categoria"]');
-        categorias.forEach(cat => {
+        categorias.forEach((cat) => {
           const option = document.createElement("option");
           option.value = cat.id;
           option.textContent = cat.nombre;
