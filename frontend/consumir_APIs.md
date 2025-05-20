@@ -115,9 +115,4 @@ Por ahora **no se requiere autenticación**, todos los endpoints son accesibles 
 
 ---
 
-## Recomendaciones para frontend
-
-- Para subir imágenes, enviar datos en formato `multipart/form-data`.
-- Al crear o editar eventos, asegurarse de enviar los IDs correctos de categorías y centros culturales.
-- Para filtrar eventos por texto, la API soporta búsquedas en campos `titulo` y `descripcion` usando parámetros de búsqueda (consultar documentación futura).
 
