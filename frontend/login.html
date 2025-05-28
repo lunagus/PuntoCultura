@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 p-10">
+    <div class="max-w-md mx-auto bg-white p-8 rounded shadow">
+      <h2 class="text-2xl font-bold mb-4 text-center">Iniciar Sesión</h2>
+      <form id="loginForm" class="space-y-4">
+        <input
+          type="text"
+          name="username"
+          placeholder="Usuario"
+          required
+          class="w-full border px-4 py-2 rounded"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Contraseña"
+          required
+          class="w-full border px-4 py-2 rounded"
+        />
+        <button
+          type="submit"
+          class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+        >
+          Iniciar Sesión
+        </button>
+      </form>
+
+      <p
+        id="mensaje"
+        class="mt-4 text-green-600 font-medium text-center hidden"
+      ></p>
+    </div>
+
+    <script>
+      document.getElementById("loginForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = {
+          username: form.username.value,
+          password: form.password.value,
+        };
+
+        const response = await fetch("http://127.0.0.1:8000/api/token/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          const tokens = await response.json();
+          localStorage.setItem("access", tokens.access);
+          localStorage.setItem("refresh", tokens.refresh);
+
+          document.getElementById("mensaje").textContent = "Login exitoso";
+          document.getElementById("mensaje").classList.remove("hidden");
+
+          // Redireccionar o mostrar más UI si querés
+        } else {
+          alert("Credenciales inválidas");
+        }
+      });
+
+      // Ejemplo: usar token para un request autenticado
+      async function fetchEventosPrivados() {
+        const token = localStorage.getItem("access");
+        const res = await fetch("http://127.0.0.1:8000/api/eventos/", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await res.json();
+        console.log(data);
+      }
+    </script>
+  </body>
+</html>
