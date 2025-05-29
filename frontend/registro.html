@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registro de Editor</title>
+  <script defer src="registro.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="bg-white p-6 rounded shadow-md w-full max-w-md">
+    <h1 class="text-xl font-bold mb-4">Registro de Editor</h1>
+    <form id="formularioRegistro">
+      <input type="text" id="usuario" placeholder="Nombre de usuario" required class="w-full p-2 mb-2 border rounded" />
+      <input type="password" id="clave" placeholder="Contraseña" required class="w-full p-2 mb-2 border rounded" />
+      <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Registrar</button>
+    </form>
+    <p id="mensaje" class="mt-4 text-sm text-red-500"></p>
+  </div>
+</body>
+</html>
