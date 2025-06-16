@@ -7,6 +7,7 @@ from .views import (
     CreateEditorUserView,
     UserDetailView,
     admin_panel,
+    CustomTokenObtainPairView,
 )
 
 # DRF router for viewsets
@@ -19,5 +20,6 @@ urlpatterns = [
     path("create-editor/", CreateEditorUserView.as_view(), name="create-editor"),
     path("users/<int:user_id>/", UserDetailView.as_view(), name="user-detail"),
     path("admin.html", admin_panel, name="admin-panel"),
-    path("", include(router.urls)),  # ✅ This MUST be LAST
+    path("token/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("", include(router.urls)),
 ]

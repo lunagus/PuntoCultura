@@ -11,6 +11,11 @@ from .serializers import (
     CentroCulturalSerializer,
     EditorUserCreateSerializer,
 )
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.utils.timezone import now
+import logging
+import re
 
 
 class EventoViewSet(viewsets.ModelViewSet):
@@ -77,4 +82,61 @@ class UserDetailView(APIView):
         except User.DoesNotExist:
             return Response(
                 {"error": "User not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+
+logger = logging.getLogger("login")
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        return token
+
+
+SQL_PATTERNS = [
+    r"(?i)\bSELECT\b",
+    r"(?i)\bDROP\b",
+    r"(?i)\bINSERT\b",
+    r"(?i)\bUPDATE\b",
+    r"(?i)\bDELETE\b",
+    r"(?i)\bDROP\s+TABLE\b",
+    r"(?i)\bDROP\s+TABLE\s+\w+\b",
+    r"' OR '1'='1",
+    r"--",
+    r";",
+    r"' --",
+    r"\" --",
+]
+
+sql_logger = logging.getLogger("sql_injection")
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+    def post(self, request, *args, **kwargs):
+        ip = request.META.get("REMOTE_ADDR")
+        username = request.data.get("username", "<sin-usuario>")
+
+        for field, value in request.data.items():
+            for pattern in SQL_PATTERNS:
+                if re.search(pattern, str(value)):
+                    sql_logger.warning(
+                        f"[DETECCIÓN] Posible inyección SQL desde {ip} - parámetro: {field} = {value}"
+                    )
+
+        serializer = self.get_serializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+            logger.info(f"[ÉXITO] Login de '{username}' desde {ip} a las {now()}")
+            return Response(serializer.validated_data, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.warning(
+                f"[FALLO] Login de '{username}' desde {ip} a las {now()} | Motivo: {str(e)}"
+            )
+            return Response(
+                {"detail": "Credenciales inválidas"},
+                status=status.HTTP_401_UNAUTHORIZED,
             )

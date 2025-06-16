@@ -54,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "api.middleware.sql_injection_detector.SQLInjectionDetectorMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -151,4 +152,43 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "{asctime} [{levelname}] {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "login_file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logs", "login.log"),
+            "formatter": "simple",
+            "encoding": "utf-8",
+        },
+        "sql_injection_file": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logs", "inyeccion.log"),
+            "formatter": "simple",
+            "encoding": "utf-8",
+        },
+    },
+    "loggers": {
+        "login": {
+            "handlers": ["login_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "sql_injection": {
+            "handlers": ["sql_injection_file"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+    },
 }
