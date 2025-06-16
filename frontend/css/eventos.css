@@ -1,0 +1,365 @@
+ * {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    scroll-behavior: smooth;
+    }
+
+.header {
+     display: flex;
+     width: 100%;
+     justify-content: center;
+     padding: 20px 0px;
+     position: fixed;
+     transition: background-color 0.3s ease;
+ }
+
+
+ .header.scrolled {
+     background-color: rgba(0, 0, 0, 0.5);
+     backdrop-filter: blur(10px);
+     -webkit-backdrop-filter: blur(10px);
+     transition: background-color 0.3s ease;
+ }
+
+ nav {
+     width: 80%;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     color: white;
+ }
+
+ nav .logo {
+     display: flex;
+     gap: 20px;
+ }
+
+
+ nav ul {
+     display: flex;
+     list-style: none;
+     gap: 30px;
+ }
+
+ nav ul li a {
+     text-decoration: none;
+     color: white;
+     font-size: 12px;
+     transition: 0.1s;
+ }
+
+ nav ul li a:hover {
+     color: #12bcd3;
+ }
+
+ #hero {
+     color: white;
+     display: flex;
+     flex-direction: column;
+     width: 100%;
+     height: 55vh;
+     overflow-x: hidden;
+     background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)), url("/assets/img/feria-del-libro.jpg");
+     background-repeat: no-repeat;
+     background-size: cover;
+     background-position: center;
+     justify-content: flex-end;
+     align-items: center;
+ }
+
+ .hero_content {
+     display: flex;
+     width: 80%;
+     height: 80%;
+     justify-content: flex-start;
+     align-items: flex-end;
+     flex-wrap: wrap;
+ }
+
+ .hero_content h1 {
+     margin-bottom: 20px;
+     color: white;
+     font-size: 3rem;
+     text-shadow: 1px 1px 100px black;
+ }
+
+ #institucional {
+     color: rgb(0, 0, 0);
+     display: flex;
+     flex-direction: column;
+     width: 100%;
+     /*     overflow: hidden; */
+     justify-content: center;
+     align-items: center;
+     background-color: rgb(237, 237, 237);
+ }
+
+ .datos-institucion {
+     margin: 50px 0;
+     display: flex;
+     width: 80%;
+     flex-direction: column;
+     justify-content: center;
+     gap: 20px;
+ }
+
+ .autoridad-institucion {
+     display: flex;
+     align-items: center;
+     justify-content: space-evenly;
+     gap: 20px;
+ }
+
+ .autoridad-card {
+     display: flex;
+     width: 50%;
+     height: 150px;
+     justify-content: center;
+     align-items: center;
+     border-radius: 10px;
+     gap: 20px;
+     padding: 10px;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+ }
+
+ .autoridad-img img {
+     width: 100px;
+     height: 100px;
+     border-radius: 50%;
+ }
+
+ .mision-institucion {
+     display: flex;
+     flex-direction: column;
+     gap: 20px;
+ }
+
+ .funciones-institucion {
+     display: flex;
+     flex-direction: column;
+     gap: 20px;
+ }
+
+ #information {
+     margin: 50px 0;
+     color: rgb(0, 0, 0);
+     display: flex;
+     flex-direction: column;
+     width: 100%;
+     height: 50vh;
+     /*     overflow: hidden; */
+     justify-content: center;
+     align-items: center;
+ }
+
+ .information-cards {
+     margin: 50px 0;
+     display: flex;
+     width: 80%;
+     justify-content: space-evenly;
+     align-items: center;
+     flex-wrap: wrap;
+     gap: 20px;
+ }
+
+ .card {
+     display: flex;
+     width: 30%;
+     height: 80px;
+     justify-content: center;
+     align-items: center;
+     box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.2);
+     border-color: #000000;
+     font-size: 11px;
+     border-radius: 10px;
+     gap: 20px;
+     padding: 10px;
+     text-decoration: none;
+     color: rgb(42, 61, 71);
+ }
+
+ .card:hover {
+     background: #12bcd3b6;
+     transition: 0.1s;
+     scale: 1.05;
+ }
+
+ .card img {
+     width: 30px;
+ }
+
+ #footer {
+     display: flex;
+     width: 100%;
+     height: 30vh;
+    background: linear-gradient(to right, #247da3, #aa183f);
+
+
+     color: white;
+     justify-content: center;
+     align-items: center;
+ }
+
+ .footer {
+     margin: 50px 0;
+     height: 100%;
+     display: flex;
+     width: 80%;
+     justify-content: space-between;
+     align-items: center;
+     font-size: 12px;
+ }
+
+ .footer-img {
+     width: 50%;
+     display: flex;
+     gap: 50px;
+ }
+
+ .footer-img img {
+     width: 100px;
+ }
+
+
+ .footer-datos {
+     width: 50%;
+     display: flex;
+     align-items: flex-end;
+     flex-direction: column;
+     gap: 10px;
+ }
+
+ .footer-datos img {
+     margin-left: 5px;
+ }
+
+ .footer-social {
+     width: 100%;
+     display: flex;
+     align-items: center;
+     justify-content: flex-end;
+     gap: 5px;
+ }
+
+ .footer-social img {
+     width: 20px;
+ }
+
+.container {
+    margin-top: 120px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: black;
+}
+/* CONTENEDOR DE LA GRILLA - ajustado */
+.eventos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 320px)); /* límite de tamaño */
+    justify-content: center; /* centra las columnas */
+    gap: 30px;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 50px auto;
+}
+
+/* TARJETA - sin cambios en estructura */
+.evento-card {
+    background-color: white;
+    box-shadow: 2px 7px 13px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.evento-card:hover {
+    transform: scale(1.05);
+}
+
+.evento-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.evento-card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.evento-fecha {
+    font-size: 14px;
+    color: #888;
+}
+
+.evento-titulo {
+    font-size: 18px;
+    color: #000;
+}
+
+.evento-descripcion {
+    font-size: 14px;
+    color: #444;
+}
+
+
+.filtros-wrapper {
+    margin: 40px auto;
+    width: 90%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.filtro-label {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.filtro-select {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.filtros-container {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filtro-btn {
+    background-color: transparent;
+    border: 1px solid #12bcd3;
+    color: #12bcd3;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filtro-btn.activo,
+.filtro-btn:hover {
+    background-color: #12bcd3;
+    color: white;
+}
+
+.mensaje-vacio {
+    text-align: center;
+    color: #c30135;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 30px;
+}

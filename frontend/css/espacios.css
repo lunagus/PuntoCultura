@@ -1,0 +1,395 @@
+ * {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    scroll-behavior: smooth;
+    }
+
+.header {
+     display: flex;
+     width: 100%;
+     justify-content: center;
+     padding: 20px 0px;
+     position: fixed;
+     transition: background-color 0.3s ease;
+ }
+
+
+ .header.scrolled {
+     background-color: rgba(0, 0, 0, 0.5);
+     backdrop-filter: blur(10px);
+     -webkit-backdrop-filter: blur(10px);
+     transition: background-color 0.3s ease;
+ }
+
+ nav {
+     width: 80%;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     color: white;
+ }
+
+ nav .logo {
+     display: flex;
+     gap: 20px;
+ }
+
+
+ nav ul {
+     display: flex;
+     list-style: none;
+     gap: 30px;
+ }
+
+ nav ul li a {
+     text-decoration: none;
+     color: white;
+     font-size: 12px;
+     transition: 0.1s;
+ }
+
+ nav ul li a:hover {
+     color: #12bcd3;
+ }
+
+ #hero {
+     color: white;
+     display: flex;
+     flex-direction: column;
+     width: 100%;
+     height: 55vh;
+     overflow-x: hidden;
+     background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)), url("/assets/img/museoo.jpg");
+     background-repeat: no-repeat;
+     background-size: cover;
+     background-position: center;
+     justify-content: flex-end;
+     align-items: center;
+ }
+
+ .hero_content {
+     display: flex;
+     width: 80%;
+     height: 80%;
+     justify-content: flex-start;
+     align-items: flex-end;
+     flex-wrap: wrap;
+ }
+
+ .hero_content h1 {
+     margin-bottom: 20px;
+     color: white;
+     font-size: 3rem;
+     text-shadow: 1px 1px 100px black;
+ }
+
+ #institucional {
+     color: rgb(0, 0, 0);
+     display: flex;
+     flex-direction: column;
+     width: 100%;
+     /*     overflow: hidden; */
+     justify-content: center;
+     align-items: center;
+     background-color: rgb(237, 237, 237);
+ }
+
+ .datos-institucion {
+     margin: 50px 0;
+     display: flex;
+     width: 80%;
+     flex-direction: column;
+     justify-content: center;
+     gap: 20px;
+ }
+
+ .autoridad-institucion {
+     display: flex;
+     align-items: center;
+     justify-content: space-evenly;
+     gap: 20px;
+ }
+
+ .autoridad-card {
+     display: flex;
+     width: 50%;
+     height: 150px;
+     justify-content: center;
+     align-items: center;
+     border-radius: 10px;
+     gap: 20px;
+     padding: 10px;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+ }
+
+ .autoridad-img img {
+     width: 100px;
+     height: 100px;
+     border-radius: 50%;
+ }
+
+ .mision-institucion {
+     display: flex;
+     flex-direction: column;
+     gap: 20px;
+ }
+
+ .funciones-institucion {
+     display: flex;
+     flex-direction: column;
+     gap: 20px;
+ }
+
+ #information {
+     margin: 50px 0;
+     color: rgb(0, 0, 0);
+     display: flex;
+     flex-direction: column;
+     width: 100%;
+     height: 50vh;
+     /*     overflow: hidden; */
+     justify-content: center;
+     align-items: center;
+ }
+
+ .information-cards {
+     margin: 50px 0;
+     display: flex;
+     width: 80%;
+     justify-content: space-evenly;
+     align-items: center;
+     flex-wrap: wrap;
+     gap: 20px;
+ }
+
+ .card {
+     display: flex;
+     width: 30%;
+     height: 80px;
+     justify-content: center;
+     align-items: center;
+     box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.2);
+     border-color: #000000;
+     font-size: 11px;
+     border-radius: 10px;
+     gap: 20px;
+     padding: 10px;
+     text-decoration: none;
+     color: rgb(42, 61, 71);
+ }
+
+ .card:hover {
+     background: #12bcd3b6;
+     transition: 0.1s;
+     scale: 1.05;
+ }
+
+ .card img {
+     width: 30px;
+ }
+
+ #footer {
+     display: flex;
+     width: 100%;
+     height: 30vh;
+    background: linear-gradient(to right, #247da3, #aa183f);
+
+
+     color: white;
+     justify-content: center;
+     align-items: center;
+ }
+
+ .footer {
+     margin: 50px 0;
+     height: 100%;
+     display: flex;
+     width: 80%;
+     justify-content: space-between;
+     align-items: center;
+     font-size: 12px;
+ }
+
+ .footer-img {
+     width: 50%;
+     display: flex;
+     gap: 50px;
+ }
+
+ .footer-img img {
+     width: 100px;
+ }
+
+
+ .footer-datos {
+     width: 50%;
+     display: flex;
+     align-items: flex-end;
+     flex-direction: column;
+     gap: 10px;
+ }
+
+ .footer-datos img {
+     margin-left: 5px;
+ }
+
+ .footer-social {
+     width: 100%;
+     display: flex;
+     align-items: center;
+     justify-content: flex-end;
+     gap: 5px;
+ }
+
+ .footer-social img {
+     width: 20px;
+ }
+
+.container {
+    margin-top: 120px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: black;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #12bcd3;
+}
+
+.section-header p {
+    font-size: 1rem;
+    color: #444;
+}
+
+.filtros-wrapper {
+    margin: 30px auto;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.filtro-grupo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filtro-label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.filtro-select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.filtros-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filtro-btn {
+    background-color: transparent;
+    border: 1px solid #12bcd3;
+    color: #12bcd3;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filtro-btn.activo,
+.filtro-btn:hover {
+    background-color: #12bcd3;
+    color: white;
+}
+
+/* css/puntos.css - Estilos para la página de Puntos Culturales */
+
+.puntos-section {
+    padding-top: 60px;
+    padding-bottom: 50px;
+}
+
+.puntos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-top: 0; /* puede estar en 0 si usamos padding en el section */
+}
+
+.punto-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+.punto-card:hover {
+    transform: scale(1.03);
+}
+
+.punto-card-img-container {
+    width: 100%;
+    height: 180px; /* reducido de 220px */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    overflow: hidden;
+}
+
+.punto-card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.punto-card-content {
+    padding: 1rem; /* reducido */
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.punto-titulo {
+    font-size: 1.2rem; /* reducido */
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.punto-direccion {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 1rem; /* reducido */
+    flex-grow: 1;
+}
+
+.punto-ubicacion-btn {
+    display: inline-block;
+    padding: 0.6rem 1.5rem; /* más compacto */
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.punto-ubicacion-btn:hover {
+    background-color: #555;
+}

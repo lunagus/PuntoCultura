@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Panel</title>
+      <style>
+    /* Your original styles can stay here or be moved to login.css */
+    :root {
+      --cultural-red: #e63946;
+      --cultural-yellow: #ffd166;
+      --text-color: #333;
+      --bg-color: #f8f9fa;
+    }
+
+    body {
+      font-family: sans-serif;
+      background-color: var(--bg-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: var(--cultural-red);
+      border: none;
+      color: white;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .login-button:hover {
+      background-color: #d32f2f;
+    }
+
+    .error-message {
+      color: var(--cultural-red);
+      margin-top: 1rem;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+    <div class="admin-container" style="max-width: 400px; margin: 3rem auto; padding: 1rem; border: 1px solid #ccc; border-radius: 8px;">
+        <h2>Panel de Administración</h2>
+
+        <label for="loggedUser">Usuario actual:</label>
+        <input type="text" id="loggedUser" readonly style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" />
+
+        <button id="logoutBtn" style="width: 100%; padding: 0.75rem; background-color: #d9534f; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Cerrar sesión
+        </button>
+    </div>
+
+<script>
+    // Decode JWT payload
+    function parseJwt(token) {
+        try {
+            return JSON.parse(atob(token.split('.')[1]));
+        } catch (e) {
+            return null;
+        }
+    }
+
+    // Check if token is expired
+    function isTokenExpired(token) {
+        const payload = parseJwt(token);
+        if (!payload || !payload.exp) return true;
+        const now = Date.now() / 1000;
+        return payload.exp < now;
+    }
+
+    // Fetch username using the backend API
+    async function fetchUsername(userId) {
+        const token = localStorage.getItem('access');
+        try {
+            const response = await fetch(`http://localhost:8000/api/users/${userId}/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (!response.ok) throw new Error('Failed to fetch user data');
+            const data = await response.json();
+            return data.username;
+        } catch (err) {
+            console.error('Error fetching user:', err);
+            return null;
+        }
+    }
+
+    async function checkAuth() {
+        const token = localStorage.getItem('access');
+        if (!token || isTokenExpired(token)) {
+            localStorage.clear();
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const payload = parseJwt(token);
+        if (payload && payload.user_id) {
+            const username = await fetchUsername(payload.user_id);
+            document.getElementById('loggedUser').value = username || `Usuario ID: ${payload.user_id}`;
+        } else {
+            document.getElementById('loggedUser').value = 'Usuario desconocido';
+        }
+    }
+
+    function handleLogout() {
+        localStorage.clear();
+        window.location.href = 'login.html';
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+
+    window.addEventListener('load', checkAuth);
+</script>
+
+</body>
+</html> 

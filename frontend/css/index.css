@@ -1,0 +1,440 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    scroll-behavior: smooth;
+    overflow: auto;
+}
+
+.header {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 20px 0px;
+    position: fixed;
+    transition: background-color 0.3s ease;
+}
+
+
+.header.scrolled {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: background-color 0.3s ease;
+}
+
+nav {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+nav .logo {
+    display: flex;
+    gap: 20px;
+}
+
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 12px;
+    transition: 0.1s;
+}
+
+nav ul li a:hover {
+    color: #12bcd3;
+}
+
+#hero {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)), url(../assets/img/bombo.webp);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero_content {
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.hero_content h1 {
+    color: white;
+    font-size: 4rem;
+    text-shadow: 1px 1px 100px black;
+}
+
+.hero_content h2 {
+    color: white;
+    font-size: 1.5rem;
+    width: 100%;
+    text-shadow: 1px 1px 100px black;
+}
+
+.hero_content p {
+    color: lightgrey;
+    margin: 0;
+    text-shadow: 1px 1px 100px black;
+    width: 70%;
+    font-size: 14px;
+}
+
+.hero_content .btn {
+    padding: 10px 30px;
+    color: white;
+    background: #6c6c6cb6;
+    text-decoration: none;
+    border-radius: 100px;
+    font-size: 14px;
+    box-shadow: 1px 1px 100px black;
+}
+
+
+.btn:hover {
+    background: #12bcd3b6;
+    transition: 0.1s;
+}
+#calendario-video {
+    padding: 40px 20px;
+}
+
+#busqueda-eventos {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 0 auto 30px auto;
+    display: block;
+}
+
+.calendario-video-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.calendario-box, .video-box {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#calendar {
+    max-width: 900px;
+    height: 600px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Host Grotesk', sans-serif;
+}
+
+/* Fuente general */
+.fc {
+    font-family: 'Host Grotesk', sans-serif;
+}
+
+/* Título del calendario */
+.fc .fc-toolbar-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #222;
+}
+
+/* Botones del calendario */
+.fc-button {
+    background-color: #444;
+    border: none;
+    color: white;
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-weight: 600;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.fc-button:hover,
+.fc-button:focus {
+    background-color: #666;
+}
+
+/* Día actual */
+.fc-daygrid-day.fc-day-today {
+    background-color: #fcf700c4;
+    border-radius: 4px;
+}
+
+/* Hover sobre días */
+.fc-daygrid-day:hover {
+    background-color: #ada0a0d0;
+    cursor: pointer;
+}
+
+.carousel-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    height: auto;
+}
+
+.carousel-3d-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-3d {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-3d .card {
+    width: 300px;
+    height: 260px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 12px rgba(0,0,0,0.2);
+    transform: scale(0.8);
+    opacity: 0.3;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+.carousel-3d .card.prev,
+.carousel-3d .card.next {
+    transform: scale(0.9);
+    opacity: 0.6;
+    z-index: 10;
+}
+
+.carousel-3d .card.active {
+    transform: scale(1);
+    opacity: 1;
+    z-index: 10;
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+}
+
+.carousel-3d .card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-3d .card:not(.prev):not(.active):not(.next) {
+    display: none;
+}
+
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.carousel-btn.prev { left: 10px; }
+.carousel-btn.next { right: 10px; }
+
+.search-section {
+    width: 100%;
+    margin: 0 auto 40px auto;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    z-index: 10;
+}
+
+.search-container {
+    width: 100%;
+    max-width: 800px;
+    position: absolute;
+    padding: 0 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 14px 24px 14px 48px; 
+    font-size: 18px;
+    border: none;
+    border-radius: 50px;
+    background: rgba(230, 230, 230, 0.95); 
+    color: #000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.search-input::placeholder {
+    color: #444;
+    opacity: 0.7;
+}
+
+.search-input:focus {
+    background: rgba(240, 240, 240, 1);
+    box-shadow: 0 0 0 3px rgba(113, 99, 240, 0.25);
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 36px;
+    transform: translateY(-50%);
+    color: #555;
+    font-size: 18px;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+#information {
+    margin: 50px 0;
+    color: rgb(0, 0, 0);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 50vh;
+    /*     overflow: hidden; */
+    justify-content: center;
+    align-items: center;
+}
+
+.information-cards {
+    margin: 50px 0;
+    display: flex;
+    width: 80%;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    display: flex;
+    width: 30%;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.2);
+    border-color: #000000;
+    font-size: 11px;
+    border-radius: 10px;
+    gap: 20px;
+    padding: 10px;
+    text-decoration: none;
+    color: rgb(42, 61, 71);
+}
+
+.card:hover {
+    background: #12bcd3b6;
+    transition: 0.1s;
+    scale: 1.05;
+}
+
+.card img {
+    width: 30px;
+}
+
+#footer {
+    display: flex;
+    width: 100%;
+    height: 30vh;
+    background: linear-gradient(to right, #00a0e5, #c30135);
+
+
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer {
+    margin: 50px 0;
+    height: 100%;
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+
+.footer-img {
+    width: 50%;
+    display: flex;
+    gap: 50px;
+}
+
+.footer-img img {
+    width: 100px;
+}
+
+
+.footer-datos {
+    width: 50%;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-datos img {
+    margin-left: 5px;
+}
+
+.footer-social {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.footer-social img {
+    width: 20px;
+}

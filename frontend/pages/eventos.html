@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/Frontend/Vista Usuarios/css/eventos.css">
+    <link rel="shortcut icon" href="/Frontend/Vista Usuarios/assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon">
+</head>
+
+<body>
+    <header class="header">
+        <nav>
+            <div class="logo">
+                <a href="/Frontend/Vista Usuarios/index.html">
+                    <img src="/Frontend/Vista Usuarios/assets/icons/sgo-cultura-removebg-preview.png" alt="logo" width="50px"></a>
+                <a href="https://sde.gob.ar/" target="_blank">
+                    <img src="/Frontend/Vista Usuarios/assets/icons/logo-sde.svg" alt="logo" width="100px"></a>
+            </div>
+            <ul>
+                <li><a href="/Frontend/Vista Usuarios/pages/eventos.html">EVENTOS</a></li>
+                <li><a href="/Frontend/Vista Usuarios/pages/espacios culturales.html">ESPACIOS CULTURALES</a></li>
+                <li><a href="whttps://www.google.com/?hl=es">DNI CULTURAL</a></li>
+                <li><a href="https://www.google.com/?hl=es">PATRIMONIO CULTURAL</a></li>
+                <li><a href="https://www.santiagocultura.gob.ar/biblioteca-digital-2.php">BIBLIOTECA DIGITAL</a></li>
+                <li><a href="/Frontend/Vista Usuarios/pages/contacto.html">CONTACTO</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        
+        <section id="hero">
+            <div class="hero_content">
+                <h1>Eventos</h1>
+                <!--<p>Revive los momentos culturales que marcaron nuestra provincia. Filtra por año y categoría para explorar.</p>
+            -->
+            </div>
+        </section>
+        <div class="filtros-wrapper">
+            <div class="filtro-grupo">
+                <label for="filtro-ano" class="filtro-label">Año:</label>
+                <select id="filtro-ano" class="filtro-select">
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    </select>
+            </div>
+
+            <div class="filtro-grupo">
+                <label class="filtro-label">Categoría:</label>
+                <div class="filtros-container">
+                    <button class="filtro-btn activo" data-categoria="todos">Todos</button>
+                    <button class="filtro-btn" data-categoria="arte">Arte</button>
+                    <button class="filtro-btn" data-categoria="musica">Música</button>
+                    <button class="filtro-btn" data-categoria="letras">Letras</button>
+                    <button class="filtro-btn" data-categoria="escenicas">Teatro</button>
+                    <button class="filtro-btn" data-categoria="cat">Cat</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="eventos-grid">
+            <div class="evento-card" data-year="2024" data-categoria="letras">
+                <img src="/Frontend/Vista Usuarios/assets/img/feria-del-libro-2.jpg" alt="Feria del Libro">
+                <div class="evento-card-content">
+                    <span class="evento-fecha">15 de Mayo, 2024</span>
+                    <h3 class="evento-titulo">Feria Provincial del Libro</h3>
+                    <p class="evento-descripcion">Encuentro de autores y lectores que celebró la literatura local.</p>
+                </div>
+            </div>
+
+            <div class="evento-card" data-year="2024" data-categoria="musica">
+                <img src="/Frontend/Vista Usuarios/assets/img/feria artesanal.jpg" alt="Festival de Folklore">
+                <div class="evento-card-content">
+                    <span class="evento-fecha">22 de Febrero, 2024</span>
+                    <h3 class="evento-titulo">Festival de la Chacarera</h3>
+                    <p class="evento-descripcion">Artistas de toda la provincia se reunieron para celebrar nuestro ritmo.</p>
+                </div>
+            </div>
+
+            <div class="evento-card" data-year="2023" data-categoria="arte">
+                <img src="/Frontend/Vista Usuarios/assets/img/museo.jpg" alt="Muestra de Arte Abstracto">
+                <div class="evento-card-content">
+                    <span class="evento-fecha">10 de Noviembre, 2023</span>
+                    <h3 class="evento-titulo">Retrospectiva de Arte Moderno</h3>
+                    <p class="evento-descripcion">Una exposición que recorrió 50 años de arte en la provincia.</p>
+                </div>
+            </div>
+
+            <div class="evento-card" data-year="2023" data-categoria="escenicas">
+                <img src="/Frontend/Vista Usuarios/assets/img/atr_teatro25demayo.jpg" alt="Noche de los Teatros">
+                <div class="evento-card-content">
+                    <span class="evento-fecha">18 de Agosto, 2023</span>
+                    <h3 class="evento-titulo">La Noche de los Teatros</h3>
+                    <p class="evento-descripcion">Los teatros abrieron sus puertas con obras cortas y performances.</p>
+                </div>
+            </div>
+
+            </div>
+
+        <div id="mensaje-no-eventos" class="mensaje-vacio" style="display: none;">
+            <p>No se encontraron eventos para los filtros seleccionados.</p>
+        </div>
+    </section>
+</main>
+
+    <footer id="footer">
+
+        <div class="footer">
+            <div class="footer-img">
+                <img src="/Frontend/Vista Usuarios/assets/icons/sgo-cultura-removebg-preview.png" alt="Logo Secretaría de Deportes">
+                <img src="/Frontend/Vista Usuarios/assets/icons/logo-sde.svg" alt="Santiago del Estero">
+            </div>
+            <div class="footer-datos">
+                <div class="footer-social">
+                    <h3>¡Seguinos en nuestras redes sociales!</h3>
+                        <a target="_blank" href="https://www.instagram.com/santiago.cultura?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img src="/assets/icons/instagram.svg"
+                            alt="instagram"></a>
+                        <a target="_blank" href="https://www.facebook.com/subsecretariadeculturadesantiagodelestero"><img src="/assets/icons/facebook.svg"
+                            alt="facebook"></a>
+                </div>
+
+                <p>Subsecretaría de Cultura Casa Castro, Av Belgrano Sur 555<img width="12px" src="/assets/icons/location.svg" alt=""></p>
+                <a href="tel:(0385) 4225385">(0385) 4225385<img width="12px" src="assets/icons/phone.svg" alt=""></p>
+                <a href="mailto:prensa@santiagocultura.gob.ar">prensa@santiagocultura.gob.ar<img width="12px" src="/assets/icons/email.svg" alt=""></a>
+            </div>
+        </div>
+
+    </footer>
+
+    <script src="../js/blurryNav.js"></script>
+    <script src="/eventos-puntos/filtros-d.js"></script>
+</body>
+
+</html>
