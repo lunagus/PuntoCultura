@@ -1,8 +1,17 @@
 async function handleLogin(event) {
     event.preventDefault();
-    const username = document.getElementById('username').value;
+    const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value;
     const errorMessage = document.getElementById('errorMessage');
+
+    errorMessage.style.display = 'none';
+    errorMessage.textContent = '';
+
+    if (!username || !password) {
+        errorMessage.textContent = 'Por favor, ingresa usuario y contraseña';
+        errorMessage.style.display = 'block';
+        return false;
+    }
 
     try {
         const response = await fetch('http://localhost:8000/api/token/', {
@@ -16,11 +25,11 @@ async function handleLogin(event) {
         const data = await response.json();
 
         if (response.ok) {
-            // Save tokens in localStorage or sessionStorage
+            // Save tokens
             localStorage.setItem('access', data.access);
             localStorage.setItem('refresh', data.refresh);
 
-            // Redirect to admin page
+            // Redirect to protected admin page
             window.location.href = 'admin.html';
         } else {
             errorMessage.textContent = data.detail || 'Credenciales inválidas';
