@@ -1,0 +1,291 @@
+/* RESET BÁSICO */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  background-color: #f4f4f8;
+  color: #333;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  position: fixed;
+  top: 0; /* Elimina el espacio superior */
+  left: 0;
+  background-color: #3a96fffd;
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: transform 0.3s ease; /* Animación suave */
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.sidebar img {
+  width: 120px;
+  display: block;
+  margin: 0 auto 20px auto;
+}
+
+.sidebar h2 {
+  color: #fff;
+  font-size: 22px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.Menú a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  margin: 8px 0;
+  padding: 12px 15px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.Menú a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+
+.Menú a.active {
+  background-color: rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+}
+
+/* CONTENIDO PRINCIPAL */
+main {
+  margin-left: 240px;
+  padding: 40px 20px;
+  min-height: 100vh;
+}
+
+.editor-section {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  margin: auto;
+}
+
+.editor-section h1 {
+  margin-bottom: 20px;
+  font-size: 26px;
+  text-align: center;
+  color: #1a1a1a;
+}
+
+/* FORMULARIO */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+form input[type="text"],
+form input[type="date"],
+form input[type="file"],
+form select,
+form textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+  outline: none;
+  border-color: #3a96fffd;
+  box-shadow: 0 0 0 3px rgba(58, 150, 255, 0.1);
+}
+
+form label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block; /* Por defecto, los labels son bloques */
+  color: #333;
+}
+
+/* ESTILO ESPECÍFICO PARA LABEL DE CHECKBOX EN LÍNEA */
+.flex-checkbox-label {
+    display: flex !important; /* Fuerza el display flex para que esté al lado */
+    align-items: center; /* Centra verticalmente los ítems */
+    gap: 8px; /* Espacio entre el checkbox y el texto (aproximación de gap-2 de Tailwind) */
+    margin-bottom: 0; /* Elimina el margen inferior del label si es que lo tenía por defecto */
+    justify-content: flex-start; /* **NUEVO: Asegura que el contenido se justifique al inicio** */
+}
+
+form input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-right: 0; /* Asegurar que no haya margen extra a la derecha */
+}
+
+#preview {
+  max-height: 200px;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+/* BOTÓN */
+form button {
+  padding: 12px;
+  background-color: #3a96fffd;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+form button:hover {
+  background-color: #2980ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(58, 150, 255, 0.3);
+}
+
+/* MENSAJE DE ÉXITO */
+#mensaje {
+  color: #28a745;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 8px;
+}
+
+/* BOTÓN DE MENÚ MÓVIL */
+.menu-btn {
+  display: none;
+  font-size: 24px;
+  background: #3a96fffd;
+  border: none;
+  color: white;
+  padding: 12px;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1001;
+  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.menu-btn:hover {
+  background-color: #2980ff;
+  transform: scale(1.05);
+}
+
+/* New styling for search input */
+.search-bar-container {
+    margin-bottom: 20px;
+}
+
+#search-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: #fafafa;
+    transition: border-color 0.3s ease;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: #3a96fffd;
+    box-shadow: 0 0 0 3px rgba(58, 150, 255, 0.1);
+}
+
+/* Asegura que el elemento con la clase 'hidden' esté completamente oculto */
+.hidden {
+    display: none !important;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .menu-btn {
+    display: block;
+  }
+
+  .sidebar {
+    transform: translateX(-100%); /* Oculta la sidebar por defecto */
+    width: 280px; /* Un poco más ancha pero no toda la pantalla */
+  }
+
+  .sidebar.open {
+    transform: translateX(0); /* Muestra la sidebar con animación */
+  }
+
+  /* Overlay para cerrar el menú al hacer clic fuera */
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  main {
+    margin-left: 0;
+    padding: 80px 15px 20px 15px; /* Espacio para el botón de menú */
+  }
+
+  .editor-section {
+    padding: 20px;
+  }
+
+  .contenedor-eventos {
+    padding-top: 80px; /* Espacio para el botón de menú */
+  }
+
+  .contenedor-eventos h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100vw; /* Solo en pantallas muy pequeñas ocupa todo el ancho */
+  }
+  
+  main {
+    padding: 70px 10px 20px 10px;
+  }
+}

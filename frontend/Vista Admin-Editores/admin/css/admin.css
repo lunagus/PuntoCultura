@@ -1,0 +1,130 @@
+body {
+    font-family: "Host Grotesk", sans-serif;
+    font-optical-sizing: relative;
+    font-weight: 529;
+    font-style: normal;
+}
+h1 {
+    text-align: center;
+    justify-content: center;
+    font-family: "Host Grotesk", sans-serif;
+    font-weight: 100;
+    font-size: 40px;
+
+}
+a > h2{
+    text-decoration: none;
+    color: black;
+}
+.contenedor {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.tarjeta {
+    width: 300px;
+    height: auto;
+    background-color: rgb(180, 169, 169);
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 50px;
+    
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.tarjeta img {
+    width: 100%;
+    height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.tarjeta h2 {
+    margin: 10px 0;
+    text-decoration: none
+}
+
+.tarjeta p {
+    font-size: 14px;
+    color: #555;
+}
+
+.tarjeta:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.sidebar {
+    width: 100px;
+    height: 90vh;
+    background: rgb(168, 167, 184);
+    color: black;
+    position: fixed;
+    left: 20px;  /* Separado del margen */
+    top: 10px;  /* No toca el borde superior */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;  /* Bordes redondeados */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Sombra para efecto 3D */
+    align-items: center; /* Centra todo dentro de la barra */
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra las imágenes horizontalmente */
+    justify-content: center; /* Centra verticalmente */
+    gap: 90px; /* Espacio entre iconos */
+}
+
+.sidebar img {
+    width: 90px;  /* Tamaño de los iconos */
+    height: 90px;
+    border-radius: 10px; /* Bordes redondeados en las imágenes */
+    transition: transform 0.3s;
+}
+
+.sidebar img:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+    background-color:rgb(149, 148, 163) ;
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    text-decoration: none
+}
+
+/*.sidebar a {
+    display: block;
+    padding: 30px;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 10px; /* Enlaces también redondeados 
+}
+
+.sidebar a:hover {
+    background: #575757;
+}
+.sidebar img {
+    width: 80px;  /* Tamaño de los iconos 
+    height: 80px;
+    border-radius: 10px; /* Bordes redondeados en las imágenes 
+    transition: transform 0.3s;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar img:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}/*

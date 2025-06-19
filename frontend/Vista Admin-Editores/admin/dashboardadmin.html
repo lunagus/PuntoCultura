@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido, Administrador</title>
+    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/editor/estilo.editor.css">
+    <link rel="stylesheet" href="/pages/usuarios/css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <a href="/frontend/Vista Admin-Editores/admin/dashboardadmin.html">
+        <h2>Menú</h2>
+        </a>
+        <div class="menu">
+            <a href="/frontend/Vista Admin-Editores/admin/eventos-c.html">Eventos</a>
+            <a href="/frontend/Vista Admin-Editores/admin/categorias.html">Categorías</a>
+            <a href="/frontend/Vista Admin-Editores/admin/espacios.html">Espacios Culturales</a>
+        </div>
+        <div class="logout-section">
+            <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
+        </div>
+    </div>
+    <header>
+        <h1>Panel de Administración</h1>
+    </header>
+    <main>
+        <div class="contenedor">
+        <div class="tarjeta">
+            <h2>Gestionar Eventos</h2>
+            <p>Administra los eventos culturales del sistema.</p>
+            <a href="/frontend/Vista Admin-Editores/admin/eventos-c.html" class="dashboard-link">Ir a Eventos</a>
+        </div>
+        <div class="tarjeta">
+            <h2>Gestionar Categorías</h2>
+            <p>Administra las categorías de eventos.</p>
+            <a href="/frontend/Vista Admin-Editores/admin/categorias.html" class="dashboard-link">Ir a Categorías</a>
+        </div>
+        <div class="tarjeta">
+            <h2>Gestionar Espacios</h2>
+            <p>Administra los espacios culturales.</p>
+            <a href="/frontend/Vista Admin-Editores/admin/espacios.html" class="dashboard-link">Ir a Espacios</a>
+        </div>
+        </div>
+    </div>
+    </main>
+
+    <script>
+        // Verificar autenticación
+        function verificarAutenticacion() {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                alert('Debes iniciar sesión para acceder al panel de administración');
+                window.location.href = '/frontend/pages/login.html';
+                return false;
+            }
+            return true;
+        }
+
+        // Función de logout
+        function logout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userType');
+                window.location.href = '/frontend/pages/login.html';
+            }
+        }
+
+        // Verificar autenticación al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!verificarAutenticacion()) {
+                return;
+            }
+        });
+    </script>
+</body>
+</html>
+

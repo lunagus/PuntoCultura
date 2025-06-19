@@ -23,6 +23,13 @@ class EventoViewSet(viewsets.ModelViewSet):
     serializer_class = EventoSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ["titulo", "descripcion"]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return Evento.objects.all()
+        return Evento.objects.filter(publicado=True)
 
     def get_serializer_context(self):
         return {"request": self.request}

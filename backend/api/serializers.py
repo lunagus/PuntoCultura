@@ -9,7 +9,7 @@ class EventoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evento
         fields = "__all__"
-        read_only_fields = ("creado_por", "publicado")
+        read_only_fields = ("creado_por",)
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -50,7 +50,7 @@ class CentroCulturalSerializer(serializers.ModelSerializer):
     class Meta:
         model = CentroCultural
         fields = "__all__"
-        read_only_fields = ("creado_por", "publicado")
+        read_only_fields = ("creado_por",)
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)

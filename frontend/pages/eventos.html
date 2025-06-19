@@ -12,13 +12,14 @@
         rel="stylesheet">
     <link rel="stylesheet" href="/frontend/css/eventos.css">
     <link rel="shortcut icon" href="/frontend/assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 
 <body>
     <header class="header">
         <nav>
             <div class="logo">
-                <a href="/frontend/index.html">
+                <a href="/frontend/pages/index.html">
                     <img src="/frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="logo" width="50px"></a>
                 <a href="https://sde.gob.ar/" target="_blank">
                     <img src="/frontend/assets/icons/logo-sde.svg" alt="logo" width="100px"></a>
@@ -35,83 +36,23 @@
     </header>
 
     <main>
-        
         <section id="hero">
             <div class="hero_content">
                 <h1>Eventos</h1>
-                <!--<p>Revive los momentos culturales que marcaron nuestra provincia. Filtra por año y categoría para explorar.</p>
-            -->
             </div>
         </section>
-        <div class="filtros-wrapper">
-            <div class="filtro-grupo">
-                <label for="filtro-ano" class="filtro-label">Año:</label>
-                <select id="filtro-ano" class="filtro-select">
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                    </select>
-            </div>
-
-            <div class="filtro-grupo">
-                <label class="filtro-label">Categoría:</label>
-                <div class="filtros-container">
-                    <button class="filtro-btn activo" data-categoria="todos">Todos</button>
-                    <button class="filtro-btn" data-categoria="arte">Arte</button>
-                    <button class="filtro-btn" data-categoria="musica">Música</button>
-                    <button class="filtro-btn" data-categoria="letras">Letras</button>
-                    <button class="filtro-btn" data-categoria="escenicas">Teatro</button>
-                    <button class="filtro-btn" data-categoria="cat">Cat</button>
-                </div>
-            </div>
+        <div class="filtros-bar">
+            <input type="text" id="filtro-texto" class="filtro-select" placeholder="Buscar...">
+            <select id="filtro-categoria" class="filtro-select"><option value="">Todas las categorías</option></select>
         </div>
-
-        <div class="eventos-grid">
-            <div class="evento-card" data-year="2024" data-categoria="letras">
-                <img src="/frontend/assets/img/feria-del-libro-2.jpg" alt="Feria del Libro">
-                <div class="evento-card-content">
-                    <span class="evento-fecha">15 de Mayo, 2024</span>
-                    <h3 class="evento-titulo">Feria Provincial del Libro</h3>
-                    <p class="evento-descripcion">Encuentro de autores y lectores que celebró la literatura local.</p>
-                </div>
-            </div>
-
-            <div class="evento-card" data-year="2024" data-categoria="musica">
-                <img src="/frontend/assets/img/feria artesanal.jpg" alt="Festival de Folklore">
-                <div class="evento-card-content">
-                    <span class="evento-fecha">22 de Febrero, 2024</span>
-                    <h3 class="evento-titulo">Festival de la Chacarera</h3>
-                    <p class="evento-descripcion">Artistas de toda la provincia se reunieron para celebrar nuestro ritmo.</p>
-                </div>
-            </div>
-
-            <div class="evento-card" data-year="2023" data-categoria="arte">
-                <img src="/frontend/assets/img/museo.jpg" alt="Muestra de Arte Abstracto">
-                <div class="evento-card-content">
-                    <span class="evento-fecha">10 de Noviembre, 2023</span>
-                    <h3 class="evento-titulo">Retrospectiva de Arte Moderno</h3>
-                    <p class="evento-descripcion">Una exposición que recorrió 50 años de arte en la provincia.</p>
-                </div>
-            </div>
-
-            <div class="evento-card" data-year="2023" data-categoria="escenicas">
-                <img src="/frontend/assets/img/atr_teatro25demayo.jpg" alt="Noche de los Teatros">
-                <div class="evento-card-content">
-                    <span class="evento-fecha">18 de Agosto, 2023</span>
-                    <h3 class="evento-titulo">La Noche de los Teatros</h3>
-                    <p class="evento-descripcion">Los teatros abrieron sus puertas con obras cortas y performances.</p>
-                </div>
-            </div>
-
-            </div>
-
+        <div class="eventos-grid" id="eventos-grid"></div>
+        <div id="paginacion" class="paginacion"></div>
         <div id="mensaje-no-eventos" class="mensaje-vacio" style="display: none;">
-            <p>No se encontraron eventos para los filtros seleccionados.</p>
+            <p>No se encontraron eventos.</p>
         </div>
-    </section>
-</main>
+    </main>
 
     <footer id="footer">
-
         <div class="footer">
             <div class="footer-img">
                 <img src="/frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="Logo Secretaría de Deportes">
@@ -125,17 +66,117 @@
                         <a target="_blank" href="https://www.facebook.com/subsecretariadeculturadesantiagodelestero"><img src="/frontend/assets/icons/facebook.svg"
                             alt="facebook"></a>
                 </div>
-
                 <p>Subsecretaría de Cultura Casa Castro, Av Belgrano Sur 555<img width="12px" src="/frontend/assets/icons/location.svg" alt=""></p>
                 <a href="tel:(0385) 4225385">(0385) 4225385<img width="12px" src="/frontend/assets/icons/phone.svg" alt=""></p>
                 <a href="mailto:prensa@santiagocultura.gob.ar">prensa@santiagocultura.gob.ar<img width="12px" src="/frontend/assets/icons/email.svg" alt=""></a>
             </div>
         </div>
-
     </footer>
 
     <script src="/frontend/js/blurryNav.js"></script>
-    <script src="/frontend/js/filtros-d.js"></script>
+    <script src="/frontend/js/eventos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
+<style>
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    scroll-behavior: smooth;
+}
+.header {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 20px 0px;
+    position: fixed;
+    transition: background-color 0.3s ease;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+}
+.header.scrolled {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: background-color 0.3s ease;
+}
+nav {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+nav .logo {
+    display: flex;
+    gap: 20px;
+}
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 12px;
+    transition: 0.1s;
+}
+nav ul li a:hover {
+    color: #12bcd3;
+}
+#hero {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 55vh;
+    overflow-x: hidden;
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)), url("/frontend/assets/img/feria-del-libro.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    justify-content: flex-end;
+    align-items: center;
+}
+.hero_content {
+    display: flex;
+    width: 80%;
+    height: 80%;
+    justify-content: flex-start;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+.hero_content h1 {
+    margin-bottom: 20px;
+    color: white;
+    font-size: 3rem;
+    text-shadow: 1px 1px 100px black;
+}
+main { margin-top: 0; }
+.filtros-bar {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0 0 0;
+}
+</style>
+<script>
+// Header scroll effect
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('.header');
+    if(window.scrollY > 30) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+</script>
 </body>
 
 </html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/editor/estilo.editor.css">
+    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/admin/css/eventos.css">
+    <title>Eventos</title>
+</head>
+<body>
+    <button id="menu-toggle" class="menu-btn">&#9776;</button>
+
+    <div class="sidebar">
+        <a href="/frontend/Vista Admin-Editores/admin/dashboardadmin.html">
+        <img src="/Frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="" />
+        <h2>Menú</h2>
+        </a>
+        <div class="Menú">
+            <a href="/frontend/Vista Admin-Editores/admin/eventos-c.html">Eventos</a>
+            <a href="/frontend/Vista Admin-Editores/admin/categorias.html">Categorias</a>
+            <a href="/frontend/Vista Admin-Editores/admin/espacios.html">Espacios Culturales</a>
+        </div>
+        <div class="logout-section">
+            <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <main>
+        <div class="contenedor-eventos">
+            <h1 class="page-title">Administrar Eventos</h1>
+            <div class="eventos-list-container">
+                <h2 class="list-title">Eventos Existentes</h2>
+                <div id="eventosGrid" class="eventos-grid">
+                    <!-- Los eventos se cargarán aquí dinámicamente con JavaScript -->
+                </div>
+                <p id="noEventos" class="mensaje-vacio hidden">No hay eventos para mostrar.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Botón flotante para abrir el formulario modal -->
+    <button class="boton-flotante" onclick="mostrarFormulario()">+</button>
+
+    <!-- Modal para el formulario de agregar/editar evento -->
+    <div id="modal-formulario" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarFormulario()">×</span>
+            <h2 class="form-title">Agregar/Editar Evento</h2>
+            <form id="eventoForm" enctype="multipart/form-data">
+                <label for="titulo">Título del Evento:</label>
+                <input type="text" name="titulo" id="titulo" placeholder="Ej: Festival de Música Folklórica" required class="form-input" />
+                
+                <label for="descripcion">Descripción:</label>
+                <textarea name="descripcion" id="descripcion" placeholder="Descripción detallada del evento" rows="4" required class="form-input"></textarea>
+                
+                <label for="fecha_inicio">Fecha de Inicio:</label>
+                <input type="date" name="fecha_inicio" id="fecha_inicio" required class="form-input" />
+                
+                <label for="fecha_fin">Fecha de Fin (opcional):</label>
+                <input type="date" name="fecha_fin" id="fecha_fin" class="form-input" />
+                
+                <label for="imagen">Imagen:</label>
+                <input type="file" name="imagen" id="imagen" accept="image/*" onchange="previsualizarImagen(event)" class="form-input" />
+                <div id="preview-imagen" class="image-preview"></div>
+                
+                <label for="categoria">Categoría:</label>
+                <select name="categoria" id="categoria" class="form-input">
+                    <option value="">Selecciona una categoría</option>
+                </select>
+                
+                <label for="centro_cultural">Centro Cultural:</label>
+                <select name="centro_cultural" id="centro_cultural" class="form-input">
+                    <option value="">Selecciona un centro cultural</option>
+                </select>
+                
+                <div class="form-checkbox-group">
+                    <label for="publicado" class="checkbox-label">
+                        <input type="checkbox" name="publicado" id="publicado" class="form-checkbox" />
+                        <span class="checkmark"></span>
+                        Publicar evento (desmarcar para guardar como borrador)
+                    </label>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="submit" name="action" value="save" class="form-button">Guardar Evento</button>
+                    <button type="button" onclick="guardarComoBorrador()" class="form-button secondary">Guardar como Borrador</button>
+                </div>
+            </form>
+            <p id="mensaje" class="form-message hidden">¡Evento guardado con éxito!</p>
+        </div>
+    </div>
+
+    <script src="js/eventos.js"></script>
+    <script src="js/sidebar.js"></script>
+</body>
+</html>

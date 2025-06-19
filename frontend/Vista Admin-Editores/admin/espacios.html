@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <!-- CSS base para la vista de editor (contiene sidebar, hidden, etc.) -->
+    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/editor/estilo.editor.css">
+    <!-- CSS específico para espacios (definirá el estilo del formulario en el modal y la tabla) -->
+    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/admin/css/espacios.css">
+    <title>Espacios Culturales</title>
+</head>
+<body>
+    <button id="menu-toggle" class="menu-btn">&#9776;</button>
+
+    <div class="sidebar">
+        <a href="/frontend/Vista Admin-Editores/admin/dashboardadmin.html">
+            <img src="/Frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="" />
+            <h2>Menú</h2>
+        </a>
+        <div class="Menú">
+            <a href="/frontend/Vista Admin-Editores/admin/eventos-c.html">Eventos</a>
+            <a href="/frontend/Vista Admin-Editores/admin/categorias.html">Categorias</a>
+            <a href="/frontend/Vista Admin-Editores/admin/espacios.html">Espacios Culturales</a>
+        </div>
+        <div class="logout-section">
+            <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <main>
+        <div class="contenedor-espacios">
+            <h1 class="page-title">Administrar Espacios Culturales</h1>
+
+            <!-- Contenedor para la lista de espacios existentes (puede ser una tabla o grid) -->
+            <div class="espacios-list-container">
+                <h2 class="list-title">Espacios Culturales Existentes</h2>
+                <div id="espaciosGrid" class="espacios-grid">
+                    <!-- Los espacios se cargarán aquí dinámicamente con JavaScript -->
+                </div>
+                <p id="noEspacios" class="mensaje-vacio hidden">No hay espacios culturales para mostrar.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Botón flotante para abrir el formulario modal -->
+    <button class="boton-flotante" onclick="mostrarFormulario()">+</button>
+
+    <!-- Modal para el formulario de agregar/editar Espacio Cultural -->
+    <div id="modal-formulario" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarFormulario()">×</span>
+            <h2 class="form-title">Agregar Espacio Cultural</h2>
+            <form id="espacioForm" enctype="multipart/form-data">
+                <label for="nombre">Nombre del Espacio:</label>
+                <input
+                    type="text"
+                    name="nombre"
+                    id="nombre"
+                    placeholder="Ej: Teatro 25 de Mayo"
+                    required
+                    class="form-input"
+                />
+
+                <label for="descripcion">Descripción:</label>
+                <textarea
+                    name="descripcion"
+                    id="descripcion"
+                    placeholder="Descripción detallada del espacio cultural"
+                    rows="4"
+                    required
+                    class="form-input"
+                ></textarea>
+                
+                <label for="direccion">Dirección:</label>
+                <input
+                    type="text"
+                    name="direccion"
+                    id="direccion"
+                    placeholder="Ej: Av. Belgrano Sur 555"
+                    class="form-input"
+                />
+
+                <label for="ubicacion_lat">Latitud:</label>
+                <input
+                    type="number"
+                    name="ubicacion_lat"
+                    id="ubicacion_lat"
+                    placeholder="Ej: -27.795100"
+                    step="any"
+                    class="form-input"
+                />
+
+                <label for="ubicacion_lon">Longitud:</label>
+                <input
+                    type="number"
+                    name="ubicacion_lon"
+                    id="ubicacion_lon"
+                    placeholder="Ej: -64.261500"
+                    step="any"
+                    class="form-input"
+                />
+
+                <label for="imagen">Imagen:</label>
+                <input
+                    type="file"
+                    name="imagen"
+                    id="imagen"
+                    accept="image/*"
+                    onchange="previsualizarImagen(event)"
+                    class="form-input"
+                />
+                <div id="preview-imagen" class="image-preview"></div>
+
+                <div class="form-checkbox-group">
+                    <label for="publicado" class="checkbox-label">
+                        <input type="checkbox" name="publicado" id="publicado" class="form-checkbox" />
+                        <span class="checkmark"></span>
+                        Publicar centro cultural (desmarcar para guardar como borrador)
+                    </label>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" name="action" value="save" class="form-button">Guardar Espacio</button>
+                    <button type="button" onclick="guardarComoBorrador()" class="form-button secondary">Guardar como Borrador</button>
+                </div>
+            </form>
+            <p
+                id="mensaje"
+                class="form-message hidden"
+            >
+                ¡Espacio cultural guardado con éxito!
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/frontend/Vista Admin-Editores/admin/js/espacios.js"></script>
+    <script src="/frontend/Vista Admin-Editores/admin/js/sidebar.js"></script>
+</body>
+</html>

@@ -14,7 +14,7 @@ async function handleLogin(event) {
     }
 
     try {
-        const response = await fetch('http://localhost:8000/api/token/', {
+        const response = await fetch('http://127.0.0.1:8000/api/token/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -25,12 +25,13 @@ async function handleLogin(event) {
         const data = await response.json();
 
         if (response.ok) {
-            // Save tokens
-            localStorage.setItem('access', data.access);
+            // Save tokens with the correct key names
+            localStorage.setItem('authToken', data.access);
             localStorage.setItem('refresh', data.refresh);
+            localStorage.setItem('userType', 'admin');
 
             // Redirect to protected admin page
-            window.location.href = 'admin.html';
+            window.location.href = '/frontend/Vista Admin-Editores/admin/eventos-c.html';
         } else {
             errorMessage.textContent = data.detail || 'Credenciales inválidas';
             errorMessage.style.display = 'block';

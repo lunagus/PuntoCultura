@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Editor de Contenido</title>
+  <link rel="stylesheet" href="estilo.editor.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <button id="menu-toggle" class="menu-btn">&#9776;</button>
+
+  <div class="sidebar">
+    <a href="/general/css/dashboardadmin.html">
+      <img src="/assets/icons/sgo-cultura-removebg-preview.png" alt="" />
+      <h2>Menú</h2>
+    </a>
+    <div class="Menú">
+      <a href="#">Eventos</a>
+      <a href="#">Categorias</a>
+      <a href="#">Espacios Culturales</a>
+    </div>
+  </div>
+
+  <main>
+    <section class="editor-section">
+      <div class="max-w-xl mx-auto bg-white p-8 rounded shadow">
+        <h1 class="text-2xl font-bold mb-6 text-center">Crear Evento Cultural</h1>
+        <form id="eventoForm" enctype="multipart/form-data" class="space-y-4">
+          <input type="text" name="titulo" placeholder="Título" required class="w-full border px-4 py-2 rounded" />
+          <textarea name="descripcion" placeholder="Descripción" required class="w-full border px-4 py-2 rounded"></textarea>
+
+          <label class="block font-semibold">Fecha de inicio:</label>
+          <input type="date" name="fecha_inicio" required class="w-full border px-4 py-2 rounded" />
+
+          <label class="flex items-center gap-2">
+            <input type="checkbox" id="eventoLargo" />
+            Evento de varios días
+          </label>
+
+          <div id="fechaFinContainer" class="hidden">
+            <label class="block font-semibold">Fecha de fin:</label>
+            <input type="date" name="fecha_fin" class="w-full border px-4 py-2 rounded" />
+          </div>
+
+          <label class="block font-semibold">Direccion:</label>
+          <input type="text" name="Direccion" placeholder="Ejemplo: Av.Belgrano Sur" required class="w-full border px-4 py-2 rounded" />
+
+          <input type="file" name="imagen" accept="image/*" onchange="previewImage(event)" />
+          <img id="preview" class="w-full border px-4 py-2 rounded hidden" />
+
+          <select name="centro_cultural" class="w-full border px-4 py-2 rounded">
+            <option value="">Selecciona un centro cultural</option>
+          </select>
+
+          <select name="categoria" class="w-full border px-4 py-2 rounded">
+            <option value="">Selecciona una categoría</option>
+          </select>
+
+          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+            Publicar Evento
+          </button>
+        </form>
+
+        <p id="mensaje" class="mt-4 text-green-600 font-medium text-center hidden"></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="/frontend/Vista Admin-Editores/admin/js/formularioeventos.js"></script>
+</body>
+</html>
