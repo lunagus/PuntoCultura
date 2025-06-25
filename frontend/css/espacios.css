@@ -317,18 +317,29 @@
 }
 
 /* css/puntos.css - Estilos para la página de Puntos Culturales */
-
+.puntos-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .puntos-section {
     padding-top: 60px;
     padding-bottom: 50px;
+    align-items: center;
 }
 
 .puntos-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 2.5rem;
-    margin-top: 0; /* puede estar en 0 si usamos padding en el section */
+    margin-top: 0;
+    align-items: center;
+    justify-content: center; /* <-- Esto centra las cards */
 }
+
 
 .punto-card {
     background: #ffffff;
@@ -337,6 +348,7 @@
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease;
+    align-items: center;
 }
 
 .punto-card:hover {

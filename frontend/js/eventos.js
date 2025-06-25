@@ -83,24 +83,37 @@ function renderPaginacion(totalPaginas) {
 function renderEventos(eventos) {
   const grid = document.getElementById("eventos-grid");
   grid.innerHTML = "";
-  document.getElementById("mensaje-no-eventos").style.display = eventos.length === 0 ? "block" : "none";
+  const mensajeVacio = document.getElementById("mensaje-no-eventos");
+  mensajeVacio.style.display = eventos.length === 0 ? "block" : "none";
+
   if (eventos.length === 0) return;
+
   // Paginación
   const totalPaginas = Math.ceil(eventos.length / eventosPorPagina);
   renderPaginacion(totalPaginas);
   const inicio = (paginaActual - 1) * eventosPorPagina;
   const fin = inicio + eventosPorPagina;
+
   eventos.slice(inicio, fin).forEach(ev => {
     const catObj = categoriasGlobal.find(c => c.id === ev.categoria);
     const catNombre = catObj ? catObj.nombre : "";
     const catClass = getCategoriaClass(catNombre);
-    const fechaInicio = new Date(ev.fecha_inicio).toLocaleDateString("es-AR", { year: "numeric", month: "long", day: "numeric" });
+
+    const fechaInicio = new Date(ev.fecha_inicio).toLocaleDateString("es-AR", {
+      year: "numeric", month: "long", day: "numeric"
+    });
+
     const fechaFin = ev.fecha_fin && ev.fecha_fin !== ev.fecha_inicio
-      ? ` al ${new Date(ev.fecha_fin).toLocaleDateString("es-AR", { year: "numeric", month: "long", day: "numeric" })}`
+      ? ` al ${new Date(ev.fecha_fin).toLocaleDateString("es-AR", {
+          year: "numeric", month: "long", day: "numeric"
+        })}`
       : "";
+
     const fechaTexto = fechaFin ? `Del ${fechaInicio}${fechaFin}` : fechaInicio;
+
     const card = document.createElement("div");
     card.className = `evento-card`;
+
     card.innerHTML = `
       ${ev.imagen ? `<img src="${ev.imagen}" alt="${ev.titulo}">` : ""}
       <div class="evento-card-content">
@@ -110,9 +123,14 @@ function renderEventos(eventos) {
         <span class="evento-categoria-badge ${catClass}">${catNombre}</span>
       </div>
     `;
+
+    // BONUS: Si en el futuro querés mostrar un modal con detalles
+    // card.addEventListener("click", () => mostrarModalEvento(ev));
+
     grid.appendChild(card);
   });
 }
+
 
 async function eliminarEvento(id) {
   const confirmacion = confirm("¿Seguro que quieres eliminar este evento?");

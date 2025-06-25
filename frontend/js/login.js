@@ -25,12 +25,10 @@ async function handleLogin(event) {
         const data = await response.json();
 
         if (response.ok) {
-            // Save tokens with the correct key names
             localStorage.setItem('authToken', data.access);
             localStorage.setItem('refresh', data.refresh);
             localStorage.setItem('userType', 'admin');
 
-            // Redirect to protected admin page
             window.location.href = '/frontend/Vista Admin-Editores/admin/eventos-c.html';
         } else {
             errorMessage.textContent = data.detail || 'Credenciales inválidas';

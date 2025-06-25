@@ -9,6 +9,15 @@ document.addEventListener('DOMContentLoaded', function() {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
+
+buttonText: {
+  today:    'Hoy',
+  month:    'Mes',
+  week:     'Semana',
+  day:      'Día',
+  list:     'Agenda'
+},
+
     events: function(fetchInfo, successCallback, failureCallback) {
       fetch('http://127.0.0.1:8000/api/eventos/')
         .then(response => {

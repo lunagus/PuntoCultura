@@ -10,100 +10,88 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/frontend/css/espacios.css">
-    <link rel="shortcut icon" href="/frontend/assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon">
+    <link rel="stylesheet" href="/Frontend/css/bases/base.css">
+    <link rel="stylesheet" href="/Frontend/css/espacios.css">
+    <link rel="shortcut icon" href="/Frontend/assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon">
 </head>
 
 <body>
     <header class="header">
         <nav>
             <div class="logo">
-                <a href="/frontend/pages/index.html">
-                    <img src="/frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="logo" width="50px"></a>
+                <a href="/Frontend/pages/index.html">
+                    <img src="/Frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="logo" width="50px"></a>
                 <a href="https://sde.gob.ar/" target="_blank">
-                    <img src="/frontend/assets/icons/logo-sde.svg" alt="logo" width="100px"></a>
+                    <img src="/Frontend/assets/icons/logo-sde.svg" alt="logo" width="100px"></a>
             </div>
             <ul>
-                <li><a href="/frontend/pages/eventos.html">EVENTOS</a></li>
-                <li><a href="/frontend/pages/espacios culturales.html">ESPACIOS CULTURALES</a></li>
-                <li><a href="https://www.google.com/?hl=es">DNI CULTURAL</a></li>
+                <li><a href="/Frontend/pages/eventos.html">EVENTOS</a></li>
+                <li><a href="/Frontend/pages/espacios culturales.html">ESPACIOS CULTURALES</a></li>
+                <li><a href="whttps://www.google.com/?hl=es">DNI CULTURAL</a></li>
                 <li><a href="https://www.google.com/?hl=es">PATRIMONIO CULTURAL</a></li>
                 <li><a href="https://www.santiagocultura.gob.ar/biblioteca-digital-2.php">BIBLIOTECA DIGITAL</a></li>
-                <li><a href="/frontend/pages/contacto.html">CONTACTO</a></li>
+                <li><a href="/Frontend/pages/contacto.html">CONTACTO</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-
         <section id="hero">
             <div class="hero_content">
                 <h1>Nuestros Espacios Culturales</h1>
             </div>
         </section>
-    <section class="puntos-section">
-        <div class="puntos-grid">
-            <div class="punto-card">
-                <div class="punto-card-img-container">
-                    <img src="/frontend/assets/img/atr_teatro25demayo.jpg" alt="Teatro 25 de Mayo">
-                </div>
-                <div class="punto-card-content">
-                    <h3 class="punto-titulo">Teatro 25 de Mayo</h3>
-                    <p class="punto-direccion">Av. Belgrano Sur 555, Santiago del Estero</p>
-                    <a href="https://maps.google.com/?q=Teatro+25+de+Mayo+Santiago+del+Estero" target="_blank" class="punto-ubicacion-btn">Ver Ubicación</a>
-                </div>
+        <section class="puntos-section">
+            <div id="puntosGrid" class="puntos-grid">
+                <!-- Los espacios culturales se cargarán aquí dinámicamente con JavaScript -->
+                <p id="noEspacios" class="mensaje-vacio hidden">No se encontraron espacios culturales.</p>
             </div>
-
-            <div class="punto-card">
-                <div class="punto-card-img-container">
-                    <img src="/frontend/assets/img/Centro_Cultural_Del_Bicentenario_Santiago_del_Estero..jpg" alt="Centro Cultural del Bicentenario">
-                </div>
-                <div class="punto-card-content">
-                    <h3 class="punto-titulo">Centro Cultural del Bicentenario</h3>
-                    <p class="punto-direccion">Pellegrini 250, Santiago del Estero</p>
-                    <a href="https://maps.google.com/?q=Centro+Cultural+del+Bicentenario+Santiago+del+Estero" target="_blank" class="punto-ubicacion-btn">Ver Ubicación</a>
-                </div>
-            </div>
-
-            <div class="punto-card">
-                <div class="punto-card-img-container">
-                    <img src="/frontend/assets/img/museo.jpg" alt="Museo Histórico Provincial">
-                </div>
-                <div class="punto-card-content">
-                    <h3 class="punto-titulo">Museo Histórico Provincial</h3>
-                    <p class="punto-direccion">Av. Belgrano Sur 495, Santiago del Estero</p>
-                    <a href="https://maps.google.com/?q=Museo+Historico+Provincial+Santiago+del+Estero" target="_blank" class="punto-ubicacion-btn">Ver Ubicación</a>
-                </div>
-            </div>
-
-        </div>
-    </section>
+        </section>
     </main>
 
-    <footer id="footer">
+    <!-- Modal para el detalle del espacio cultural -->
+    <div id="modal-espacio" class="modal">
+        <div class="modal-contenido">
+            <span class="modal-cerrar">&times;</span>
+            <img id="modal-espacio-img" src="" alt="Imagen del Espacio Cultural" class="modal-img">
+            <h2 id="modal-espacio-titulo"></h2>
+            <div class="modal-gallery-container">
+                <div id="modal-espacio-gallery" class="modal-gallery">
+                    <!-- Las imágenes de la galería se cargarán aquí -->
+                </div>
+            </div>
+            <div class="modal-detalles">
+                <p><strong>Dirección:</strong> <span id="modal-espacio-direccion"></span></p>
+                <p><strong>Horario:</strong> <span id="modal-espacio-horario"></span></p>
+            </div>
+            <p id="modal-espacio-info-completa" class="modal-descripcion"></p>
+            <a id="modal-espacio-ubicacion-btn" href="#" target="_blank" class="punto-ubicacion-btn">Ver Ubicación en Mapa</a>
+        </div>
+    </div>
 
+    <footer id="footer">
         <div class="footer">
             <div class="footer-img">
-                <img src="/frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="Logo Secretaría de Deportes">
-                <img src="/frontend/assets/icons/logo-sde.svg" alt="Santiago del Estero">
+                <img src="/Frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="Logo Secretaría de Deportes">
+                <img src="/Frontend/assets/icons/logo-sde.svg" alt="Santiago del Estero">
             </div>
             <div class="footer-datos">
                 <div class="footer-social">
                     <h3>¡Seguinos en nuestras redes sociales!</h3>
-                        <a target="_blank" href="https://www.instagram.com/santiago.cultura?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img src="/frontend/assets/icons/instagram.svg"
+                        <a target="_blank" href="https://www.instagram.com/santiago.cultura?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img src="/Frontend/assets/icons/instagram.svg"
                             alt="instagram"></a>
-                        <a target="_blank" href="https://www.facebook.com/subsecretariadeculturadesantiagodelestero"><img src="/frontend/assets/icons/facebook.svg"
+                        <a target="_blank" href="https://www.facebook.com/subsecretariadeculturadesantiagodelestero"><img src="/Frontend/assets/icons/facebook.svg"
                             alt="facebook"></a>
                 </div>
 
-                <p>Subsecretaría de Cultura Casa Castro, Av Belgrano Sur 555<img width="12px" src="/frontend/assets/icons/location.svg" alt=""></p>
-                <a href="tel:(0385) 4225385">(0385) 4225385<img width="12px" src="assets/icons/phone.svg" alt=""></p>
-                <a href="mailto:prensa@santiagocultura.gob.ar">prensa@santiagocultura.gob.ar<img width="12px" src="/frontend/assets/icons/email.svg" alt=""></a>
+                <p>Subsecretaría de Cultura Casa Castro, Av Belgrano Sur 555<img width="12px" src="/Frontend/assets/icons/location.svg" alt=""></p>
+                <a href="tel:(0385) 4225385">(0385) 4225385<img width="12px" src="/Frontend/assets/icons/phone.svg" alt=""></p>
+                <a href="mailto:prensa@santiagocultura.gob.ar">prensa@santiagocultura.gob.ar<img width="12px" src="/Frontend/assets/icons/email.svg" alt=""></a>
             </div>
         </div>
-
     </footer>
-    <script src="/frontend/js/blurryNav.js"></script>
+    <script src="../js/blurryNav.js"></script>
+    <script src="/Frontend/js/espacios-culturales.js"></script>
 </body>
 
 </html>
