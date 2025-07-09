@@ -10,46 +10,46 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return await response.json();
         } catch (error) {
-            console.error(`Error en la conexión con ${url}:`, error);
+            console.error(`Error de conexión con ${url}:`, error);
             return null;
         }
     }
 
-    // Cargar estadísticas y hacerla global para que otros scripts la puedan llamar
-    window.loadStats = async function() { // <--- CAMBIO AQUÍ: `window.loadStats`
+    // Función para cargar estadísticas y hacerla global para que otros scripts la puedan llamar
+    window.loadStats = async function() {
         const totalEventosEl = document.getElementById('totalEventos');
         const totalCategoriasEl = document.getElementById('totalCategorias');
         const totalEspaciosEl = document.getElementById('totalEspacios');
-        const totalUsuariosEl = document.getElementById('totalUsuarios'); // Si tienes una API para usuarios
 
+        // Obtener la cantidad de eventos
         const eventos = await fetchData("http://127.0.0.1:8000/api/eventos/");
+        // Obtener la cantidad de categorías
         const categorias = await fetchData("http://127.0.0.1:8000/api/categorias/");
+        // Obtener la cantidad de espacios
         const espacios = await fetchData("http://127.0.0.1:8000/api/espacios/");
-        // Asumiendo que hay una API para usuarios en /api/users/
-        const usuarios = await fetchData("http://127.0.0.1:8000/api/users/"); // Si tienes API de usuarios
 
+        // Actualizar los elementos del DOM con las cantidades
         if (eventos) totalEventosEl.textContent = eventos.length;
         if (categorias) totalCategoriasEl.textContent = categorias.length;
         if (espacios) totalEspaciosEl.textContent = espacios.length;
-        if (usuarios) totalUsuariosEl.textContent = usuarios.length; // Actualiza el contador de usuarios
     };
 
-    // Cargar actividad reciente
+    // Cargar actividad reciente para eventos, categorías y espacios culturales
     async function loadRecentActivity() {
         const recentEventsList = document.getElementById('recentEventsList');
-        const recentEspaciosList = document.getElementById('recentEspaciosList');
         const recentCategoriasList = document.getElementById('recentCategoriasList');
+        const recentEspaciosList = document.getElementById('recentEspaciosList');
 
-        // Función auxiliar para renderizar listas
+        // Función auxiliar para renderizar listas de actividad reciente
         function renderList(element, items, displayKey, linkPrefix = '') {
-            element.innerHTML = ''; // Limpiar lista
+            element.innerHTML = ''; // Limpiar la lista actual
             if (items && items.length > 0) {
-                // Tomar los últimos 5 elementos
-                const recentItems = items.slice(-5).reverse(); // Últimos 5, ordenados del más nuevo al más viejo
+                // Tomar los últimos 5 elementos, ordenados del más nuevo al más antiguo
+                const recentItems = items.slice(-5).reverse(); 
                 recentItems.forEach(item => {
                     const li = document.createElement('li');
                     let itemText = item[displayKey];
-                    if (item.fecha_inicio) { // Para eventos
+                    if (item.fecha_inicio) { // Para eventos, añadir la fecha
                         itemText += ` (${new Date(item.fecha_inicio).toLocaleDateString()})`;
                     }
                     if (linkPrefix) {
@@ -68,12 +68,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const categorias = await fetchData("http://127.0.0.1:8000/api/categorias/");
         const espacios = await fetchData("http://127.0.0.1:8000/api/espacios/");
 
-        renderList(recentEventsList, eventos, 'titulo', '/Frontend/Vista Admin-Editores/admin/eventos-c.html'); // Asume que 'titulo' es el campo de nombre
-        renderList(recentCategoriasList, categorias, 'nombre', '/Frontend/Vista Admin-Editores/admin/categorias.html'); // Asume que 'nombre' es el campo de nombre
-        renderList(recentEspaciosList, espacios, 'nombre', '/Frontend/Vista Admin-Editores/admin/espacios.html'); // Asume que 'nombre' es el campo de nombre
+        // Renderizar las listas de actividad reciente
+        // Asumiendo que los enlaces del editor van a las mismas páginas de administración por ahora
+        renderList(recentEventsList, eventos, 'titulo', '/Frontend/Vista Admin-Editores/editor/eventos-editor.html'); 
+        renderList(recentCategoriasList, categorias, 'nombre', '/Frontend/Vista Admin-Editores/editor/categorias-editor.html'); 
+        renderList(recentEspaciosList, espacios, 'nombre', '/Frontend/Vista Admin-Editores/editor/espacios-editor.html'); 
     }
 
-    // Cargar todo al inicio
+    // Cargar todas las estadísticas y actividad reciente al inicializar la página
     window.loadStats(); // Llamada inicial a las estadísticas
-    loadRecentActivity();
+    loadRecentActivity(); // Llamada inicial a la actividad reciente
 });

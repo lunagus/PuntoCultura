@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
-    <!-- CSS base para la vista de editor (contiene sidebar, hidden, etc.) -->
+    <!-- CSS base para la vista de editor -->
     <link rel="stylesheet" href="/Frontend/Vista Admin-Editores/editor/css/estilo.editor.css">
-    <!-- CSS específico para categorías (definirá el estilo del formulario en el modal y la tabla) -->
+    <!-- CSS específico para categorías -->
     <link rel="stylesheet" href="/Frontend/Vista Admin-Editores/admin/css/categorias.css">
     <title>Categorías</title>
 </head>
@@ -15,28 +15,35 @@
     <button id="menu-toggle" class="menu-btn">&#9776;</button>
 
     <div class="sidebar">
-        <a href="/frontend/Vista Admin-Editores/admin/dashboardadmin.html">
-            <img src="/Frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="" /></a>
-            <h2>Menú</h2>
+        <a href="/Frontend/Vista Admin-Editores/editor/dashboardeditor.html">
+        <img src="/Frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="Logo Cultura" />
+        <h2>Menú</h2>
+        </a>
         <div class="Menú">
-            <a href="/Frontend/Vista Admin-Editores/admin/eventos-c.html">Eventos</a>
-            <a href="/Frontend/Vista Admin-Editores/admin/categorias.html">Categorias</a>
-            <a href="/Frontend/Vista Admin-Editores/admin/espacios.html">Espacios Culturales</a>
-            <a href="/frontend/Vista Admin-Editores/admin/agregarusers.html">Usuarios</a>
-        </div>
-        <div class="logout-section">
-            <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
+            <a href="/Frontend/Vista Admin-Editores/editor/eventos-editor.html">Eventos</a>
+            <a href="/Frontend/Vista Admin-Editores/editor/categorias-editor.html">Categorias</a>
+            <a href="/Frontend/Vista Admin-Editores/editor/espacios-editor.html">Espacios Culturales</a>
         </div>
     </div>
 
     <main>
         <div class="contenedor-categorias">
             <h1 class="page-title">Administrar Categorías</h1>
+
+            <!-- Tabla para mostrar las categorías existentes -->
             <div class="categorias-list-container">
                 <h2 class="list-title">Categorías Existentes</h2>
-                <div id="categoriasGrid" class="categorias-grid">
-                    <!-- Las categorías se cargarán aquí dinámicamente con JavaScript -->
-                </div>
+                <table id="categoriasTable" class="categorias-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Las categorías se cargarán aquí dinámicamente con JavaScript -->
+                    </tbody>
+                </table>
                 <p id="noCategorias" class="mensaje-vacio hidden">No hay categorías para mostrar.</p>
             </div>
         </div>
@@ -62,20 +69,20 @@
                     type="submit"
                     class="form-button"
                 >
-                    Guardar Categoría
+                    Añadir Categoría
                 </button>
             </form>
             <p
                 id="mensaje"
                 class="form-message hidden"
             >
-                ¡Categoría guardada con éxito!
+                ¡Categoría creada con éxito!
             </p>
         </div>
     </div>
-    </main>
+
     <!-- Scripts -->
-    <script src="/Frontend/Vista Admin-Editores/admin/js/categorias.js"></script>
+    <script src="/Frontend/Vista Admin-Editores/editor/js/categorias-editor.js"></script> <!-- Nuevo JS para editor -->
     <script src="/Frontend/Vista Admin-Editores/admin/js/sidebar.js"></script>
 </body>
 </html>

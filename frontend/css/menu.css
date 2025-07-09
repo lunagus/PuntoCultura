@@ -1,0 +1,85 @@
+/* frontend/css/menu.css
+   Estilos específicos para el menú de navegación y el menú hamburguesa. */
+
+/* Estilos para el botón de hamburguesa */
+.burger {
+    display: none; /* Ocultar por defecto en desktop */
+    cursor: pointer;
+    z-index: 1001; /* Asegura que esté sobre la navegación */
+}
+
+.burger div {
+    width: 25px;
+    height: 3px;
+    background-color: white; /* Color de las líneas de la hamburguesa */
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+/* Media Query para pantallas más pequeñas (teléfonos y tablets) */
+@media screen and (max-width: 768px) {
+    body {
+        overflow-x: hidden; /* Evita el scroll horizontal cuando el menú está abierto */
+    }
+
+    /* Estilos para la lista de navegación cuando está en modo hamburguesa */
+    .nav-links {
+        position: fixed; /* Usar 'fixed' para que el menú no se desplace con el scroll */
+        right: 0;
+        height: 92vh; /* Aproximadamente la altura de la vista menos el header */
+        top: 8vh; /* Se alinea debajo del header */
+        background-color: rgba(0, 0, 0, 0.9); /* Fondo oscuro semitransparente */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50%; /* Ancho del menú desplegado */
+        transform: translateX(100%); /* Ocultar el menú fuera de la pantalla por defecto */
+        transition: transform 0.5s ease-in;
+        z-index: 1000; /* Asegura que esté por encima de otros elementos */
+        justify-content: space-around; /* Distribuye los ítems verticalmente */
+    }
+
+    .nav-links li {
+        opacity: 0; /* Ocultar ítems hasta que el menú esté abierto */
+    }
+
+    /* Mostrar el botón de hamburguesa en tablets y móviles */
+    .burger {
+        display: block;
+    }
+
+    /* Clase para mostrar el menú deslizándose */
+    .nav-active {
+        transform: translateX(0%);
+    }
+
+    /* Animación de los enlaces de navegación */
+    @keyframes navLinkFade {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0px);
+        }
+    }
+
+    /* Animación de las líneas de la hamburguesa para convertirse en una "X" */
+    .toggle .line1 {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    .toggle .line2 {
+        opacity: 0;
+    }
+    .toggle .line3 {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+}
+
+/* Media Query para móviles más pequeños (ajustes adicionales si es necesario) */
+@media screen and (max-width: 480px) {
+    .nav-links {
+        width: 70%; /* Mayor ancho del menú en móviles muy pequeños */
+    }
+}

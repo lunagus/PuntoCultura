@@ -1,137 +1,251 @@
+// frontend/js/eventos.js
+// Este script gestiona la carga, filtrado, paginación y visualización de eventos,
+// incluyendo la apertura de un modal con detalles del evento.
+
 document.addEventListener("DOMContentLoaded", () => {
-  cargarEventos();
-  document.getElementById("filtro-texto").addEventListener("input", () => {paginaActual = 1; filtrarYRenderizar();});
-  document.getElementById("filtro-categoria").addEventListener("change", () => {paginaActual = 1; filtrarYRenderizar();});
+  cargarEventos(); // Carga los eventos al iniciar la página.
+
+  // Añade event listeners para los filtros de texto y categoría.
+  document.getElementById("filtro-texto").addEventListener("input", () => {
+    paginaActual = 1; // Reinicia la paginación al filtrar.
+    filtrarYRenderizar();
+  });
+  document.getElementById("filtro-categoria").addEventListener("change", () => {
+    paginaActual = 1; // Reinicia la paginación al cambiar la categoría.
+    filtrarYRenderizar();
+  });
+
+  // Event listeners para el modal
+  const eventoModal = document.getElementById('eventoModal');
+  const modalCloseBtn = document.querySelector('.modal-close-btn');
+
+  // Cierra el modal al hacer clic en el botón de cierre.
+  if (modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', cerrarModalEvento);
+  }
+
+  // Cierra el modal al hacer clic fuera del contenido del modal.
+  if (eventoModal) {
+    eventoModal.addEventListener('click', (e) => {
+      if (e.target === eventoModal) {
+        cerrarModalEvento();
+      }
+    });
+  }
 });
 
-let eventosGlobal = [];
-let categoriasGlobal = [];
-let paginaActual = 1;
-const eventosPorPagina = 9;
+let eventosGlobal = []; // Almacena todos los eventos cargados.
+let categoriasGlobal = []; // Almacena todas las categorías cargadas.
+let paginaActual = 1; // Página actual para la paginación.
+const eventosPorPagina = 9; // Número de eventos a mostrar por página.
 
+/**
+ * Carga los eventos y categorías desde la API.
+ */
 async function cargarEventos() {
-  // Obtener eventos y categorías
-  eventosGlobal = await fetch("http://127.0.0.1:8000/api/eventos/").then(r => r.json());
-  categoriasGlobal = await fetch("http://127.0.0.1:8000/api/categorias/").then(r => r.json());
+  try {
+    // Obtiene eventos y categorías de la API.
+    eventosGlobal = await fetch("http://127.0.0.1:8000/api/eventos/").then(r => r.json());
+    categoriasGlobal = await fetch("http://127.0.0.1:8000/api/categorias/").then(r => r.json());
 
-  // Llenar el dropdown de categorías
-  const selectCat = document.getElementById("filtro-categoria");
-  selectCat.innerHTML = '<option value="">Todas las categorías</option>';
-  categoriasGlobal.forEach(cat => {
-    const opt = document.createElement("option");
-    opt.value = cat.id;
-    opt.textContent = cat.nombre;
-    selectCat.appendChild(opt);
-  });
+    // Llena el dropdown de categorías.
+    const selectCat = document.getElementById("filtro-categoria");
+    selectCat.innerHTML = '<option value="">Todas las categorías</option>'; // Opción por defecto.
+    categoriasGlobal.forEach(cat => {
+      const opt = document.createElement("option");
+      opt.value = cat.id;
+      opt.textContent = cat.nombre;
+      selectCat.appendChild(opt);
+    });
 
-  // Ordenar eventos: futuros primero, luego presentes, luego pasados (por fecha de inicio descendente)
-  const hoy = new Date();
-  eventosGlobal = eventosGlobal.filter(ev => ev.publicado);
-  eventosGlobal.sort((a, b) => {
-    const fechaA = new Date(a.fecha_inicio);
-    const fechaB = new Date(b.fecha_inicio);
-    if (fechaA > hoy && fechaB <= hoy) return -1;
-    if (fechaA <= hoy && fechaB > hoy) return 1;
-    return fechaB - fechaA;
-  });
+    // Filtra y ordena los eventos: futuros primero, luego presentes, luego pasados.
+    const hoy = new Date();
+    eventosGlobal = eventosGlobal.filter(ev => ev.publicado); // Solo eventos publicados.
+    eventosGlobal.sort((a, b) => {
+      const fechaA = new Date(a.fecha_inicio);
+      const fechaB = new Date(b.fecha_inicio);
 
-  filtrarYRenderizar();
-}
+      const esFuturoA = fechaA > hoy;
+      const esFuturoB = fechaB > hoy;
 
-function filtrarYRenderizar() {
-  const texto = (document.getElementById("filtro-texto").value || "").toLowerCase();
-  const categoria = document.getElementById("filtro-categoria").value;
-  let eventosFiltrados = eventosGlobal.filter(ev => {
-    const coincideTexto = ev.titulo.toLowerCase().includes(texto) || ev.descripcion.toLowerCase().includes(texto);
-    const coincideCat = categoria ? (ev.categoria === parseInt(categoria)) : true;
-    return coincideTexto && coincideCat;
-  });
-  renderEventos(eventosFiltrados);
-}
+      if (esFuturoA && !esFuturoB) return -1;
+      if (!esFuturoA && esFuturoB) return 1;
 
-function getCategoriaClass(nombre) {
-  if (!nombre) return "cat-otros";
-  const map = {
-    "Música": "cat-musica",
-    "Literatura": "cat-literatura",
-    "Artesanías": "cat-artesanias",
-    "Cine y Audiovisual": "cat-cine",
-    "Plástica": "cat-plastica",
-    "Religiosidad": "cat-religiosidad",
-    "Teatro": "cat-teatro",
-    "Mitos y Leyendas": "cat-mitos",
-    "Identidad": "cat-identidad",
-    "Gastronomía": "cat-gastronomia",
-    "Danzas Folklóricas": "cat-danzas"
-  };
-  return map[nombre] || "cat-otros";
-}
+      const esPasadoA = new Date(a.fecha_fin || a.fecha_inicio) < hoy;
+      const esPasadoB = new Date(b.fecha_fin || b.fecha_inicio) < hoy;
 
-function renderPaginacion(totalPaginas) {
-  const pagDiv = document.getElementById("paginacion");
-  pagDiv.innerHTML = "";
-  if (totalPaginas <= 1) return;
-  for (let i = 1; i <= totalPaginas; i++) {
-    const btn = document.createElement("button");
-    btn.textContent = i;
-    btn.className = (i === paginaActual) ? "activo" : "";
-    btn.onclick = () => { paginaActual = i; filtrarYRenderizar(); };
-    pagDiv.appendChild(btn);
+      if (esPasadoA && !esPasadoB) return 1;
+      if (!esPasadoA && esPasadoB) return -1;
+
+      return fechaB - fechaA; // Ordena por fecha de inicio descendente.
+    });
+
+    // Verifica si hay un término de búsqueda en la URL (desde el buscador de la página principal).
+    const parametrosURL = new URLSearchParams(window.location.search);
+    const busquedaURL = parametrosURL.get('busqueda');
+    if (busquedaURL) {
+      document.getElementById("filtro-texto").value = busquedaURL; // Rellena el campo de búsqueda.
+    }
+
+    filtrarYRenderizar(); // Aplica los filtros y renderiza los eventos.
+
+  } catch (error) {
+    console.error("Error al cargar eventos o categorías:", error);
+    document.getElementById("mensaje-no-eventos").style.display = 'block'; // Muestra mensaje de error.
+    document.getElementById("mensaje-no-eventos").textContent = 'Error al cargar eventos. Por favor, intente de nuevo más tarde.';
   }
 }
 
-function renderEventos(eventos) {
+/**
+ * Filtra los eventos según el texto de búsqueda y la categoría seleccionada,
+ * y luego renderiza los eventos paginados.
+ */
+function filtrarYRenderizar() {
+  const textoFiltro = document.getElementById("filtro-texto").value.toLowerCase();
+  const categoriaFiltro = document.getElementById("filtro-categoria").value;
+
+  const eventosFiltrados = eventosGlobal.filter(evento => {
+    const tituloCoincide = evento.titulo.toLowerCase().includes(textoFiltro);
+    const descripcionCoincide = evento.descripcion.toLowerCase().includes(textoFiltro);
+    const categoriaCoincide = categoriaFiltro === "" || evento.categoria == categoriaFiltro;
+
+    return (tituloCoincide || descripcionCoincide) && categoriaCoincide;
+  });
+
+  renderizarEventos(eventosFiltrados); // Renderiza los eventos filtrados.
+  renderizarPaginacion(eventosFiltrados.length); // Renderiza los botones de paginación.
+}
+
+/**
+ * Renderiza las tarjetas de eventos en la cuadrícula y añade event listeners para el modal.
+ * @param {Array} eventos - La lista de eventos a renderizar.
+ */
+function renderizarEventos(eventos) {
   const grid = document.getElementById("eventos-grid");
-  grid.innerHTML = "";
-  const mensajeVacio = document.getElementById("mensaje-no-eventos");
-  mensajeVacio.style.display = eventos.length === 0 ? "block" : "none";
+  grid.innerHTML = ""; // Limpia la cuadrícula actual.
 
-  if (eventos.length === 0) return;
-
-  // Paginación
-  const totalPaginas = Math.ceil(eventos.length / eventosPorPagina);
-  renderPaginacion(totalPaginas);
   const inicio = (paginaActual - 1) * eventosPorPagina;
   const fin = inicio + eventosPorPagina;
+  const eventosPagina = eventos.slice(inicio, fin);
 
-  eventos.slice(inicio, fin).forEach(ev => {
-    const catObj = categoriasGlobal.find(c => c.id === ev.categoria);
-    const catNombre = catObj ? catObj.nombre : "";
-    const catClass = getCategoriaClass(catNombre);
+  if (eventosPagina.length === 0) {
+    document.getElementById("mensaje-no-eventos").style.display = 'block';
+  } else {
+    document.getElementById("mensaje-no-eventos").style.display = 'none';
+  }
 
-    const fechaInicio = new Date(ev.fecha_inicio).toLocaleDateString("es-AR", {
-      year: "numeric", month: "long", day: "numeric"
-    });
-
-    const fechaFin = ev.fecha_fin && ev.fecha_fin !== ev.fecha_inicio
-      ? ` al ${new Date(ev.fecha_fin).toLocaleDateString("es-AR", {
-          year: "numeric", month: "long", day: "numeric"
-        })}`
-      : "";
-
-    const fechaTexto = fechaFin ? `Del ${fechaInicio}${fechaFin}` : fechaInicio;
-
+  eventosPagina.forEach(ev => {
     const card = document.createElement("div");
-    card.className = `evento-card`;
+    card.className = "evento-card";
+    // Asigna un color de banda basado en la categoría.
+    const categoriaNombre = categoriasGlobal.find(cat => cat.id == ev.categoria)?.nombre || 'Otros';
+    const categoriaClase = `cat-${categoriaNombre.toLowerCase().replace(/\s/g, '')}`;
 
     card.innerHTML = `
-      ${ev.imagen ? `<img src="${ev.imagen}" alt="${ev.titulo}">` : ""}
+      <div class="categoria-banda ${categoriaClase}"></div>
+      <img src="${ev.imagen || '/frontend/assets/img/default-event.jpg'}" alt="${ev.titulo}">
       <div class="evento-card-content">
-        <span class="evento-fecha">${fechaTexto}</span>
+        <span class="evento-categoria-badge ${categoriaClase}">${categoriaNombre}</span>
         <h3 class="evento-titulo">${ev.titulo}</h3>
-        <p class="evento-descripcion">${ev.descripcion}</p>
-        <span class="evento-categoria-badge ${catClass}">${catNombre}</span>
+        <p class="evento-fecha">${new Date(ev.fecha_inicio).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+        <p class="evento-descripcion">${ev.descripcion.substring(0, 100)}...</p>
       </div>
     `;
-
-    // BONUS: Si en el futuro querés mostrar un modal con detalles
-    // card.addEventListener("click", () => mostrarModalEvento(ev));
+    // Añade un event listener a cada tarjeta para abrir el modal.
+    card.addEventListener('click', () => mostrarModalEvento(ev));
 
     grid.appendChild(card);
   });
 }
 
+/**
+ * Renderiza los botones de paginación.
+ * @param {number} totalEventos - El número total de eventos filtrados.
+ */
+function renderizarPaginacion(totalEventos) {
+  const paginacionDiv = document.getElementById("paginacion");
+  paginacionDiv.innerHTML = ""; // Limpia los botones de paginación existentes.
 
+  const totalPaginas = Math.ceil(totalEventos / eventosPorPagina);
+
+  for (let i = 1; i <= totalPaginas; i++) {
+    const button = document.createElement("button");
+    button.textContent = i;
+    button.classList.add("paginacion-btn");
+    if (i === paginaActual) {
+      button.classList.add("activo"); // Marca el botón de la página actual.
+    }
+    button.addEventListener("click", () => {
+      paginaActual = i; // Cambia la página actual.
+      filtrarYRenderizar(); // Vuelve a renderizar los eventos para la nueva página.
+      window.scrollTo({ top: 0, behavior: 'smooth' }); // Desplaza al inicio de la página.
+    });
+    paginacionDiv.appendChild(button);
+  }
+}
+
+/**
+ * Muestra el modal con la información completa del evento.
+ * @param {Object} evento - El objeto del evento a mostrar.
+ */
+function mostrarModalEvento(evento) {
+  const modalOverlay = document.getElementById('eventoModal');
+  const modalImg = document.getElementById('modal-img');
+  const modalTitle = document.getElementById('modal-title');
+  const modalCategory = document.getElementById('modal-category');
+  const modalDate = document.getElementById('modal-date');
+  const modalTime = document.getElementById('modal-time');
+  const modalLocation = document.getElementById('modal-location');
+  const modalDescription = document.getElementById('modal-description');
+  const modalContent = document.querySelector('.modal-content');
+
+  // Rellena el modal con los datos del evento.
+  modalImg.src = evento.imagen || '/frontend/assets/img/default-event.jpg';
+  modalTitle.textContent = evento.titulo;
+  
+  const categoriaNombre = categoriasGlobal.find(cat => cat.id == evento.categoria)?.nombre || 'Otros';
+  modalCategory.textContent = categoriaNombre;
+  // Elimina clases de categoría anteriores y añade la nueva.
+  modalCategory.className = 'modal-category'; // Resetea las clases
+  modalCategory.classList.add(`cat-${categoriaNombre.toLowerCase().replace(/\s/g, '')}`);
+
+  const fechaInicio = new Date(evento.fecha_inicio);
+  const fechaFin = evento.fecha_fin ? new Date(evento.fecha_fin) : null;
+
+  let fechaTexto = fechaInicio.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+  if (fechaFin && fechaFin.toDateString() !== fechaInicio.toDateString()) {
+    fechaTexto += ` - ${fechaFin.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+  }
+  modalDate.textContent = `Fecha: ${fechaTexto}`;
+
+  modalTime.textContent = `Hora: ${evento.hora_inicio || 'No especificada'}${evento.hora_fin ? ` - ${evento.hora_fin}` : ''}`;
+  modalLocation.textContent = `Lugar: ${evento.lugar || 'No especificado'}`;
+  modalDescription.textContent = evento.descripcion;
+
+  // Muestra el modal y aplica la animación.
+  modalOverlay.style.display = 'flex';
+  setTimeout(() => {
+    modalContent.classList.add('active');
+  }, 10); // Pequeño retraso para la transición.
+}
+
+/**
+ * Cierra el modal de eventos.
+ */
+function cerrarModalEvento() {
+  const modalOverlay = document.getElementById('eventoModal');
+  const modalContent = document.querySelector('.modal-content');
+
+  // Aplica la animación de salida y luego oculta el modal.
+  modalContent.classList.remove('active');
+  setTimeout(() => {
+    modalOverlay.style.display = 'none';
+  }, 300); // Coincide con la duración de la transición CSS.
+}
+
+// Nota: La función eliminarEvento no se utiliza en esta implementación de vista previa/modal,
+// pero se mantiene por si el usuario desea añadir funcionalidad de administración.
+/*
 async function eliminarEvento(id) {
   const confirmacion = confirm("¿Seguro que quieres eliminar este evento?");
   if (!confirmacion) return;
@@ -151,7 +265,11 @@ async function eliminarEvento(id) {
     console.error("Error al eliminar evento:", error);
   }
 }
+*/
 
+// Nota: La función cargarOpciones parece estar relacionada con un formulario de administración,
+// no directamente con la visualización de eventos para el usuario final.
+/*
 async function cargarOpciones() {
   try {
     const centros = await fetch("http://127.0.0.1:8000/api/centros/").then((res) => res.json());
@@ -164,15 +282,8 @@ async function cargarOpciones() {
       option.textContent = c.nombre;
       centroSelect.appendChild(option);
     });
-
-    const categoriaSelect = document.getElementById("categoria");
-    categorias.forEach((cat) => {
-      const option = document.createElement("option");
-      option.value = cat.id;
-      option.textContent = cat.nombre;
-      categoriaSelect.appendChild(option);
-    });
   } catch (error) {
-    console.error("Error al cargar centros y categorías:", error);
+    console.error("Error al cargar opciones:", error);
   }
 }
+*/

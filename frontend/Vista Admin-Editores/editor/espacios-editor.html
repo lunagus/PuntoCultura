@@ -5,28 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
-    <!-- CSS base para la vista de editor (contiene sidebar, hidden, etc.) -->
-    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/editor/css/estilo.editor.css">
-    <!-- CSS específico para espacios (definirá el estilo del formulario en el modal y la tabla) -->
-    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/admin/css/espacios.css">
+    <!-- CSS base para la vista de editor -->
+    <link rel="stylesheet" href="/Frontend/Vista Admin-Editores/editor/css/estilo.editor.css">
+    <!-- CSS específico para espacios -->
+    <link rel="stylesheet" href="/Frontend/Vista Admin-Editores/admin/css/espacios.css">
     <title>Espacios Culturales</title>
 </head>
 <body>
     <button id="menu-toggle" class="menu-btn">&#9776;</button>
 
     <div class="sidebar">
-        <a href="/frontend/Vista Admin-Editores/admin/dashboardadmin.html">
-            <img src="/Frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="" /></a>
+        <a href="/Frontend/Vista Admin-Editores/editor/dashboardeditor.html">
+            <img src="/Frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="Logo Cultura" />
             <h2>Menú</h2>
-            
+        </a>
         <div class="Menú">
-            <a href="/frontend/Vista Admin-Editores/admin/eventos-c.html">Eventos</a>
-            <a href="/frontend/Vista Admin-Editores/admin/categorias.html">Categorias</a>
-            <a href="/frontend/Vista Admin-Editores/admin/espacios.html">Espacios Culturales</a>
-            <a href="/frontend/Vista Admin-Editores/admin/agregarusers.html">Usuarios</a>
-        </div>
-        <div class="logout-section">
-            <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
+            <a href="/Frontend/Vista Admin-Editores/editor/eventos-editor.html">Eventos</a>
+            <a href="/Frontend/Vista Admin-Editores/editor/categorias-editor.html">Categorias</a>
+            <a href="/Frontend/Vista Admin-Editores/editor/espacios-editor.html" class="active">Espacios Culturales</a>
         </div>
     </div>
 
@@ -64,13 +60,22 @@
                     class="form-input"
                 />
 
-                <label for="descripcion">Descripción:</label>
+                <label for="breve_descripcion">Breve Descripción:</label>
                 <textarea
-                    name="descripcion"
-                    id="descripcion"
-                    placeholder="Descripción detallada del espacio cultural"
-                    rows="4"
+                    name="breve_descripcion"
+                    id="breve_descripcion"
+                    placeholder="Una descripción corta para la vista previa."
+                    rows="2"
                     required
+                    class="form-input"
+                ></textarea>
+
+                <label for="info_completa">Información Completa:</label>
+                <textarea
+                    name="info_completa"
+                    id="info_completa"
+                    placeholder="Información detallada sobre el espacio cultural, historia, servicios, etc."
+                    rows="5"
                     class="form-input"
                 ></textarea>
                 
@@ -80,52 +85,50 @@
                     name="direccion"
                     id="direccion"
                     placeholder="Ej: Av. Belgrano Sur 555"
+                    required
                     class="form-input"
                 />
 
-                <label for="ubicacion_lat">Latitud:</label>
+                <label for="horario_apertura">Horario de Apertura:</label>
                 <input
-                    type="number"
-                    name="ubicacion_lat"
-                    id="ubicacion_lat"
-                    placeholder="Ej: -27.795100"
-                    step="any"
+                    type="time"
+                    name="horario_apertura"
+                    id="horario_apertura"
                     class="form-input"
                 />
 
-                <label for="ubicacion_lon">Longitud:</label>
+                <label for="horario_cierre">Horario de Cierre:</label>
                 <input
-                    type="number"
-                    name="ubicacion_lon"
-                    id="ubicacion_lon"
-                    placeholder="Ej: -64.261500"
-                    step="any"
+                    type="time"
+                    name="horario_cierre"
+                    id="horario_cierre"
                     class="form-input"
                 />
 
-                <label for="imagen">Imagen:</label>
+                <label for="galeria_imagenes">Subir Imágenes (Galería):</label>
                 <input
                     type="file"
-                    name="imagen"
-                    id="imagen"
+                    name="galeria_imagenes"
+                    id="galeria_imagenes"
                     accept="image/*"
-                    onchange="previsualizarImagen(event)"
+                    multiple
+                    onchange="previsualizarMultiplesArchivos(event)"
                     class="form-input"
                 />
-                <div id="preview-imagen" class="image-preview"></div>
+                <div id="preview-galeria" class="image-previews"></div>
 
-                <div class="form-checkbox-group">
-                    <label for="publicado" class="checkbox-label">
-                        <input type="checkbox" name="publicado" id="publicado" class="form-checkbox" />
-                        <span class="checkmark"></span>
-                        Publicar centro cultural (desmarcar para guardar como borrador)
-                    </label>
-                </div>
+                <label for="imagen_portada_select">Seleccionar Imagen de Portada:</label>
+                <select name="imagen_portada_select" id="imagen_portada_select" class="form-input">
+                    <option value="">Selecciona una imagen de la galería</option>
+                    <!-- Las opciones se generarán dinámicamente desde JS -->
+                </select>
 
-                <div class="form-buttons">
-                    <button type="submit" name="action" value="save" class="form-button">Guardar Espacio</button>
-                    <button type="button" onclick="guardarComoBorrador()" class="form-button secondary">Guardar como Borrador</button>
-                </div>
+                <button
+                    type="submit"
+                    class="form-button"
+                >
+                    Guardar Espacio
+                </button>
             </form>
             <p
                 id="mensaje"
@@ -137,7 +140,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="/frontend/Vista Admin-Editores/admin/js/espacios.js"></script>
-    <script src="/frontend/Vista Admin-Editores/admin/js/sidebar.js"></script>
+    <script src="/Frontend/Vista Admin-Editores/editor/js/espacios-editor.js"></script> <!-- Nuevo JS para editor -->
+    <script src="/Frontend/Vista Admin-Editores/admin/js/sidebar.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -11,22 +11,21 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/frontend/css/index.css">
+    <link rel="stylesheet" href="/frontend/css/responsive.css">
+    <link rel="stylesheet" href="/frontend/css/menu.css"> <!-- Nuevo archivo CSS para el menú hamburguesa -->
     <link rel="shortcut icon" href="/frontend/assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.min.js"></script>
-
 </head>
 
 <body>
     <header class="header">
         <nav>
             <div class="logo">
-                <a href="#">
+                <a href="/frontend/pages/index.html">
                     <img src="/frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="logo" width="50px"></a>
-                <!-- <a href="https://sde.gob.ar/" target="_blank">
-                    <img src="/frontend/assets/icons/logo-sde.svg" alt="logo" width="100px"></a> -->
             </div>
-            <ul>
+            <ul class="nav-links"> <!-- Clase añadida para el menú hamburguesa -->
                 <li><a href="/frontend/pages/eventos.html">EVENTOS</a></li>
                 <li><a href="/frontend/pages/espacios culturales.html">ESPACIOS CULTURALES</a></li>
                 <li><a href="https://www.google.com/?hl=es">DNI CULTURAL</a></li>
@@ -34,6 +33,11 @@
                 <li><a href="https://www.santiagocultura.gob.ar/biblioteca-digital-2.php">BIBLIOTECA DIGITAL</a></li>
                 <li><a href="/frontend/pages/contacto.html">CONTACTO</a></li>
             </ul>
+            <div class="burger"> <!-- Botón de hamburguesa -->
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
         </nav>
     </header>
 
@@ -50,12 +54,7 @@
         <section class="carousel-section">
             <div class="carousel-3d-container">
                 <div class="carousel-3d" id="carousel">
-                    <div class="card active">
-                        <img src="/frontend/assets/img/celebrando-97-anos-del-iconico-puente-carretero-que-une-la-banda-y-santiago-del-estero.jpg" alt="Trabajo 1" />
-                    </div>
-                    <div class="card"><img src="/frontend/assets/img/Centro_Cultural_Del_Bicentenario_Santiago_del_Estero..jpg" alt="Trabajo 2"></div>
-                    <div class="card"><img src="/frontend/assets/img/santiago-del-estero-instalada-como-la-provincia-con-mayor-crecimiento-del-pais.jpg" alt="Trabajo 3"></div>
-                    <div class="card"><img src="/frontend/assets/img/subseC.jpg" alt="Trabajo 4"></div>
+                    <!-- Las cards se cargarán dinámicamente con JavaScript -->
                 </div>
                 <button class="carousel-btn prev" onclick="prevSlide()">‹</button>
                 <button class="carousel-btn next" onclick="nextSlide()">›</button>
@@ -67,58 +66,33 @@
                 <input type="text" id="buscador" placeholder="Buscar..." class="search-input" />
             </div>
         </section>
-<section id="calendario-video">
-    <div class="calendario-video-grid">
-    <!-- Calendario -->
-    <div class="calendario-box">
-        <h2>Calendario de eventos</h2>
-        <div id="calendar"></div>
-    </div>
+        <section id="calendario-video">
+            <div class="calendario-video-grid">
+                <!-- Calendario -->
+                <div class="calendario-box">
+                    <h2>Calendario de eventos</h2>
+                    <div id="calendar"></div>
+                </div>
 
-    <!-- Video de Facebook -->
-    <div class="video-box">
-        <h2>Última publicación</h2>
-        <iframe 
-        src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fsubsecretariadeculturadesantiagodelestero%2Fposts%2Fpfbid02B8agN7aEWJYkgcAEwZVmSd5ZP5sb6RrStyPvCZhxU4sLRB4iboxGcQNS1bkbCvsLl&show_text=true&width=50&height=100&appId"
-        width="150%" 
-        height="700" 
-        style="border:none;overflow:hidden;border-radius:10px;" 
-        scrolling="no"
-        frameborder="0" 
-        allowfullscreen="true" 
-        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-        </iframe>
-    </div>
-    </div>
-</section>
-
-
-
-<!-- <section id="information">
-            <h2>INFORMACIÓN ÚTIL</h2>
-            <br>
-            <p>¿Qué estás buscando?</p>
-            <div class="information-cards">
-                <a class="card" href="pages/institucional.html">
-                    <img src="/frontend/assets/icons/edificio.svg" alt="institucion">
-                    <h3>INSTITUCION</h3>
-                </a>
-
-                <a class="card" href="pages/redepse.html">
-                    <img src="/frontend/assets/icons/futbol.svg" alt="Registrar Escuela">
-                    <h3>REGISTRAR ESCUELA</h3>
-                </a>
-
-                <a class="card" href="pages/gimnasio.html">
-                    <img src="/frontend/assets/icons/gym.svg" alt="Gimnasio">
-                    <h3>GIMNASIO PROVINCIAL</h3>
-                </a>
+                <!-- Video de Facebook -->
+                <div class="video-box">
+                    <h2>Última publicación</h2>
+                    <iframe
+                        src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fsubsecretariadeculturadesantiagodelestero%2Fposts%2Fpfbid02B8agN7aEWJYkgcAEwZVmSd5ZP5sb6RrStyPvCZhxU4sLRB4iboxGcQNS1bkbCvsLl&show_text=true&width=50&height=100&appId"
+                        width="150%"
+                        height="700"
+                        style="border:none;overflow:hidden;border-radius:10px;"
+                        scrolling="no"
+                        frameborder="0"
+                        allowfullscreen="true"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                    </iframe>
+                </div>
             </div>
-        </section> -->
+        </section>
     </main>
 
     <footer id="footer">
-
         <div class="footer">
             <div class="footer-img">
                 <img src="/frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="Logo Secretaría de Deportes">
@@ -132,13 +106,11 @@
                         <a target="_blank" href="https://www.facebook.com/subsecretariadeculturadesantiagodelestero"><img src="/frontend/assets/icons/facebook.svg"
                             alt="facebook"></a>
                 </div>
-
                 <p>Subsecretaría de Cultura Casa Castro, Av Belgrano Sur 555<img width="12px" src="/frontend/assets/icons/location.svg" alt=""></p>
                 <a href="tel:(0385) 4225385">(0385) 4225385<img width="12px" src="/frontend/assets/icons/phone.svg" alt=""></p>
                 <a href="mailto:prensa@santiagocultura.gob.ar">prensa@santiagocultura.gob.ar<img width="12px" src="/frontend/assets/icons/email.svg" alt=""></a>
             </div>
         </div>
-
     </footer>
 
     <script src="/frontend/js/blurryNav.js"></script>
@@ -146,7 +118,7 @@
     <script src="/frontend/js/calendario.js"></script>
     <script src="/frontend/js/carrusel.js"></script>
     <script src="/frontend/js/buscador.js"></script>
-    
+    <script src="/frontend/js/menu.js"></script> <!-- Nuevo archivo JS para el menú hamburguesa -->
 </body>
 
 </html>

@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
              // Si no hay imagen seleccionada o no se subió ninguna, puedes enviar un valor nulo
              // o manejarlo según lo que espere tu API para el campo de portada
-             formData.append('imagen_portada', '');
+                formData.append('imagen_portada', '');
         }
 
         const submitButton = form.querySelector('.form-button');

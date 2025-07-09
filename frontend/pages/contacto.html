@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/frontend/css/contacto.css" />
+  <link rel="stylesheet" href="/frontend/css/responsive.css">
+  <link rel="stylesheet" href="/frontend/css/menu.css"> <!-- Nuevo archivo CSS para el menú hamburguesa -->
   <link rel="shortcut icon" href="/frontend/assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon" />
 </head>
 
@@ -16,12 +18,10 @@
   <header class="header">
     <nav>
       <div class="logo">
-        <a href="/frontend/index.html">
+        <a href="/frontend/pages/index.html">
           <img src="/frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="logo" width="50px" /></a>
-       <!--- -> <a href="https://sde.gob.ar/" target="_blank">
-          <img src="/frontend/assets/icons/logo-sde.svg" alt="logo" width="100px" /></a> -->
       </div>
-      <ul>
+      <ul class="nav-links"> <!-- Clase añadida para el menú hamburguesa -->
         <li><a href="/frontend/pages/eventos.html">EVENTOS</a></li>
         <li><a href="/frontend/pages/espacios culturales.html">ESPACIOS CULTURALES</a></li>
         <li><a href="#">DNI CULTURAL</a></li>
@@ -29,6 +29,11 @@
         <li><a href="https://www.santiagocultura.gob.ar/biblioteca-digital-2.php">BIBLIOTECA DIGITAL</a></li>
         <li><a href="/frontend/pages/contacto.html">CONTACTO</a></li>
       </ul>
+      <div class="burger"> <!-- Botón de hamburguesa -->
+          <div class="line1"></div>
+          <div class="line2"></div>
+          <div class="line3"></div>
+      </div>
     </nav>
   </header>
 
@@ -90,6 +95,7 @@
   </footer>
 
   <script src="../js/blurryNav.js"></script>
+  <script src="/frontend/js/menu.js"></script> <!-- Nuevo archivo JS para el menú hamburguesa -->
 </body>
 
 </html>

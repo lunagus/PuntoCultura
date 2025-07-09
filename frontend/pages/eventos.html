@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,8 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/frontend/css/eventos.css">
+    <link rel="stylesheet" href="/frontend/css/responsive.css">
+    <link rel="stylesheet" href="/frontend/css/menu.css"> <!-- Nuevo archivo CSS para el menú hamburguesa -->
     <link rel="shortcut icon" href="/frontend/assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
@@ -21,10 +23,8 @@
             <div class="logo">
                 <a href="/frontend/pages/index.html">
                     <img src="/frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="logo" width="50px"></a>
-                <!-- <a href="https://sde.gob.ar/" target="_blank">
-                    <img src="/frontend/assets/icons/logo-sde.svg" alt="logo" width="100px"></a> -->
             </div>
-            <ul>
+            <ul class="nav-links"> <!-- Clase añadida para el menú hamburguesa -->
                 <li><a href="/frontend/pages/eventos.html">EVENTOS</a></li>
                 <li><a href="/frontend/pages/espacios culturales.html">ESPACIOS CULTURALES</a></li>
                 <li><a href="https://www.google.com/?hl=es">DNI CULTURAL</a></li>
@@ -32,6 +32,11 @@
                 <li><a href="https://www.santiagocultura.gob.ar/biblioteca-digital-2.php">BIBLIOTECA DIGITAL</a></li>
                 <li><a href="/frontend/pages/contacto.html">CONTACTO</a></li>
             </ul>
+            <div class="burger"> <!-- Botón de hamburguesa -->
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
         </nav>
     </header>
 
@@ -73,110 +78,25 @@
         </div>
     </footer>
 
+    <!-- Modal de Eventos -->
+    <div id="eventoModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <img id="modal-img" src="" alt="Imagen del evento" class="modal-img">
+            <h2 id="modal-title" class="modal-title"></h2>
+            <span id="modal-category" class="modal-category"></span>
+            <p id="modal-date" class="modal-date"></p>
+            <p id="modal-time" class="modal-time"></p>
+            <p id="modal-location" class="modal-location"></p>
+            <p id="modal-description" class="modal-description"></p>
+        </div>
+    </div>
+
     <script src="/frontend/js/blurryNav.js"></script>
     <script src="/frontend/js/eventos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
-
-<style>
-* {
-    margin: 0;
-    box-sizing: border-box;
-    font-family: "Montserrat", sans-serif;
-    scroll-behavior: smooth;
-}
-.header {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    padding: 20px 0px;
-    position: fixed;
-    transition: background-color 0.3s ease;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: transparent;
-}
-.header.scrolled {
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: background-color 0.3s ease;
-}
-nav {
-    width: 80%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-}
-nav .logo {
-    display: flex;
-    gap: 20px;
-}
-nav ul {
-    display: flex;
-    list-style: none;
-    gap: 30px;
-}
-nav ul li a {
-    text-decoration: none;
-    color: white;
-    font-size: 12px;
-    transition: 0.1s;
-}
-nav ul li a:hover {
-    color: #12bcd3;
-}
-#hero {
-    color: white;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 55vh;
-    overflow-x: hidden;
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)), url("/frontend/assets/img/feria-del-libro.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    justify-content: flex-end;
-    align-items: center;
-}
-.hero_content {
-    display: flex;
-    width: 80%;
-    height: 80%;
-    justify-content: flex-start;
-    align-items: flex-end;
-    flex-wrap: wrap;
-}
-.hero_content h1 {
-    margin-bottom: 20px;
-    color: white;
-    font-size: 3rem;
-    text-shadow: 1px 1px 100px black;
-}
-main { margin-top: 0; }
-.filtros-bar {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    justify-content: center;
-    margin: 30px 0 0 0;
-}
-</style>
-<script>
-// Header scroll effect
-window.addEventListener('scroll', function() {
-    const header = document.querySelector('.header');
-    if(window.scrollY > 30) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
-    }
-});
-</script>
+    <script src="/frontend/js/menu.js"></script> <!-- Nuevo archivo JS para el menú hamburguesa -->
 </body>
 
 </html>

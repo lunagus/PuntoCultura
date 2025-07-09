@@ -29,7 +29,7 @@ async function handleLogin(event) {
             localStorage.setItem('refresh', data.refresh);
             localStorage.setItem('userType', 'admin');
 
-            window.location.href = '/frontend/Vista Admin-Editores/admin/eventos-c.html';
+            window.location.href = '/frontend/Vista Admin-Editores/admin/dashboardadmin.html';
         } else {
             errorMessage.textContent = data.detail || 'Credenciales inválidas';
             errorMessage.style.display = 'block';

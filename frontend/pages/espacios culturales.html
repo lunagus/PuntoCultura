@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,8 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/frontend/css/espacios.css">
+    <link rel="stylesheet" href="/frontend/css/responsive.css">
+    <link rel="stylesheet" href="/frontend/css/menu.css"> <!-- Nuevo archivo CSS para el menú hamburguesa -->
     <link rel="shortcut icon" href="/frontend/assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon">
 </head>
 
@@ -20,10 +22,8 @@
             <div class="logo">
                 <a href="/frontend/pages/index.html">
                     <img src="/frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="logo" width="50px"></a>
-                <!-- <a href="https://sde.gob.ar/" target="_blank">
-                    <img src="/frontend/assets/icons/logo-sde.svg" alt="logo" width="100px"></a> -->
             </div>
-            <ul>
+            <ul class="nav-links"> <!-- Clase añadida para el menú hamburguesa -->
                 <li><a href="/frontend/pages/eventos.html">EVENTOS</a></li>
                 <li><a href="/frontend/pages/espacios culturales.html">ESPACIOS CULTURALES</a></li>
                 <li><a href="https://www.google.com/?hl=es">DNI CULTURAL</a></li>
@@ -31,57 +31,36 @@
                 <li><a href="https://www.santiagocultura.gob.ar/biblioteca-digital-2.php">BIBLIOTECA DIGITAL</a></li>
                 <li><a href="/frontend/pages/contacto.html">CONTACTO</a></li>
             </ul>
+            <div class="burger"> <!-- Botón de hamburguesa -->
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
         </nav>
     </header>
 
     <main>
-
         <section id="hero">
             <div class="hero_content">
                 <h1>Nuestros Espacios Culturales</h1>
             </div>
         </section>
-    <section class="puntos-section">
-        <div class="puntos-grid">
-            <div class="punto-card">
-                <div class="punto-card-img-container">
-                    <img src="/frontend/assets/img/atr_teatro25demayo.jpg" alt="Teatro 25 de Mayo">
-                </div>
-                <div class="punto-card-content">
-                    <h3 class="punto-titulo">Teatro 25 de Mayo</h3>
-                    <p class="punto-direccion">Av. Belgrano Sur 555, Santiago del Estero</p>
-                    <a href="https://maps.google.com/?q=Teatro+25+de+Mayo+Santiago+del+Estero" target="_blank" class="punto-ubicacion-btn">Ver Ubicación</a>
-                </div>
-            </div>
 
-            <div class="punto-card">
-                <div class="punto-card-img-container">
-                    <img src="/frontend/assets/img/Centro_Cultural_Del_Bicentenario_Santiago_del_Estero..jpg" alt="Centro Cultural del Bicentenario">
-                </div>
-                <div class="punto-card-content">
-                    <h3 class="punto-titulo">Centro Cultural del Bicentenario</h3>
-                    <p class="punto-direccion">Pellegrini 250, Santiago del Estero</p>
-                    <a href="https://maps.google.com/?q=Centro+Cultural+del+Bicentenario+Santiago+del+Estero" target="_blank" class="punto-ubicacion-btn">Ver Ubicación</a>
-                </div>
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" id="buscador-espacios" placeholder="Buscar espacios..." class="search-input" />
             </div>
+        </section>
 
-            <div class="punto-card">
-                <div class="punto-card-img-container">
-                    <img src="/frontend/assets/img/museo.jpg" alt="Museo Histórico Provincial">
-                </div>
-                <div class="punto-card-content">
-                    <h3 class="punto-titulo">Museo Histórico Provincial</h3>
-                    <p class="punto-direccion">Av. Belgrano Sur 495, Santiago del Estero</p>
-                    <a href="https://maps.google.com/?q=Museo+Historico+Provincial+Santiago+del+Estero" target="_blank" class="punto-ubicacion-btn">Ver Ubicación</a>
-                </div>
+        <section class="puntos-section">
+            <div class="puntos-grid">
+                <!-- Las tarjetas de espacios culturales se cargarán dinámicamente aquí con JavaScript -->
+                <p id="mensaje-no-espacios" style="text-align: center; color: #555; display: none;">No se encontraron espacios culturales.</p>
             </div>
-
-        </div>
-    </section>
+        </section>
     </main>
 
     <footer id="footer">
-
         <div class="footer">
             <div class="footer-img">
                 <img src="/frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="Logo Secretaría de Deportes">
@@ -95,15 +74,29 @@
                         <a target="_blank" href="https://www.facebook.com/subsecretariadeculturadesantiagodelestero"><img src="/frontend/assets/icons/facebook.svg"
                             alt="facebook"></a>
                 </div>
-
                 <p>Subsecretaría de Cultura Casa Castro, Av Belgrano Sur 555<img width="12px" src="/frontend/assets/icons/location.svg" alt=""></p>
                 <a href="tel:(0385) 4225385">(0385) 4225385<img width="12px" src="assets/icons/phone.svg" alt=""></p>
                 <a href="mailto:prensa@santiagocultura.gob.ar">prensa@santiagocultura.gob.ar<img width="12px" src="/frontend/assets/icons/email.svg" alt=""></a>
             </div>
         </div>
-
     </footer>
+
+    <!-- Modal de Espacios Culturales -->
+    <div id="espacioModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <img id="modal-espacio-img" src="" alt="Imagen del espacio cultural" class="modal-img">
+            <h2 id="modal-espacio-nombre" class="modal-title"></h2>
+            <p id="modal-espacio-horarios" class="modal-horarios"></p>
+            <p id="modal-espacio-direccion" class="modal-direccion"></p>
+            <p id="modal-espacio-descripcion" class="modal-description"></p>
+            <a id="modal-espacio-maplink" href="#" target="_blank" class="modal-map-btn">Ver en Mapa</a>
+        </div>
+    </div>
+
     <script src="/frontend/js/blurryNav.js"></script>
+    <script src="/frontend/js/menu.js"></script>
+    <script src="/frontend/js/espacios.js"></script> <!-- Asegúrate de que este script esté enlazado -->
 </body>
 
 </html>

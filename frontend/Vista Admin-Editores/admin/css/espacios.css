@@ -1,3 +1,4 @@
+
 /* ESPACIOS CULTURALES ADMIN PAGE SPECIFIC STYLES */
 
 .contenedor-espacios {
@@ -898,6 +899,7 @@
     padding: 12px;
     background-color: #dc3545;
     color: white;
+    font-family: 'Montserrat', sans-serif;
     border: none;
     border-radius: 8px;
     cursor: pointer;
