@@ -27,8 +27,8 @@ class CentroCultural(models.Model):
     direccion = models.CharField(max_length=255, null=True, blank=True)
     publicado = models.BooleanField(default=False)
     creado_por = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    horario_apertura = models.CharField(max_length=255, null=True, blank=True)
-    horario_cierre = models.CharField(max_length=255, null=True, blank=True)
+    horario_apertura = models.TimeField(null=True, blank=True)
+    horario_cierre = models.TimeField(null=True, blank=True)
 
     def __str__(self):
         return self.nombre

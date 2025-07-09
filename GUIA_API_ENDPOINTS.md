@@ -27,8 +27,8 @@ Esta guía documenta los endpoints de la API REST para gestionar **Centros Cultu
   "ubicacion_lon": "decimal",
   "direccion": "string",
   "publicado": true,
-  "horario_apertura": "string",
-  "horario_cierre": "string",
+  "horario_apertura": "HH:MM",
+  "horario_cierre": "HH:MM",
   "creado_por": user_id
 }
 ```
