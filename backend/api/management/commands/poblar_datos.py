@@ -1,12 +1,10 @@
-import os
 import requests
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from django.core.files.base import ContentFile
-from django.utils import timezone
-from datetime import datetime, timedelta
-import random
+from datetime import datetime
 from api.models import Categoria, CentroCultural, Evento
+from django.db import IntegrityError
 
 
 class Command(BaseCommand):
@@ -40,24 +38,37 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write("Iniciando población de datos...")
 
-        # Obtener el usuario editor
+        editor = None
+
         try:
             editor = User.objects.get(id=3)
+            self.stdout.write(self.style.SUCCESS("Usuario con id=3 encontrado."))
         except User.DoesNotExist:
-            self.stdout.write(
-                self.style.ERROR(
-                    "Usuario con id=3 no encontrado. Creando usuario editor..."
+            self.stdout.write(self.style.WARNING("Usuario con id=3 no encontrado."))
+            # Intentamos obtenerlo por username
+            try:
+                editor = User.objects.get(username="editor")
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        "Usuario con username='editor' ya existía con otro id."
+                    )
                 )
-            )
-            editor = User.objects.create_user(
-                username="editor",
-                email="editor@cultura.santiago.gob.ar",
-                password="editor123",
-                first_name="Editor",
-                last_name="Cultural",
-            )
-            editor.id = 3
-            editor.save()
+            except User.DoesNotExist:
+                # Crear nuevo usuario si no existe ninguno con ese username
+                try:
+                    editor = User.objects.create_user(
+                        username="editor",
+                        email="editor@cultura.santiago.gob.ar",
+                        password="editor123",
+                        first_name="Editor",
+                        last_name="Cultural",
+                    )
+                    self.stdout.write(self.style.SUCCESS("Usuario 'editor' creado."))
+                except IntegrityError as e:
+                    self.stderr.write(
+                        self.style.ERROR(f"No se pudo crear el usuario: {e}")
+                    )
+                return
 
         # Crear categorías (solo si no es --solo-eventos)
         if not options["solo_eventos"]:
@@ -590,7 +601,7 @@ class Command(BaseCommand):
         """Descarga una imagen de Unsplash basada en una palabra clave"""
         try:
             # Buscar imagen en Unsplash
-            search_url = f"https://api.unsplash.com/search/photos"
+            search_url = "https://api.unsplash.com/search/photos"
             headers = {"Authorization": f"Client-ID {access_key}"}
             params = {"query": keyword, "per_page": 1, "orientation": "landscape"}
 
@@ -608,6 +619,6 @@ class Command(BaseCommand):
 
                 return img_response.content
 
-        except Exception as e:
-            self.stdout.write(f"Error descargando imagen de Unsplash: {e}")
+        except Exception:
+            self.stdout.write("Error descargando imagen de Unsplash")
             return None
