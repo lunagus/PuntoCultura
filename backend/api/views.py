@@ -120,6 +120,20 @@ class UserDetailView(APIView):
             user.set_password(data["password"])
         if "username" in data:
             user.username = data["username"]
+        # --- Role/group management ---
+        from django.contrib.auth.models import Group
+
+        role = data.get("role", "")
+        editor_group, _ = Group.objects.get_or_create(name="Editor")
+        if role == "editor":
+            user.groups.add(editor_group)
+            user.is_staff = False
+        else:
+            user.groups.remove(editor_group)
+        if role == "admin":
+            user.is_staff = True
+        elif role != "admin":
+            user.is_staff = False
         user.save()
         from .serializers import UserListSerializer
 

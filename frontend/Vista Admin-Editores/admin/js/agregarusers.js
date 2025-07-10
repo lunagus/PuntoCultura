@@ -35,6 +35,13 @@ function renderUsers(users) {
         return;
     }
     users.forEach(user => {
+        let badges = '';
+        if (user.role === 'admin') {
+            badges += '<span class="user-role-tag admin">ADMIN</span>';
+        }
+        if (user.groups && user.groups.includes('Editor')) {
+            badges += '<span class="user-role-tag editor">EDITOR</span>';
+        }
         const card = document.createElement('div');
         card.className = 'user-card';
         card.innerHTML = `
@@ -43,7 +50,7 @@ function renderUsers(users) {
                 <p>${user.email || ''}</p>
             </div>
             <div class="user-actions-wrapper">
-                <span class="user-role-tag ${user.role || ''}">${user.role ? user.role.toUpperCase() : 'NINGUNO'}</span>
+                ${badges}
                 <div class="user-actions">
                     <button class="edit-user-btn" onclick="editUser('${user.id}')">Editar</button>
                     <button class="delete-user-btn" onclick="deleteUser('${user.id}')">Eliminar</button>
@@ -63,7 +70,10 @@ async function loadUsers() {
         id: u.id,
         username: u.username,
         email: u.email,
-        role: (u.is_staff || (u.groups && u.groups.includes('admin'))) ? 'admin' : (u.groups && u.groups.length ? u.groups[0] : ''),
+        // role: (u.is_staff || (u.groups && u.groups.includes('admin'))) ? 'admin' : (u.groups && u.groups.length ? u.groups[0] : ''),
+        // groups: u.groups || []
+        role: (u.is_staff || (u.groups && u.groups.includes('admin'))) ? 'admin' : (u.groups && u.groups.includes('Editor') ? 'editor' : ''),
+        groups: u.groups || []
     }));
     filterUsers();
 }
@@ -86,14 +96,19 @@ function mostrarFormulario(userId = null) {
     form.reset();
     msg.classList.add('hidden');
     document.getElementById('editingUserId').value = userId || '';
-    document.getElementById('passwordField').classList.toggle('hidden', !!userId);
+    const passwordField = document.getElementById('passwordField');
+    const passwordInput = document.getElementById('password');
     document.getElementById('newEmailField').classList.toggle('hidden', !userId);
     document.getElementById('newPasswordField').classList.toggle('hidden', !userId);
-    document.getElementById('adminPasswordField').classList.add('hidden'); // No password protection yet
+    const adminPasswordField = document.getElementById('adminPasswordField');
     document.getElementById('role').disabled = false;
     if (userId) {
         title.textContent = 'Editar Usuario';
         submitBtn.textContent = 'Guardar Cambios';
+        passwordField.classList.add('hidden');
+        passwordInput.required = false; // REMOVE required when editing
+        adminPasswordField.classList.remove('hidden'); // Show admin password field when editing
+        document.getElementById('adminPassword').required = true;
         const user = allUsers.find(u => String(u.id) === String(userId));
         if (user) {
             document.getElementById('username').value = user.username;
@@ -103,6 +118,11 @@ function mostrarFormulario(userId = null) {
     } else {
         title.textContent = 'Agregar Nuevo Usuario';
         submitBtn.textContent = 'Agregar Usuario';
+        passwordField.classList.remove('hidden');
+        passwordInput.required = true; // ADD required when adding
+        adminPasswordField.classList.add('hidden'); // Hide admin password field when adding
+        document.getElementById('adminPassword').required = false;
+        document.getElementById('role').value = '';
     }
     modal.style.display = 'flex';
 }
@@ -128,14 +148,15 @@ userForm.onsubmit = async function(e) {
     const newEmail = document.getElementById('newEmail').value.trim();
     const newPassword = document.getElementById('newPassword').value;
     const role = document.getElementById('role').value;
+    const adminPassword = document.getElementById('adminPassword').value;
     if (!editingId) {
         // Add editor
         if (role !== 'editor') {
             msg.textContent = 'Solo se permite agregar editores desde el frontend.';
             msg.classList.remove('hidden', 'success');
             msg.classList.add('error');
-        return;
-    }
+            return;
+        }
         const res = await apiFetch('http://127.0.0.1:8000/api/create-editor/', {
             method: 'POST',
             body: JSON.stringify({ username, email, password })
@@ -160,6 +181,7 @@ userForm.onsubmit = async function(e) {
     if (newEmail) updateData.email = newEmail;
     if (newPassword) updateData.password = newPassword;
     updateData.role = role || '';
+    updateData.admin_password = adminPassword;
     const res = await apiFetch(`http://127.0.0.1:8000/api/users/${editingId}/`, {
         method: 'PUT',
         body: JSON.stringify(updateData)
@@ -180,20 +202,68 @@ userForm.onsubmit = async function(e) {
 
 // Edit user
 window.editUser = function(id) { mostrarFormulario(id); };
-// Delete user
-window.deleteUser = async function(id) {
-    if (!confirm('¿Estás seguro de eliminar este usuario?')) return;
-    const res = await apiFetch(`http://127.0.0.1:8000/api/users/${id}/`, {
-        method: 'DELETE'
-            });
-    if (res && res.ok) {
-        await loadUsers();
-        alert('Usuario eliminado.');
-    } else if (res) {
-        const err = await res.json();
-        alert('No se pudo eliminar el usuario: ' + JSON.stringify(err));
-    }
+// Delete user with custom modal
+window.deleteUser = function(id) {
+    showDeleteUserModal(id);
 };
+
+function showDeleteUserModal(userId) {
+    const modal = document.getElementById('custom-alert-modal');
+    const title = document.getElementById('custom-alert-title');
+    const message = document.getElementById('custom-alert-message');
+    const passwordField = document.getElementById('custom-alert-password-field');
+    const passwordInput = document.getElementById('custom-alert-password');
+    const confirmBtn = document.getElementById('custom-alert-confirm-btn');
+    const cancelBtn = document.getElementById('custom-alert-cancel-btn');
+    const okBtn = document.getElementById('custom-alert-ok-btn');
+
+    title.textContent = 'Eliminar Usuario';
+    message.textContent = '¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.';
+    passwordField.classList.remove('hidden');
+    passwordInput.value = '';
+    confirmBtn.classList.remove('hidden');
+    cancelBtn.classList.remove('hidden');
+    okBtn.classList.add('hidden');
+    modal.style.display = 'flex';
+
+    // Remove previous event listeners
+    confirmBtn.onclick = null;
+    cancelBtn.onclick = null;
+
+    confirmBtn.onclick = async function() {
+        const adminPassword = passwordInput.value;
+        if (!adminPassword) {
+            passwordInput.focus();
+            passwordInput.classList.add('border-red-500');
+            return;
+        }
+        confirmBtn.disabled = true;
+        cancelBtn.disabled = true;
+        const res = await apiFetch(`http://127.0.0.1:8000/api/users/${userId}/`, {
+            method: 'DELETE',
+            body: JSON.stringify({ admin_password: adminPassword })
+        });
+        confirmBtn.disabled = false;
+        cancelBtn.disabled = false;
+        if (res && res.ok) {
+            await loadUsers();
+            closeCustomAlertModal();
+            alert('Usuario eliminado.');
+        } else if (res) {
+            const err = await res.json();
+            message.textContent = 'No se pudo eliminar el usuario: ' + (err.error || JSON.stringify(err));
+            passwordInput.classList.add('border-red-500');
+        }
+    };
+    cancelBtn.onclick = function() {
+        closeCustomAlertModal();
+    };
+}
+
+function closeCustomAlertModal() {
+    const modal = document.getElementById('custom-alert-modal');
+    modal.style.display = 'none';
+}
 
 // Role filter
     const roleButtons = document.querySelectorAll('.role-button');
@@ -216,6 +286,28 @@ if (modal) {
     document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') cerrarFormulario();
     });
+// Add close logic for the 'x' button
+const closeBtn = document.querySelector('.close-button');
+if (closeBtn) {
+    closeBtn.addEventListener('click', cerrarFormulario);
+}
 
 // Initial load
 window.addEventListener('DOMContentLoaded', loadUsers);
+
+// Logout function (consistent with other admin pages)
+window.logout = function() {
+    if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userType');
+        window.location.href = '/frontend/pages/login.html';
+    }
+};
+
+// Attach logout event to button
+window.addEventListener('DOMContentLoaded', function() {
+    const logoutBtn = document.querySelector('.logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', window.logout);
+    }
+});

@@ -68,8 +68,8 @@
                     </div>
                     <div>
                         <label for="role" class="block text-sm font-medium text-gray-700">Rol:</label>
-                        <select id="role" name="role" required class="form-input">
-                            <option value="">Seleccione un rol</option>
+                        <select id="role" name="role" class="form-input">
+                            <option value="">Ninguno</option>
                             <option value="admin">Administrador</option>
                             <option value="editor">Editor</option>
                         </select>
@@ -88,6 +88,10 @@
           <div class="modal-content" style="max-width: 400px;">
             <h3 id="custom-alert-title"></h3>
             <div id="custom-alert-message" style="margin: 20px 0;"></div>
+            <div id="custom-alert-password-field" class="hidden" style="margin-bottom: 10px;">
+              <label for="custom-alert-password" class="block text-sm font-medium text-gray-700">Contraseña de Administrador:</label>
+              <input type="password" id="custom-alert-password" class="form-input" autocomplete="current-password">
+            </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
               <button id="custom-alert-confirm-btn" class="form-button hidden">Confirmar</button>
               <button id="custom-alert-cancel-btn" class="form-button hidden" style="background:#dc3545;">Cancelar</button>

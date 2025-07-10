@@ -118,8 +118,24 @@ main {
     white-space: nowrap; /* Evita que el texto del rol se rompa */
 }
 
-.user-role-tag.admin { background-color: #8A2BE2; } /* Violeta para Admin */
-.user-role-tag.editor { background-color: #ffc107; color: #333;} /* Amarillo */
+.user-role-tag.admin {
+  background: #8A2BE2;
+  color: #fff;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.8em;
+  margin-right: 6px;
+  font-weight: bold;
+}
+.user-role-tag.editor {
+  background: #2563eb;
+  color: #fff;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.8em;
+  margin-right: 6px;
+  font-weight: bold;
+}
 .user-role-tag.viewer { background-color: #17a2b8; } /* Azul claro (aunque 'viewer' ya no se usa en los datos) */
 
 .user-actions {
