@@ -48,12 +48,12 @@ document.addEventListener('DOMContentLoaded', function() {
     window.previsualizarImagen = function(event) {
         const file = event.target.files[0];
         const preview = document.getElementById('preview-imagen');
-        
+
         if (preview) {
             preview.innerHTML = '';
             
             if (file && file.type.startsWith('image/')) {
-                const img = document.createElement('img');
+                    const img = document.createElement('img');
                 img.src = URL.createObjectURL(file);
                 img.style.width = '100%';
                 img.style.maxHeight = '200px';
@@ -172,14 +172,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             response = await authenticatedFetch(url, {
                 method: method,
-                body: formData, // FormData maneja automáticamente el 'Content-Type': 'multipart/form-data'
+                    body: formData, // FormData maneja automáticamente el 'Content-Type': 'multipart/form-data'
             });
 
             if (response && response.ok) {
                 if (isEditing) {
                     showMessage("¡Espacio cultural actualizado con éxito!", true);
                 } else {
-                    showMessage("¡Espacio cultural guardado con éxito!", true);
+                showMessage("¡Espacio cultural guardado con éxito!", true);
                 }
                 
                 form.reset();
