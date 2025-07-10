@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
     <!-- CSS base para la vista de editor (contiene sidebar, hidden, etc.) -->
-    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/editor/css/estilo.editor.css">
+    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/admin/css/estilo.editor.css">
     <!-- CSS específico para espacios (definirá el estilo del formulario en el modal y la tabla) -->
     <link rel="stylesheet" href="/frontend/Vista Admin-Editores/admin/css/espacios.css">
     <title>Espacios Culturales</title>
@@ -31,17 +31,12 @@
     </div>
 
     <main>
-        <div class="contenedor-espacios">
-            <h1 class="page-title">Administrar Espacios Culturales</h1>
-
-            <!-- Contenedor para la lista de espacios existentes (puede ser una tabla o grid) -->
-            <div class="espacios-list-container">
-                <h2 class="list-title">Espacios Culturales Existentes</h2>
-                <div id="espaciosGrid" class="espacios-grid">
-                    <!-- Los espacios se cargarán aquí dinámicamente con JavaScript -->
-                </div>
-                <p id="noEspacios" class="mensaje-vacio hidden">No hay espacios culturales para mostrar.</p>
+        <div class="espacios-list-container">
+            <h1 class="page-title">Espacios culturales</h1>
+            <div class="espacios-grid" id="espacios-list">
+                <!-- Las tarjetas de espacios se insertan aquí por JS -->
             </div>
+            <p id="noEspacios" class="mensaje-vacio hidden">No hay espacios culturales para mostrar.</p>
         </div>
     </main>
 
@@ -80,6 +75,22 @@
                     name="direccion"
                     id="direccion"
                     placeholder="Ej: Av. Belgrano Sur 555"
+                    class="form-input"
+                />
+
+                <label for="horario_apertura">Horario de Apertura:</label>
+                <input
+                    type="time"
+                    name="horario_apertura"
+                    id="horario_apertura"
+                    class="form-input"
+                />
+
+                <label for="horario_cierre">Horario de Cierre:</label>
+                <input
+                    type="time"
+                    name="horario_cierre"
+                    id="horario_cierre"
                     class="form-input"
                 />
 
@@ -137,6 +148,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="/frontend/js/login.js"></script>
     <script src="/frontend/Vista Admin-Editores/admin/js/espacios.js"></script>
     <script src="/frontend/Vista Admin-Editores/admin/js/sidebar.js"></script>
 </body>

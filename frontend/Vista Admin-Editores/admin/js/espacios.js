@@ -2,12 +2,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const espacioForm = document.getElementById("espacioForm");
     const mensajeDiv = document.getElementById("mensaje");
     const modalFormulario = document.getElementById('modal-formulario');
-    const previewGaleria = document.getElementById('preview-galeria');
-    const imagenPortadaSelect = document.getElementById('imagen_portada_select');
-    const espaciosGridContainer = document.getElementById('espaciosGrid');
+    const espaciosGridContainer = document.getElementById('espacios-list');
     const noEspaciosMessage = document.getElementById('noEspacios');
 
-    let uploadedFiles = []; // Para almacenar temporalmente los archivos para la selección de portada
+    // Variables globales para el modo de edición
+    let isEditing = false;
+    let currentEditId = null;
 
     // Función para mostrar/ocultar el mensaje
     function showMessage(text, isSuccess) {
@@ -30,49 +30,36 @@ document.addEventListener('DOMContentLoaded', function() {
     // Funciones para mostrar y cerrar el modal
     window.mostrarFormulario = function() {
         modalFormulario.style.display = "flex";
-        espacioForm.reset(); // Limpiar el formulario al abrir
-        previewGaleria.innerHTML = ''; // Limpiar previsualizaciones
-        imagenPortadaSelect.innerHTML = '<option value="">Selecciona una imagen de la galería</option>'; // Resetear select
-        uploadedFiles = []; // Resetear archivos subidos
+        if (!isEditing) espacioForm.reset(); // Limpiar el formulario solo si no está en modo edición
         mensajeDiv.classList.add("hidden"); // Ocultar mensaje al abrir
     };
 
     window.cerrarFormulario = function() {
         modalFormulario.style.display = "none";
         espacioForm.reset(); // Limpiar el formulario al cerrar
-        previewGaleria.innerHTML = '';
-        imagenPortadaSelect.innerHTML = '<option value="">Selecciona una imagen de la galería</option>';
-        uploadedFiles = [];
         mensajeDiv.classList.add("hidden"); // Ocultar mensaje al cerrar
+        
+        // Resetear modo de edición
+        isEditing = false;
+        currentEditId = null;
     };
 
-    // Función para previsualizar múltiples archivos y popular el selector de portada
-    window.previsualizarMultiplesArchivos = function(event) {
-        previewGaleria.innerHTML = '';
-        imagenPortadaSelect.innerHTML = '<option value="">Selecciona una imagen de la galería</option>';
-        uploadedFiles = []; // Resetear el array de archivos
-
-        const files = event.target.files;
-        if (files.length === 0) return;
-
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.alt = `Imagen ${i + 1}`;
-                    previewGaleria.appendChild(img);
-
-                    // Añadir la imagen al selector de portada
-                    const option = document.createElement('option');
-                    option.value = e.target.result; // Usar base64 como valor temporal para la previsualización
-                    option.textContent = `Imagen ${i + 1} (${file.name})`;
-                    imagenPortadaSelect.appendChild(option);
-                };
-                reader.readAsDataURL(file);
-                uploadedFiles.push(file); // Almacenar el objeto File original
+    // Función para previsualizar imagen
+    window.previsualizarImagen = function(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('preview-imagen');
+        
+        if (preview) {
+            preview.innerHTML = '';
+            
+            if (file && file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.style.width = '100%';
+                img.style.maxHeight = '200px';
+                img.style.objectFit = 'contain';
+                img.style.borderRadius = '8px';
+                preview.appendChild(img);
             }
         }
     };
@@ -80,50 +67,70 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para cargar los espacios culturales existentes
     async function loadEspacios() {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/espacios/"); // Asegúrate de que esta URL sea correcta
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            const response = await authenticatedFetch("http://127.0.0.1:8000/api/centros/"); // Corregido: usar /api/centros/
+            if (!response || !response.ok) {
+                throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
             }
-            const espacios = await response.json();
+            const centros = await response.json();
             
             espaciosGridContainer.innerHTML = ''; // Limpiar espacios existentes
-            if (espacios.length === 0) {
+            if (centros.length === 0) {
                 noEspaciosMessage.classList.remove('hidden');
             } else {
                 noEspaciosMessage.classList.add('hidden');
-                espacios.forEach(espacio => {
+                centros.forEach(centro => {
                     const espacioCard = document.createElement('div');
                     espacioCard.classList.add('espacio-card');
-                    espacioCard.dataset.id = espacio.id; // Almacenar el ID del espacio
+                    // Add class for published/draft
+                    if (centro.publicado) {
+                        espacioCard.classList.add('publicado');
+                    } else {
+                        espacioCard.classList.add('borrador');
+                    }
+                    espacioCard.dataset.id = centro.id; // Almacenar el ID del centro
 
-                    // Determinar la URL de la imagen de portada
-                    // Esto asume que tu API devuelve una URL para la imagen de portada.
-                    // Si tu API maneja esto de otra manera, deberás ajustarlo.
-                    const portadaUrl = espacio.imagen_portada || 'https://placehold.co/400x180/cccccc/333333?text=Sin+Imagen';
+                    // Determinar la URL de la imagen
+                    let imagenHtml = centro.imagen
+                        ? `<img src="${centro.imagen}" alt="${centro.nombre}">`
+                        : `<div class="placeholder-img">Sin Imagen</div>`;
+
+                    // Construir información adicional
+                    let additionalInfo = '';
+                    if (centro.horario_apertura && centro.horario_cierre) {
+                        additionalInfo += `<p><strong>Horario:</strong> ${centro.horario_apertura} - ${centro.horario_cierre}</p>`;
+                    }
+                    if (centro.direccion) {
+                        additionalInfo += `<p><strong>Dirección:</strong> ${centro.direccion}</p>`;
+                    }
 
                     espacioCard.innerHTML = `
-                        <img src="${portadaUrl}" alt="${espacio.nombre}" class="espacio-card-portada">
+                        <div class="espacio-card-img-container">
+                            ${imagenHtml}
+                            ${centro.publicado ? '' : `<span class="estado-badge borrador">Borrador</span>`}
+                        </div>
                         <div class="espacio-card-content">
-                            <h3>${espacio.nombre}</h3>
-                            <p>${espacio.breve_descripcion}</p>
+                            <h3>${centro.nombre}</h3>
+                            <div class="espacio-direccion"><strong>Dirección:</strong> ${centro.direccion || 'No especificada'}</div>
+                            <div class="espacio-descripcion">${centro.descripcion}</div>
+                            ${additionalInfo}
                             <div class="actions">
-                                <button class="edit-btn" data-id="${espacio.id}">Editar</button>
-                                <button class="delete-btn" data-id="${espacio.id}">Eliminar</button>
+                                <button class="edit-btn" data-id="${centro.id}">Editar</button>
+                                <button class="delete-btn" data-id="${centro.id}">Eliminar</button>
                             </div>
                         </div>
                     `;
                     espaciosGridContainer.appendChild(espacioCard);
 
                     // Añadir listeners para los botones de editar y eliminar
-                    espacioCard.querySelector('.edit-btn').addEventListener('click', () => editarEspacio(espacio.id));
-                    espacioCard.querySelector('.delete-btn').addEventListener('click', () => eliminarEspacio(espacio.id));
+                    espacioCard.querySelector('.edit-btn').addEventListener('click', () => editarEspacio(centro.id));
+                    espacioCard.querySelector('.delete-btn').addEventListener('click', () => eliminarEspacio(centro.id));
                 });
             }
         } catch (error) {
-            console.error("Error al cargar espacios culturales:", error);
-            showMessage("Error al cargar espacios culturales: " + error.message, false);
+            console.error("Error al cargar centros culturales:", error);
+            showMessage("Error al cargar centros culturales: " + error.message, false);
             noEspaciosMessage.classList.remove('hidden');
-            noEspaciosMessage.textContent = "Error al cargar espacios culturales.";
+            noEspaciosMessage.textContent = "Error al cargar centros culturales.";
         }
     }
 
@@ -133,60 +140,65 @@ document.addEventListener('DOMContentLoaded', function() {
         const form = e.target;
         const formData = new FormData();
         
-        // Añadir campos de texto
-        formData.append('nombre', form.nombre.value);
-        formData.append('breve_descripcion', form.breve_descripcion.value);
-        formData.append('info_completa', form.info_completa.value);
-        formData.append('direccion', form.direccion.value);
-        formData.append('horario_apertura', form.horario_apertura.value);
-        formData.append('horario_cierre', form.horario_cierre.value);
+        // Añadir campos de texto según el modelo del backend
+        formData.append('nombre', form.querySelector('[name="nombre"]').value);
+        formData.append('descripcion', form.querySelector('[name="descripcion"]').value);
+        formData.append('direccion', form.querySelector('[name="direccion"]').value);
+        formData.append('horario_apertura', form.querySelector('[name="horario_apertura"]').value);
+        formData.append('horario_cierre', form.querySelector('[name="horario_cierre"]').value);
+        formData.append('ubicacion_lat', form.querySelector('[name="ubicacion_lat"]').value);
+        formData.append('ubicacion_lon', form.querySelector('[name="ubicacion_lon"]').value);
+        formData.append('publicado', form.querySelector('[name="publicado"]').checked);
 
-        // Añadir imágenes de la galería
-        const galeriaFiles = document.getElementById('galeria_imagenes').files;
-        for (let i = 0; i < galeriaFiles.length; i++) {
-            formData.append('galeria_imagenes', galeriaFiles[i]);
-        }
-
-        // Añadir la imagen de portada seleccionada
-        const selectedPortadaIndex = imagenPortadaSelect.selectedIndex - 1; // -1 porque la primera opción es el placeholder
-        if (selectedPortadaIndex >= 0 && uploadedFiles[selectedPortadaIndex]) {
-            // Asumiendo que tu backend puede recibir el archivo de imagen original directamente como 'imagen_portada'
-            formData.append('imagen_portada', uploadedFiles[selectedPortadaIndex]);
-        } else {
-             // Si no hay imagen seleccionada o no se subió ninguna, puedes enviar un valor nulo
-             // o manejarlo según lo que espere tu API para el campo de portada
-             formData.append('imagen_portada', '');
+        // Añadir imagen principal
+        const imagenFile = document.getElementById('imagen').files[0];
+        if (imagenFile) {
+            formData.append('imagen', imagenFile);
         }
 
         const submitButton = form.querySelector('.form-button');
         submitButton.disabled = true; // Deshabilitar el botón
 
         try {
-            const response = await fetch(
-                "http://127.0.0.1:8000/api/espacios/", // Asegúrate de que esta URL sea correcta para tu API
-                {
-                    method: "POST",
-                    body: formData, // FormData maneja automáticamente el 'Content-Type': 'multipart/form-data'
-                }
-            );
+            let response;
+            let url = "http://127.0.0.1:8000/api/centros/";
+            let method = "POST";
 
-            if (response.ok) {
-                showMessage("¡Espacio cultural guardado con éxito!", true);
+            if (isEditing && currentEditId) {
+                // Modo edición - usar PUT para actualizar
+                url = `http://127.0.0.1:8000/api/centros/${currentEditId}/`;
+                method = "PUT";
+            }
+
+            response = await authenticatedFetch(url, {
+                method: method,
+                body: formData, // FormData maneja automáticamente el 'Content-Type': 'multipart/form-data'
+            });
+
+            if (response && response.ok) {
+                if (isEditing) {
+                    showMessage("¡Espacio cultural actualizado con éxito!", true);
+                } else {
+                    showMessage("¡Espacio cultural guardado con éxito!", true);
+                }
+                
                 form.reset();
-                previewGaleria.innerHTML = '';
-                imagenPortadaSelect.innerHTML = '<option value="">Selecciona una imagen de la galería</option>';
-                uploadedFiles = [];
                 await loadEspacios(); // Recargar la lista de espacios
+                
+                // Resetear modo de edición
+                isEditing = false;
+                currentEditId = null;
+                
                 if (window.loadStats) { // Llama a loadStats si está disponible globalmente
                     window.loadStats();
                 }
                 setTimeout(() => {
                     cerrarFormulario();
                 }, 1500);
-            } else {
+            } else if (response) {
                 const errorData = await response.json();
-                console.error('Error al guardar espacio:', errorData);
-                showMessage("Error al guardar espacio: " + JSON.stringify(errorData), false);
+                console.error('Error al ' + (isEditing ? 'actualizar' : 'guardar') + ' espacio:', errorData);
+                showMessage("Error al " + (isEditing ? "actualizar" : "guardar") + " espacio: " + JSON.stringify(errorData), false);
             }
         } catch (error) {
             console.error("Error de conexión:", error);
@@ -197,9 +209,40 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Funciones de ejemplo para Editar y Eliminar
-    function editarEspacio(id) {
-        alert("Editar espacio con ID: " + id + ". Implementa tu lógica de edición aquí.");
-        // Deberías cargar los datos del espacio en el formulario modal para editar.
+    async function editarEspacio(id) {
+        isEditing = true;
+        currentEditId = id;
+        mostrarFormulario(); // Mostrar el modal
+
+        try {
+            const response = await authenticatedFetch(`http://127.0.0.1:8000/api/centros/${id}/`);
+            if (!response || !response.ok) {
+                throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
+            }
+            const centro = await response.json();
+
+            // Prellenar el formulario con los datos del centro
+            espacioForm.querySelector('[name="nombre"]').value = centro.nombre;
+            espacioForm.querySelector('[name="descripcion"]').value = centro.descripcion;
+            espacioForm.querySelector('[name="direccion"]').value = centro.direccion || '';
+            espacioForm.querySelector('[name="horario_apertura"]').value = centro.horario_apertura || '';
+            espacioForm.querySelector('[name="horario_cierre"]').value = centro.horario_cierre || '';
+            espacioForm.querySelector('[name="ubicacion_lat"]').value = centro.ubicacion_lat || '';
+            espacioForm.querySelector('[name="ubicacion_lon"]').value = centro.ubicacion_lon || '';
+            espacioForm.querySelector('[name="publicado"]').checked = centro.publicado || false;
+
+            // Mostrar imagen actual si existe - usar el elemento correcto
+            const preview = document.getElementById('preview-imagen');
+            if (centro.imagen && preview) {
+                preview.innerHTML = `<img src="${centro.imagen}" style="width: 100%; max-height: 200px; object-fit: contain; border-radius: 8px;">`;
+            } else if (preview) {
+                preview.innerHTML = '';
+            }
+
+        } catch (error) {
+            console.error("Error al cargar datos para editar:", error);
+            showMessage("Error al cargar datos para editar: " + error.message, false);
+        }
     }
 
     async function eliminarEspacio(id) {
@@ -207,17 +250,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!confirmacion) return;
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/espacios/${id}/`, { // Asegúrate de que esta URL sea correcta
-                method: "DELETE",
+            const response = await authenticatedFetch(`http://127.0.0.1:8000/api/centros/${id}/`, {
+                method: "DELETE"
             });
 
-            if (response.ok) {
+            if (response && response.ok) {
                 showMessage("Espacio cultural eliminado con éxito.", true);
                 await loadEspacios(); // Recargar la lista
                 if (window.loadStats) { // Llama a loadStats si está disponible globalmente
                     window.loadStats();
                 }
-            } else {
+            } else if (response) {
                 const errorData = await response.json();
                 console.error('Error al eliminar espacio:', errorData);
                 showMessage("Error al eliminar espacio: " + JSON.stringify(errorData), false);
@@ -227,6 +270,30 @@ document.addEventListener('DOMContentLoaded', function() {
             showMessage("Error de conexión al eliminar: " + error.message, false);
         }
     }
+
+    // Función para guardar como borrador
+    window.guardarComoBorrador = function() {
+        // Desmarcar el checkbox de publicado
+        const publicadoCheckbox = document.getElementById('publicado');
+        if (publicadoCheckbox) {
+            publicadoCheckbox.checked = false;
+        }
+        
+        // Enviar el formulario
+        const form = document.getElementById('espacioForm');
+        if (form) {
+            form.dispatchEvent(new Event('submit'));
+        }
+    };
+
+    // Función de logout
+    window.logout = function() {
+        if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userType');
+            window.location.href = '/frontend/pages/login.html';
+        }
+    };
 
     // Cerrar el modal haciendo clic fuera de él
     if (modalFormulario) {

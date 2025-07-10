@@ -3,8 +3,42 @@ from .models import Evento, Categoria, CentroCultural
 from django.contrib.auth.models import User, Group
 
 
+class CategoriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Categoria
+        fields = "__all__"
+
+    def validate_nombre(self, value):
+        if Categoria.objects.filter(nombre__iexact=value).exists():
+            raise serializers.ValidationError("Esta categoría ya existe.")
+        return value
+
+
+class CentroCulturalSerializer(serializers.ModelSerializer):
+    imagen = serializers.ImageField(required=False)
+
+    class Meta:
+        model = CentroCultural
+        fields = "__all__"
+        read_only_fields = ("creado_por",)
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        request = self.context.get("request")
+        if instance.imagen and request:
+            representation["imagen"] = request.build_absolute_uri(instance.imagen.url)
+        return representation
+
+
 class EventoSerializer(serializers.ModelSerializer):
     imagen = serializers.ImageField(required=False)
+    categoria = CategoriaSerializer(read_only=True)
+    centro_cultural = CentroCulturalSerializer(read_only=True)
+    # Add ID fields for backward compatibility
+    categoria_id = serializers.IntegerField(source="categoria.id", read_only=True)
+    centro_cultural_id = serializers.IntegerField(
+        source="centro_cultural.id", read_only=True
+    )
 
     class Meta:
         model = Evento
@@ -31,33 +65,6 @@ class EventoSerializer(serializers.ModelSerializer):
                     "La fecha de inicio no puede ser posterior a la fecha de fin."
                 )
         return data
-
-
-class CategoriaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Categoria
-        fields = "__all__"
-
-    def validate_nombre(self, value):
-        if Categoria.objects.filter(nombre__iexact=value).exists():
-            raise serializers.ValidationError("Esta categoría ya existe.")
-        return value
-
-
-class CentroCulturalSerializer(serializers.ModelSerializer):
-    imagen = serializers.ImageField(required=False)
-
-    class Meta:
-        model = CentroCultural
-        fields = "__all__"
-        read_only_fields = ("creado_por",)
-
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        request = self.context.get("request")
-        if instance.imagen and request:
-            representation["imagen"] = request.build_absolute_uri(instance.imagen.url)
-        return representation
 
 
 class EditorUserCreateSerializer(serializers.ModelSerializer):

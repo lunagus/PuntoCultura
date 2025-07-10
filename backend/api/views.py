@@ -28,7 +28,11 @@ class EventoViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:
-            return Evento.objects.all()
+            # Admin users can see all events, regular users only see their own
+            if user.is_staff:
+                return Evento.objects.all()
+            else:
+                return Evento.objects.filter(creado_por=user)
         return Evento.objects.filter(publicado=True)
 
     def get_serializer_context(self):
@@ -48,7 +52,11 @@ class CentroCulturalViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:
-            return CentroCultural.objects.filter(creado_por=user)
+            # Admin users can see all centers, regular users only see their own
+            if user.is_staff:
+                return CentroCultural.objects.all()
+            else:
+                return CentroCultural.objects.filter(creado_por=user)
         return CentroCultural.objects.filter(publicado=True)
 
     def perform_create(self, serializer):

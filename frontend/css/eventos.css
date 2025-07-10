@@ -295,28 +295,14 @@
 
 .evento-categoria-badge {
     display: inline-block;
-    padding: 4px 14px;
-    border-radius: 16px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #fff;
-    margin-top: 8px;
-    margin-bottom: 0;
-    background: #bdbdbd;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: white;
+    text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-.cat-musica { background: #00bcd4 !important; }
-.cat-literatura { background: #ff9800 !important; }
-.cat-artesanias { background: #9c27b0 !important; }
-.cat-cine { background: #4caf50 !important; }
-.cat-plastica { background: #ffc107 !important; }
-.cat-religiosidad { background: #ffb300 !important; }
-.cat-teatro { background: #ff7043 !important; }
-.cat-mitos { background: #00bfae !important; }
-.cat-identidad { background: #689f38 !important; }
-.cat-gastronomia { background: #e91e63 !important; }
-.cat-danzas { background: #7e57c2 !important; }
-.cat-otros { background: #607d8b !important; }
 
 .evento-card:hover {
     transform: scale(1.07);

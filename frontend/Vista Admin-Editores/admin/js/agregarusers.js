@@ -231,8 +231,17 @@ document.getElementById('userForm').addEventListener('submit', async function(e)
     const submitButton = document.getElementById('submitFormButton');
     submitButton.disabled = true; // Deshabilita el botón para evitar envíos dobles
 
+    // Obtener token de autenticación
+    const token = localStorage.getItem('authToken');
+    const headers = {
+        "Content-Type": "application/json",
+    };
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+
     if (editingUserId) {
-        // Lógica de Edición
+        // Lógica de Edición - Por ahora mantenemos la simulación
         const newEmail = document.getElementById('newEmail').value;
         const newPassword = document.getElementById('newPassword').value;
         const adminPassword = document.getElementById('adminPassword').value;
@@ -281,7 +290,7 @@ document.getElementById('userForm').addEventListener('submit', async function(e)
         }, 1500);
 
     } else {
-        // Lógica de Adición
+        // Lógica de Adición - Usar API real
         const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
@@ -297,24 +306,81 @@ document.getElementById('userForm').addEventListener('submit', async function(e)
             return;
         }
 
-        // Simulación de éxito:
-        const newUser = { id: generateUniqueId(), username, email, role, password }; // Guardar contraseña simulada
-        allUsers.push(newUser);
+        try {
+            // Solo crear editores por ahora (el endpoint actual solo soporta editores)
+            if (role === 'editor') {
+                const response = await authenticatedFetch("http://127.0.0.1:8000/api/create-editor/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        email: email,
+                        password: password
+                    })
+                });
 
-        messageElement.textContent = '¡Usuario agregado con éxito!';
-        messageElement.classList.remove('hidden', 'error');
-        messageElement.classList.add('success');
-        
-        filterUsers(); // Volver a renderizar la lista
-        
-        // Llama a loadStats para actualizar los contadores del dashboard
-        if (window.loadStats) {
-            window.loadStats();
+                if (response && response.ok) {
+                    const createdUser = await response.json();
+                    
+                    // Agregar a la lista local
+                    const newUser = { 
+                        id: createdUser.id || generateUniqueId(), 
+                        username, 
+                        email, 
+                        role, 
+                        password 
+                    };
+                    allUsers.push(newUser);
+
+                    messageElement.textContent = '¡Editor creado con éxito!';
+                    messageElement.classList.remove('hidden', 'error');
+                    messageElement.classList.add('success');
+                    
+                    filterUsers(); // Volver a renderizar la lista
+                    
+                    // Llama a loadStats para actualizar los contadores del dashboard
+                    if (window.loadStats) {
+                        window.loadStats();
+                    }
+
+                    setTimeout(() => {
+                        cerrarFormulario(); // Cierra el modal después de un breve retraso
+                    }, 1500);
+                } else if (response) {
+                    const errorData = await response.json();
+                    messageElement.textContent = 'Error al crear editor: ' + JSON.stringify(errorData);
+                    messageElement.classList.remove('hidden', 'success');
+                    messageElement.classList.add('error');
+                    setTimeout(() => { messageElement.classList.add('hidden'); }, 3000);
+                }
+            } else {
+                // Para otros roles, usar simulación por ahora
+                const newUser = { id: generateUniqueId(), username, email, role, password };
+                allUsers.push(newUser);
+
+                messageElement.textContent = '¡Usuario agregado con éxito!';
+                messageElement.classList.remove('hidden', 'error');
+                messageElement.classList.add('success');
+                
+                filterUsers(); // Volver a renderizar la lista
+                
+                // Llama a loadStats para actualizar los contadores del dashboard
+                if (window.loadStats) {
+                    window.loadStats();
+                }
+
+                setTimeout(() => {
+                    cerrarFormulario(); // Cierra el modal después de un breve retraso
+                }, 1500);
+            }
+        } catch (error) {
+            messageElement.textContent = 'Error de conexión: ' + error.message;
+            messageElement.classList.remove('hidden', 'success');
+            messageElement.classList.add('error');
+            setTimeout(() => { messageElement.classList.add('hidden'); }, 3000);
         }
-
-        setTimeout(() => {
-            cerrarFormulario(); // Cierra el modal después de un breve retraso
-        }, 1500);
     }
     submitButton.disabled = false; // Habilita el botón después de la operación
 });

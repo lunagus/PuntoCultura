@@ -107,7 +107,10 @@ function filtrarYRenderizar() {
   const eventosFiltrados = eventosGlobal.filter(evento => {
     const tituloCoincide = evento.titulo.toLowerCase().includes(textoFiltro);
     const descripcionCoincide = evento.descripcion.toLowerCase().includes(textoFiltro);
-    const categoriaCoincide = categoriaFiltro === "" || evento.categoria == categoriaFiltro;
+    
+    // Check category filter - now working with nested object
+    const categoriaCoincide = categoriaFiltro === "" || 
+      (evento.categoria && evento.categoria.id == categoriaFiltro);
 
     return (tituloCoincide || descripcionCoincide) && categoriaCoincide;
   });
@@ -137,9 +140,24 @@ function renderizarEventos(eventos) {
   eventosPagina.forEach(ev => {
     const card = document.createElement("div");
     card.className = "evento-card";
-    // Asigna un color de banda basado en la categoría.
-    const categoriaNombre = categoriasGlobal.find(cat => cat.id == ev.categoria)?.nombre || 'Otros';
-    const categoriaClase = `cat-${categoriaNombre.toLowerCase().replace(/\s/g, '')}`;
+    
+    // Get category information from the nested object
+    const categoria = ev.categoria || {};
+    const categoriaNombre = categoria.nombre || 'Otros';
+    const categoriaColor = categoria.color || '#607d8b'; // Default color if none specified
+    
+    // Create unique CSS class for this category
+    const categoriaClase = `cat-${categoriaNombre.toLowerCase().replace(/\s/g, '').replace(/[^a-z0-9]/g, '')}`;
+    
+    // Add dynamic CSS for this category if it doesn't exist
+    if (!document.getElementById(`style-${categoriaClase}`)) {
+      const style = document.createElement('style');
+      style.id = `style-${categoriaClase}`;
+      style.textContent = `
+        .${categoriaClase} { background: ${categoriaColor} !important; }
+      `;
+      document.head.appendChild(style);
+    }
 
     card.innerHTML = `
       <div class="categoria-banda ${categoriaClase}"></div>
@@ -203,11 +221,28 @@ function mostrarModalEvento(evento) {
   modalImg.src = evento.imagen || '/frontend/assets/img/default-event.jpg';
   modalTitle.textContent = evento.titulo;
   
-  const categoriaNombre = categoriasGlobal.find(cat => cat.id == evento.categoria)?.nombre || 'Otros';
+  // Get category information from the nested object
+  const categoria = evento.categoria || {};
+  const categoriaNombre = categoria.nombre || 'Otros';
+  const categoriaColor = categoria.color || '#607d8b';
+  
+  // Create unique CSS class for this category
+  const categoriaClase = `cat-${categoriaNombre.toLowerCase().replace(/\s/g, '').replace(/[^a-z0-9]/g, '')}`;
+  
+  // Add dynamic CSS for this category if it doesn't exist
+  if (!document.getElementById(`style-${categoriaClase}`)) {
+    const style = document.createElement('style');
+    style.id = `style-${categoriaClase}`;
+    style.textContent = `
+      .${categoriaClase} { background: ${categoriaColor} !important; }
+    `;
+    document.head.appendChild(style);
+  }
+  
   modalCategory.textContent = categoriaNombre;
   // Elimina clases de categoría anteriores y añade la nueva.
   modalCategory.className = 'modal-category'; // Resetea las clases
-  modalCategory.classList.add(`cat-${categoriaNombre.toLowerCase().replace(/\s/g, '')}`);
+  modalCategory.classList.add(categoriaClase);
 
   const fechaInicio = new Date(evento.fecha_inicio);
   const fechaFin = evento.fecha_fin ? new Date(evento.fecha_fin) : null;
@@ -218,8 +253,15 @@ function mostrarModalEvento(evento) {
   }
   modalDate.textContent = `Fecha: ${fechaTexto}`;
 
-  modalTime.textContent = `Hora: ${evento.hora_inicio || 'No especificada'}${evento.hora_fin ? ` - ${evento.hora_fin}` : ''}`;
-  modalLocation.textContent = `Lugar: ${evento.lugar || 'No especificado'}`;
+  // Get time and location from the event or its cultural center
+  const centroCultural = evento.centro_cultural || {};
+  const horarioTexto = evento.horario_apertura && evento.horario_cierre 
+    ? `${evento.horario_apertura} - ${evento.horario_cierre}`
+    : 'No especificada';
+  const ubicacionTexto = centroCultural.nombre || evento.lugar || 'No especificado';
+  
+  modalTime.textContent = `Hora: ${horarioTexto}`;
+  modalLocation.textContent = `Lugar: ${ubicacionTexto}`;
   modalDescription.textContent = evento.descripcion;
 
   // Muestra el modal y aplica la animación.

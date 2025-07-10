@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/editor/css/estilo.editor.css">
+    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/admin/css/estilo.editor.css">
     <link rel="stylesheet" href="/frontend/Vista Admin-Editores/admin/css/eventos.css">
     <title>Eventos</title>
 </head>
@@ -32,6 +32,9 @@
             <h1 class="page-title">Administrar Eventos</h1>
             <div class="eventos-list-container">
                 <h2 class="list-title">Eventos Existentes</h2>
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Buscar eventos..." class="search-input">
+                </div>
                 <div id="eventosGrid" class="eventos-grid">
                     <!-- Los eventos se cargarán aquí dinámicamente con JavaScript -->
                 </div>
@@ -60,6 +63,12 @@
                 
                 <label for="fecha_fin">Fecha de Fin (opcional):</label>
                 <input type="date" name="fecha_fin" id="fecha_fin" class="form-input" />
+                
+                <label for="horario_apertura">Horario de Apertura:</label>
+                <input type="time" name="horario_apertura" id="horario_apertura" class="form-input" />
+                
+                <label for="horario_cierre">Horario de Cierre:</label>
+                <input type="time" name="horario_cierre" id="horario_cierre" class="form-input" />
                 
                 <label for="imagen">Imagen:</label>
                 <input type="file" name="imagen" id="imagen" accept="image/*" onchange="previsualizarImagen(event)" class="form-input" />
@@ -92,6 +101,7 @@
         </div>
     </div>
 
+    <script src="/frontend/js/login.js"></script>
     <script src="js/eventos.js"></script>
     <script src="js/sidebar.js"></script>
 </body>

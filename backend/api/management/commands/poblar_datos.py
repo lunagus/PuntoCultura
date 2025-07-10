@@ -2,7 +2,7 @@ import requests
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from django.core.files.base import ContentFile
-from datetime import datetime
+from datetime import datetime, time
 from api.models import Categoria, CentroCultural, Evento
 from django.db import IntegrityError
 
@@ -73,23 +73,23 @@ class Command(BaseCommand):
         # Crear categorías (solo si no es --solo-eventos)
         if not options["solo_eventos"]:
             categorias_data = [
-                {"nombre": "Música"},
-                {"nombre": "Literatura"},
-                {"nombre": "Artesanías"},
-                {"nombre": "Cine y Audiovisual"},
-                {"nombre": "Plástica"},
-                {"nombre": "Religiosidad"},
-                {"nombre": "Teatro"},
-                {"nombre": "Mitos y Leyendas"},
-                {"nombre": "Lengua Quichua"},
-                {"nombre": "Gastronomía"},
-                {"nombre": "Identidad"},
+                {"nombre": "Música", "color": "#FF6B6B"},
+                {"nombre": "Literatura", "color": "#4ECDC4"},
+                {"nombre": "Artesanías", "color": "#45B7D1"},
+                {"nombre": "Cine y Audiovisual", "color": "#96CEB4"},
+                {"nombre": "Plástica", "color": "#FFEAA7"},
+                {"nombre": "Religiosidad", "color": "#DDA0DD"},
+                {"nombre": "Teatro", "color": "#98D8C8"},
+                {"nombre": "Mitos y Leyendas", "color": "#F7DC6F"},
+                {"nombre": "Lengua Quichua", "color": "#BB8FCE"},
+                {"nombre": "Gastronomía", "color": "#F8C471"},
+                {"nombre": "Identidad", "color": "#85C1E9"},
             ]
 
             categorias = {}
             for cat_data in categorias_data:
                 categoria, created = Categoria.objects.get_or_create(
-                    nombre=cat_data["nombre"]
+                    nombre=cat_data["nombre"], defaults={"color": cat_data["color"]}
                 )
                 categorias[cat_data["nombre"]] = categoria
                 if created:
@@ -108,6 +108,8 @@ class Command(BaseCommand):
                     "ubicacion_lon": -64.2615,
                     "direccion": "Av. Libertad 439, Santiago del Estero",
                     "imagen_keyword": "modern cultural center architecture argentina",
+                    "horario_apertura": "09:00",
+                    "horario_cierre": "18:00",
                 },
                 {
                     "nombre": "Casa de la Cultura",
@@ -116,6 +118,8 @@ class Command(BaseCommand):
                     "ubicacion_lon": -64.2630,
                     "direccion": "Belgrano 132, Santiago del Estero",
                     "imagen_keyword": "colonial house art exhibition",
+                    "horario_apertura": "10:00",
+                    "horario_cierre": "17:00",
                 },
                 {
                     "nombre": "Teatro 25 de Mayo",
@@ -124,6 +128,8 @@ class Command(BaseCommand):
                     "ubicacion_lon": -64.2620,
                     "direccion": "25 de Mayo 350, Santiago del Estero",
                     "imagen_keyword": "historic theater stage audience",
+                    "horario_apertura": "09:00",
+                    "horario_cierre": "20:00",
                 },
                 {
                     "nombre": "Museo de Bellas Artes",
@@ -132,6 +138,8 @@ class Command(BaseCommand):
                     "ubicacion_lon": -64.2640,
                     "direccion": "Av. Sarmiento 156, Santiago del Estero",
                     "imagen_keyword": "art museum gallery paintings",
+                    "horario_apertura": "10:00",
+                    "horario_cierre": "18:00",
                 },
                 {
                     "nombre": "Centro Cultural Municipal",
@@ -140,6 +148,8 @@ class Command(BaseCommand):
                     "ubicacion_lon": -64.2650,
                     "direccion": "Independencia 245, Santiago del Estero",
                     "imagen_keyword": "community arts center workshop",
+                    "horario_apertura": "08:00",
+                    "horario_cierre": "18:00",
                 },
                 {
                     "nombre": "Casa del Artesano",
@@ -148,6 +158,8 @@ class Command(BaseCommand):
                     "ubicacion_lon": -64.2600,
                     "direccion": "San Martín 89, Santiago del Estero",
                     "imagen_keyword": "artisan crafts pottery weaving",
+                    "horario_apertura": "09:00",
+                    "horario_cierre": "17:00",
                 },
                 {
                     "nombre": "Auditorio Municipal",
@@ -156,6 +168,8 @@ class Command(BaseCommand):
                     "ubicacion_lon": -64.2660,
                     "direccion": "Av. Moreno 234, Santiago del Estero",
                     "imagen_keyword": "modern auditorium concert hall",
+                    "horario_apertura": "07:00",
+                    "horario_cierre": "22:00",
                 },
                 {
                     "nombre": "Galería de Arte Contemporáneo",
@@ -164,6 +178,8 @@ class Command(BaseCommand):
                     "ubicacion_lon": -64.2590,
                     "direccion": "Rivadavia 178, Santiago del Estero",
                     "imagen_keyword": "contemporary art gallery exhibition",
+                    "horario_apertura": "10:00",
+                    "horario_cierre": "18:00",
                 },
                 {
                     "nombre": "Centro de Danzas Folklóricas",
@@ -172,6 +188,8 @@ class Command(BaseCommand):
                     "ubicacion_lon": -64.2670,
                     "direccion": "Mitre 456, Santiago del Estero",
                     "imagen_keyword": "folk dance studio rehearsal",
+                    "horario_apertura": "09:00",
+                    "horario_cierre": "17:00",
                 },
                 {
                     "nombre": "Biblioteca Popular",
@@ -180,6 +198,8 @@ class Command(BaseCommand):
                     "ubicacion_lon": -64.2580,
                     "direccion": "Av. Colón 321, Santiago del Estero",
                     "imagen_keyword": "public library reading books",
+                    "horario_apertura": "09:00",
+                    "horario_cierre": "18:00",
                 },
                 # CENTROS CULTURALES NO PUBLICADOS (BORRADORES)
                 {
@@ -190,6 +210,8 @@ class Command(BaseCommand):
                     "direccion": "Av. Roca 567, Santiago del Estero",
                     "imagen_keyword": "music center",
                     "publicado": False,
+                    "horario_apertura": "10:00",
+                    "horario_cierre": "19:00",
                 },
                 {
                     "nombre": "Espacio de Arte Digital",
@@ -199,6 +221,8 @@ class Command(BaseCommand):
                     "direccion": "San Juan 234, Santiago del Estero",
                     "imagen_keyword": "digital art center",
                     "publicado": False,
+                    "horario_apertura": "09:00",
+                    "horario_cierre": "18:00",
                 },
             ]
 
@@ -213,6 +237,12 @@ class Command(BaseCommand):
                         "direccion": centro_data["direccion"],
                         "publicado": centro_data.get("publicado", True),
                         "creado_por": editor,
+                        "horario_apertura": time.fromisoformat(
+                            centro_data["horario_apertura"]
+                        ),
+                        "horario_cierre": time.fromisoformat(
+                            centro_data["horario_cierre"]
+                        ),
                     },
                 )
 
@@ -251,6 +281,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2024-06-15",
                 "fecha_fin": "2024-06-17",
                 "imagen_keyword": "andean pan flute musicians traditional",
+                "horario_apertura": "10:00",
+                "horario_cierre": "20:00",
             },
             {
                 "titulo": "Feria del Libro Santiagueño",
@@ -260,6 +292,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2024-07-20",
                 "fecha_fin": "2024-07-25",
                 "imagen_keyword": "book signing author reading library",
+                "horario_apertura": "09:00",
+                "horario_cierre": "18:00",
             },
             {
                 "titulo": "Expo Artesanías del Norte",
@@ -269,6 +303,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2024-08-10",
                 "fecha_fin": "2024-08-15",
                 "imagen_keyword": "handmade wool textiles weaving",
+                "horario_apertura": "10:00",
+                "horario_cierre": "18:00",
             },
             {
                 "titulo": "Encuentro de Luthiers",
@@ -278,6 +314,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2024-09-05",
                 "fecha_fin": "2024-09-07",
                 "imagen_keyword": "guitar making workshop woodcraft",
+                "horario_apertura": "09:00",
+                "horario_cierre": "17:00",
             },
             {
                 "titulo": "Salón de Pintura Santiagueña",
@@ -287,6 +325,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2024-10-12",
                 "fecha_fin": "2024-11-15",
                 "imagen_keyword": "oil painting canvas artist studio",
+                "horario_apertura": "09:00",
+                "horario_cierre": "18:00",
             },
             {
                 "titulo": "Muestra de Cortometrajes Santiagueños",
@@ -296,6 +336,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2024-11-08",
                 "fecha_fin": "2024-11-10",
                 "imagen_keyword": "film projector cinema screen",
+                "horario_apertura": "10:00",
+                "horario_cierre": "22:00",
             },
             {
                 "titulo": "Procesión de la Virgen del Valle",
@@ -305,6 +347,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2024-12-08",
                 "fecha_fin": "2024-12-08",
                 "imagen_keyword": "religious candlelight procession",
+                "horario_apertura": "06:00",
+                "horario_cierre": "19:00",
             },
             {
                 "titulo": "Obra de Teatro: La Memoria Viva",
@@ -314,6 +358,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2024-12-15",
                 "fecha_fin": "2024-12-20",
                 "imagen_keyword": "theater masks dramatic performance",
+                "horario_apertura": "09:00",
+                "horario_cierre": "20:00",
             },
             {
                 "titulo": "Noche de Mitos y Leyendas",
@@ -323,6 +369,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2024-12-21",
                 "fecha_fin": "2024-12-21",
                 "imagen_keyword": "campfire storytelling night",
+                "horario_apertura": "19:00",
+                "horario_cierre": "23:00",
             },
             {
                 "titulo": "Torneo de Ajedrez Provincial",
@@ -332,6 +380,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2024-12-28",
                 "fecha_fin": "2024-12-30",
                 "imagen_keyword": "chess tournament players strategy",
+                "horario_apertura": "09:00",
+                "horario_cierre": "17:00",
             },
             # EVENTOS RECIENTES (2025 - ya pasaron)
             {
@@ -342,6 +392,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-01-15",
                 "fecha_fin": "2025-01-17",
                 "imagen_keyword": "empanadas argentinian food cooking",
+                "horario_apertura": "10:00",
+                "horario_cierre": "18:00",
             },
             {
                 "titulo": "Jornada de Identidad Cultural",
@@ -351,6 +403,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-02-20",
                 "fecha_fin": "2025-02-22",
                 "imagen_keyword": "cultural heritage workshop discussion",
+                "horario_apertura": "09:00",
+                "horario_cierre": "17:00",
             },
             {
                 "titulo": "Festival de Cantantes Populares",
@@ -360,6 +414,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-03-10",
                 "fecha_fin": "2025-03-12",
                 "imagen_keyword": "folk singers vocal performance stage",
+                "horario_apertura": "10:00",
+                "horario_cierre": "20:00",
             },
             {
                 "titulo": "Taller de Cerámica Tradicional",
@@ -369,6 +425,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-03-25",
                 "fecha_fin": "2025-03-27",
                 "imagen_keyword": "pottery wheel clay hands crafting",
+                "horario_apertura": "09:00",
+                "horario_cierre": "17:00",
             },
             {
                 "titulo": "Festival de Danzas Folklóricas",
@@ -378,6 +436,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-04-05",
                 "fecha_fin": "2025-04-07",
                 "imagen_keyword": "folk dance traditional costumes",
+                "horario_apertura": "09:00",
+                "horario_cierre": "17:00",
             },
             # EVENTOS FUTUROS (2025 - próximos)
             {
@@ -388,6 +448,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-05-15",
                 "fecha_fin": "2025-05-17",
                 "imagen_keyword": "electronic music festival dj lights",
+                "horario_apertura": "10:00",
+                "horario_cierre": "22:00",
             },
             {
                 "titulo": "Torneo de Fútbol Cultural",
@@ -397,6 +459,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-06-20",
                 "fecha_fin": "2025-06-22",
                 "imagen_keyword": "community soccer tournament field",
+                "horario_apertura": "08:00",
+                "horario_cierre": "18:00",
             },
             {
                 "titulo": "Exposición de Arte Digital",
@@ -406,6 +470,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-07-10",
                 "fecha_fin": "2025-08-15",
                 "imagen_keyword": "digital art installation multimedia",
+                "horario_apertura": "10:00",
+                "horario_cierre": "18:00",
             },
             {
                 "titulo": "Festival de Videojuegos Indie",
@@ -415,6 +481,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-08-05",
                 "fecha_fin": "2025-08-07",
                 "imagen_keyword": "indie video games development showcase",
+                "horario_apertura": "10:00",
+                "horario_cierre": "22:00",
             },
             {
                 "titulo": "Encuentro de Poetas Urbanos",
@@ -424,6 +492,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-09-12",
                 "fecha_fin": "2025-09-14",
                 "imagen_keyword": "urban poetry slam performance",
+                "horario_apertura": "09:00",
+                "horario_cierre": "17:00",
             },
             {
                 "titulo": "Teatro Callejero",
@@ -433,6 +503,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-10-18",
                 "fecha_fin": "2025-10-20",
                 "imagen_keyword": "street theater performance public space",
+                "horario_apertura": "19:00",
+                "horario_cierre": "23:00",
             },
             # 5 EVENTOS ADICIONALES PUBLICADOS
             {
@@ -443,6 +515,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-11-05",
                 "fecha_fin": "2025-11-08",
                 "imagen_keyword": "independent film festival cinema",
+                "horario_apertura": "10:00",
+                "horario_cierre": "22:00",
             },
             {
                 "titulo": "Exposición de Esculturas Monumentales",
@@ -452,6 +526,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-11-15",
                 "fecha_fin": "2025-12-15",
                 "imagen_keyword": "monumental sculptures outdoor art",
+                "horario_apertura": "09:00",
+                "horario_cierre": "17:00",
             },
             {
                 "titulo": "Festival de Música Clásica",
@@ -461,6 +537,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-12-01",
                 "fecha_fin": "2025-12-03",
                 "imagen_keyword": "classical music orchestra symphony",
+                "horario_apertura": "10:00",
+                "horario_cierre": "20:00",
             },
             {
                 "titulo": "Encuentro de Narradores Orales",
@@ -470,6 +548,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-12-10",
                 "fecha_fin": "2025-12-12",
                 "imagen_keyword": "oral storytelling traditional tales",
+                "horario_apertura": "09:00",
+                "horario_cierre": "17:00",
             },
             {
                 "titulo": "Festival de Gastronomía Regional",
@@ -479,6 +559,8 @@ class Command(BaseCommand):
                 "fecha_inicio": "2025-12-20",
                 "fecha_fin": "2025-12-22",
                 "imagen_keyword": "regional gastronomy food festival",
+                "horario_apertura": "10:00",
+                "horario_cierre": "18:00",
             },
             # EVENTOS NO PUBLICADOS (BORRADORES) - SOLO 5
             {
@@ -490,6 +572,8 @@ class Command(BaseCommand):
                 "fecha_fin": "2025-11-17",
                 "imagen_keyword": "jazz festival saxophone musicians",
                 "publicado": False,
+                "horario_apertura": "10:00",
+                "horario_cierre": "22:00",
             },
             {
                 "titulo": "Exposición de Arte Digital",
@@ -500,6 +584,8 @@ class Command(BaseCommand):
                 "fecha_fin": "2025-12-31",
                 "imagen_keyword": "digital art virtual reality installation",
                 "publicado": False,
+                "horario_apertura": "09:00",
+                "horario_cierre": "18:00",
             },
             {
                 "titulo": "Festival de Cine Documental",
@@ -510,6 +596,8 @@ class Command(BaseCommand):
                 "fecha_fin": "2025-12-12",
                 "imagen_keyword": "documentary film festival screening",
                 "publicado": False,
+                "horario_apertura": "10:00",
+                "horario_cierre": "22:00",
             },
             {
                 "titulo": "Encuentro de Escritores Jóvenes",
@@ -520,6 +608,8 @@ class Command(BaseCommand):
                 "fecha_fin": "2025-12-17",
                 "imagen_keyword": "young writers workshop literature",
                 "publicado": False,
+                "horario_apertura": "09:00",
+                "horario_cierre": "17:00",
             },
             {
                 "titulo": "Festival de Teatro Experimental",
@@ -530,6 +620,8 @@ class Command(BaseCommand):
                 "fecha_fin": "2026-01-12",
                 "imagen_keyword": "experimental theater performance",
                 "publicado": False,
+                "horario_apertura": "10:00",
+                "horario_cierre": "20:00",
             },
         ]
 
@@ -568,6 +660,10 @@ class Command(BaseCommand):
                     "fecha_fin": fecha_fin,
                     "publicado": evento_data.get("publicado", True),
                     "creado_por": editor,
+                    "horario_apertura": time.fromisoformat(
+                        evento_data["horario_apertura"]
+                    ),
+                    "horario_cierre": time.fromisoformat(evento_data["horario_cierre"]),
                 },
             )
 

@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Función para obtener datos de una API
+    // Función para obtener datos de una API con autenticación
     async function fetchData(url) {
         try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                console.error(`Error al cargar datos de ${url}: ${response.statusText}`);
+            const response = await authenticatedFetch(url);
+            if (!response || !response.ok) {
+                console.error(`Error al cargar datos de ${url}: ${response ? response.statusText : 'No response'}`);
                 return null;
             }
             return await response.json();
@@ -24,14 +24,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const eventos = await fetchData("http://127.0.0.1:8000/api/eventos/");
         const categorias = await fetchData("http://127.0.0.1:8000/api/categorias/");
-        const espacios = await fetchData("http://127.0.0.1:8000/api/espacios/");
-        // Asumiendo que hay una API para usuarios en /api/users/
-        const usuarios = await fetchData("http://127.0.0.1:8000/api/users/"); // Si tienes API de usuarios
+        const espacios = await fetchData("http://127.0.0.1:8000/api/centros/");
+        // No hay API para listar todos los usuarios, usar valor fijo o 0
+        const usuarios = null; // No hay endpoint /api/users/
 
         if (eventos) totalEventosEl.textContent = eventos.length;
         if (categorias) totalCategoriasEl.textContent = categorias.length;
         if (espacios) totalEspaciosEl.textContent = espacios.length;
-        if (usuarios) totalUsuariosEl.textContent = usuarios.length; // Actualiza el contador de usuarios
+        if (totalUsuariosEl) totalUsuariosEl.textContent = "N/A"; // No hay API de usuarios
     };
 
     // Cargar actividad reciente
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const eventos = await fetchData("http://127.0.0.1:8000/api/eventos/");
         const categorias = await fetchData("http://127.0.0.1:8000/api/categorias/");
-        const espacios = await fetchData("http://127.0.0.1:8000/api/espacios/");
+        const espacios = await fetchData("http://127.0.0.1:8000/api/centros/");
 
         renderList(recentEventsList, eventos, 'titulo', '/Frontend/Vista Admin-Editores/admin/eventos-c.html'); // Asume que 'titulo' es el campo de nombre
         renderList(recentCategoriasList, categorias, 'nombre', '/Frontend/Vista Admin-Editores/admin/categorias.html'); // Asume que 'nombre' es el campo de nombre

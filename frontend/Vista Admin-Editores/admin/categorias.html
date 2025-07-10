@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
     <!-- CSS base para la vista de editor (contiene sidebar, hidden, etc.) -->
-    <link rel="stylesheet" href="/Frontend/Vista Admin-Editores/editor/css/estilo.editor.css">
+    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/admin/css/estilo.editor.css">
     <!-- CSS específico para categorías (definirá el estilo del formulario en el modal y la tabla) -->
     <link rel="stylesheet" href="/Frontend/Vista Admin-Editores/admin/css/categorias.css">
     <title>Categorías</title>
@@ -34,9 +34,18 @@
             <h1 class="page-title">Administrar Categorías</h1>
             <div class="categorias-list-container">
                 <h2 class="list-title">Categorías Existentes</h2>
-                <div id="categoriasGrid" class="categorias-grid">
-                    <!-- Las categorías se cargarán aquí dinámicamente con JavaScript -->
-                </div>
+                <table id="categoriasTable" class="categorias-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Color</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Las categorías se cargarán aquí dinámicamente con JavaScript -->
+                    </tbody>
+                </table>
                 <p id="noCategorias" class="mensaje-vacio hidden">No hay categorías para mostrar.</p>
             </div>
         </div>
@@ -58,6 +67,13 @@
                     required
                     class="form-input"
                 />
+                <input
+                    type="color"
+                    name="color"
+                    value="#FFFFFF"
+                    class="form-input"
+                    style="width: 100px; height: 40px;"
+                />
                 <button
                     type="submit"
                     class="form-button"
@@ -75,6 +91,7 @@
     </div>
     </main>
     <!-- Scripts -->
+    <script src="/frontend/js/login.js"></script>
     <script src="/Frontend/Vista Admin-Editores/admin/js/categorias.js"></script>
     <script src="/Frontend/Vista Admin-Editores/admin/js/sidebar.js"></script>
 </body>

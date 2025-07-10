@@ -138,75 +138,6 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Mejorar los botones del formulario */
-.form-buttons {
-    display: flex;
-    gap: 16px;
-    margin-top: 30px;
-    justify-content: center;
-}
-
-.form-button {
-    padding: 16px 32px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 160px;
-}
-
-.form-button:not(.secondary) {
-    background: linear-gradient(135deg, #12bcd3, #0a8fa3);
-    color: white;
-    box-shadow: 0 4px 12px rgba(18, 188, 211, 0.3);
-}
-
-.form-button:not(.secondary):hover {
-    background: linear-gradient(135deg, #0a8fa3, #077a8a);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(18, 188, 211, 0.4);
-}
-
-.form-button.secondary {
-    background: linear-gradient(135deg, #6c757d, #5a6268);
-    color: white;
-    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
-}
-
-.form-button.secondary:hover {
-    background: linear-gradient(135deg, #5a6268, #495057);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(108, 117, 125, 0.4);
-}
-
-/* Mejorar el checkbox */
-.form-checkbox-group {
-    margin: 30px 0;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 12px;
-    border: 2px solid #e1e5e9;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 16px;
-    color: #333;
-    font-weight: 500;
-}
-
-.form-checkbox {
-    margin-right: 12px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    accent-color: #12bcd3;
-}
-
 /* Mejorar el botón de cerrar */
 .cerrar {
     position: absolute;
@@ -421,34 +352,6 @@
     justify-content: flex-end; /* Alinea los botones a la derecha */
     gap: 10px;
     margin-top: 15px;
-}
-
-.espacio-card-content .actions button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-    font-size: 0.9rem;
-}
-
-.espacio-card-content .actions .edit-btn {
-    background-color: #ffc107; /* Amarillo */
-    color: #333;
-}
-
-.espacio-card-content .actions .edit-btn:hover {
-    background-color: #e0a800;
-}
-
-.espacio-card-content .actions .delete-btn {
-    background-color: #dc3545; /* Rojo */
-    color: white;
-}
-
-.espacio-card-content .actions .delete-btn:hover {
-    background-color: #c82333;
 }
 
 .mensaje-vacio {
@@ -909,4 +812,255 @@
 
 .logout-btn:hover {
     background-color: #c82333;
+}
+
+/* Card size and border for espacios */
+.espacio-card {
+    max-width: 900px;
+    min-height: 220px;
+    padding: 32px 32px 24px 24px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.13);
+    margin: 24px auto;
+    font-size: 1.15rem;
+    border-left: 10px solid #3a96fffd; /* Default blue */
+    background: #fff;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+.espacio-card.publicado {
+    border-left: none;
+}
+.espacio-card.borrador {
+    border-left: 6px solid #dc3545;
+    opacity: 1;
+}
+.estado-badge {
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 4px 16px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    color: #fff;
+    background: #3a96fffd;
+    letter-spacing: 1px;
+}
+.estado-badge.publicado {
+    background: #28a745;
+}
+.estado-badge.borrador {
+    background: #dc3545;
+}
+
+/* Make .espacio-card-content larger and more readable */
+.espacio-card-content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Container should use nearly full width, with max-width for readability */
+.espacios-list-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 32px 0 32px 0;
+}
+
+/* --- Card Grid Improvements --- */
+.espacios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 20px;
+    padding: 24px 16px 32px 16px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* --- Card Layout --- */
+.espacio-card {
+    max-width: 420px;
+    width: 100%;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    border-left: none;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+.espacio-card.borrador {
+    border-left: 6px solid #dc3545;
+}
+
+/* --- Image at Top, Fixed Aspect Ratio --- */
+.espacio-card-img-container {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: #f3f3f3;
+    position: relative;
+    overflow: hidden;
+}
+.espacio-card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- Overlay Borrador Label on Image --- */
+.espacio-card.borrador .estado-badge {
+    display: block;
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    background: #dc3545;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 6px 18px;
+    border-radius: 12px;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.estado-badge {
+    display: none;
+}
+
+/* --- Card Content --- */
+.espacio-card-content {
+    padding: 20px 18px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+.espacio-card-content h3 {
+    font-size: 1.18rem;
+    font-weight: 700;
+    color: #222;
+    margin: 0 0 4px 0;
+    line-height: 1.2;
+}
+.espacio-card-content .espacio-direccion {
+    font-size: 0.98rem;
+    color: #888;
+    font-weight: 400;
+    margin: 0 0 4px 0;
+    background: none;
+    padding: 0;
+    display: block;
+}
+.espacio-card-content .espacio-direccion strong {
+    font-weight: 400;
+    color: #888;
+}
+.espacio-card-content .espacio-descripcion {
+    font-size: 1rem;
+    color: #444;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* --- Actions Buttons --- */
+.actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 18px;
+}
+.edit-btn, .delete-btn {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    transition: background 0.18s, color 0.18s, transform 0.15s;
+    outline: none;
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+.edit-btn {
+    background: #2196f3;
+    color: #fff;
+    font-weight: 700;
+}
+.edit-btn:hover, .edit-btn:focus {
+    background: #1769aa;
+    color: #fff;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 4px 12px rgba(33,150,243,0.15);
+}
+.delete-btn {
+    background: #e53935;
+    color: #fff;
+    font-weight: 700;
+}
+.delete-btn:hover, .delete-btn:focus {
+    background: #b71c1c;
+    color: #fff;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 4px 12px rgba(229,57,53,0.15);
+}
+@media (max-width: 768px) {
+    .actions {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 12px;
+    }
+}
+
+@media (max-width: 900px) {
+    .espacios-list-container {
+        max-width: 100%;
+        padding: 0;
+    }
+    .espacios-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 0 4px 16px 4px;
+    }
+    .espacio-card {
+        max-width: 100%;
+    }
+}
+@media (max-width: 600px) {
+    .espacio-card-content {
+        padding: 12px 8px 10px 8px;
+    }
+    .espacio-card-img-container {
+        aspect-ratio: 4/3;
+    }
+    .espacio-card-content h3 {
+        font-size: 1.05rem;
+    }
+    .espacio-card-content .espacio-descripcion {
+        font-size: 0.95rem;
+    }
+}
+
+.placeholder-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: #ececec;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  min-height: 120px;
+  text-align: center;
+  letter-spacing: 1px;
+  border-radius: 0 0 0 0;
 }

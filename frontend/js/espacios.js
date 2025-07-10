@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function cargarEspacios() {
     try {
         // Realiza una solicitud a la API de espacios culturales.
-        const response = await fetch('http://127.0.0.1:8000/api/espacios/'); // Asumiendo este endpoint
+        const response = await fetch('http://127.0.0.1:8000/api/centros/'); // Asumiendo este endpoint
         if (!response.ok) {
             throw new Error(`Error HTTP! estado: ${response.status}`);
         }
@@ -93,7 +93,7 @@ function filtrarYRenderizarEspacios() {
         
         // Atributos data-* para el modal
         card.dataset.nombre = espacio.nombre;
-        card.dataset.imagen = espacio.imagen_portada || ''; // Asumiendo un campo 'imagen_portada' para la vista previa
+        card.dataset.imagen = espacio.imagen || ''; // Asumiendo un campo 'imagen' para la vista previa
         card.dataset.direccion = espacio.direccion || 'No especificada';
         card.dataset.horarios = espacio.horarios || 'No especificados';
         card.dataset.descripcion = espacio.descripcion || 'No hay descripción disponible.';
@@ -101,11 +101,11 @@ function filtrarYRenderizarEspacios() {
 
         card.innerHTML = `
             <div class="punto-card-img-container">
-                <img src="${espacio.imagen_portada || '/frontend/assets/img/default-espacio.jpg'}" alt="${espacio.nombre}">
+                <img src="${espacio.imagen || '/frontend/assets/img/default-espacio.jpg'}" alt="${espacio.nombre}">
             </div>
             <div class="punto-card-content">
                 <h3 class="punto-titulo">${espacio.nombre}</h3>
-                <p class="punto-horarios">Horario: ${espacio.horarios || 'No especificados'}</p>
+                <p class="punto-descripcion">${espacio.descripcion ? espacio.descripcion.substring(0, 100) + (espacio.descripcion.length > 100 ? '...' : '') : 'No hay descripción disponible.'}</p>
             </div>
         `;
         // Añade un event listener a cada tarjeta para abrir el modal.
@@ -136,9 +136,18 @@ function mostrarModalEspacio(espacio) {
     }
 
     // Rellena el modal con los datos del espacio.
-    modalImg.src = espacio.imagen_portada || '/frontend/assets/img/default-espacio.jpg'; // Usa imagen_portada para el modal también
+    modalImg.src = espacio.imagen || '/frontend/assets/img/default-espacio.jpg'; // Usa imagen para el modal también
     modalNombre.textContent = espacio.nombre || 'Nombre no disponible';
-    modalHorarios.textContent = `Horarios: ${espacio.horarios || 'No especificados'}`;
+    // Usar los campos reales del backend para horario
+    let horarioTexto = 'No especificado';
+    if (espacio.horario_apertura && espacio.horario_cierre) {
+        horarioTexto = `${espacio.horario_apertura} - ${espacio.horario_cierre}`;
+    } else if (espacio.horario_apertura) {
+        horarioTexto = `${espacio.horario_apertura}`;
+    } else if (espacio.horario_cierre) {
+        horarioTexto = `${espacio.horario_cierre}`;
+    }
+    modalHorarios.textContent = `Horario: ${horarioTexto}`;
     modalDireccion.textContent = `Dirección: ${espacio.direccion || 'No especificada'}`;
     modalDescripcion.textContent = espacio.descripcion || 'No hay descripción disponible.';
     modalMapLink.href = espacio.maplink || '#';

@@ -463,37 +463,148 @@ input, textarea {
     }
 }
 
-.eventos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 32px;
-    padding: 24px;
+/* Container should use nearly full width, with max-width for readability */
+.contenedor-eventos {
     width: 100%;
     max-width: 1400px;
-    margin: 0 auto 50px auto;
+    margin: 0 auto;
+    padding: 24px 0 0 0;
+    text-align: center;
+}
+.eventos-list-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 32px 0 32px 0;
 }
 
+/* --- Card Grid Improvements --- */
+.eventos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 20px;
+    padding: 24px 16px 32px 16px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* --- Card Layout --- */
 .evento-card {
+    max-width: 420px;
+    width: 100%;
     background: #fff;
-    box-shadow: 2px 7px 13px rgba(0,0,0,0.13);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.18s;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    min-height: 420px;
-    position: relative;
-}
-
-.evento-card:hover {
-    transform: scale(1.04);
-}
-
-.evento-card-img-container {
-    width: 100%;
-    height: 200px;
     overflow: hidden;
     position: relative;
+    border-left: none;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+.evento-card.borrador {
+    border-left: 6px solid #dc3545;
+}
+
+/* --- Image at Top, Fixed Aspect Ratio --- */
+.evento-card-img-container {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: #f3f3f3;
+    position: relative;
+    overflow: hidden;
+}
+.evento-card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- Overlay Borrador Label on Image --- */
+.evento-card.borrador .estado-badge {
+    display: block;
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    background: #dc3545;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 6px 18px;
+    border-radius: 12px;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.estado-badge {
+    display: none;
+}
+
+/* --- Card Content --- */
+.evento-card-content {
+    padding: 20px 18px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+.evento-card-content h3 {
+    font-size: 1.18rem;
+    font-weight: 700;
+    color: #222;
+    margin: 0 0 4px 0;
+    line-height: 1.2;
+}
+.evento-card-content .evento-fecha {
+    font-size: 0.98rem;
+    color: #888;
+    font-weight: 400;
+    margin: 0 0 4px 0;
+    background: none;
+    padding: 0;
+    display: block;
+}
+.evento-card-content .evento-fecha strong {
+    font-weight: 400;
+    color: #888;
+}
+.evento-card-content .evento-descripcion {
+    font-size: 1rem;
+    color: #444;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .eventos-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 0 4px 16px 4px;
+    }
+    .evento-card {
+        max-width: 100%;
+    }
+}
+@media (max-width: 600px) {
+    .evento-card-content {
+        padding: 12px 8px 10px 8px;
+    }
+    .evento-card-img-container {
+        aspect-ratio: 4/3;
+    }
+    .evento-card-content h3 {
+        font-size: 1.05rem;
+    }
+    .evento-card-content .evento-descripcion {
+        font-size: 0.95rem;
+    }
 }
 
 .evento-card-img {
@@ -505,34 +616,6 @@ input, textarea {
 
 .evento-card:hover .evento-card-img {
     transform: scale(1.05);
-}
-
-.evento-card-content {
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    flex: 1;
-}
-
-.evento-fecha {
-    font-size: 14px;
-    color: #888;
-    font-weight: 500;
-}
-
-.evento-titulo {
-    font-size: 18px;
-    color: #222;
-    font-weight: 600;
-    margin: 0;
-}
-
-.evento-descripcion {
-    font-size: 14px;
-    color: #666;
-    line-height: 1.5;
-    flex: 1;
 }
 
 .evento-categoria-badge {
@@ -550,36 +633,40 @@ input, textarea {
     display: flex;
     gap: 12px;
     justify-content: flex-end;
-    margin-top: 16px;
+    margin-top: 18px;
 }
-
-.pill-btn {
+.edit-btn, .delete-btn {
+    padding: 10px 22px;
     border: none;
-    border-radius: 20px;
-    padding: 8px 20px;
-    font-size: 14px;
+    border-radius: 8px;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.18s;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    transition: background 0.18s, color 0.18s, transform 0.15s;
+    outline: none;
+    margin: 0;
+    letter-spacing: 0.02em;
 }
-
-.pill-btn.edit {
-    background: #12bcd3;
+.edit-btn {
+    background: #2196f3;
     color: #fff;
 }
-
-.pill-btn.delete {
+.edit-btn:hover, .edit-btn:focus {
+    background: #1769aa;
+    color: #fff;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 4px 12px rgba(33,150,243,0.15);
+}
+.delete-btn {
     background: #e53935;
     color: #fff;
 }
-
-.pill-btn.edit:hover {
-    background: #0a8fa3;
-}
-
-.pill-btn.delete:hover {
+.delete-btn:hover, .delete-btn:focus {
     background: #b71c1c;
+    color: #fff;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 4px 12px rgba(229,57,53,0.15);
 }
 
 /* Botón de publicar */
@@ -974,4 +1061,20 @@ input, textarea {
 
 .logout-btn:hover {
     background-color: #c82333;
+}
+
+.placeholder-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: #ececec;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  min-height: 120px;
+  text-align: center;
+  letter-spacing: 1px;
+  border-radius: 0 0 0 0;
 }

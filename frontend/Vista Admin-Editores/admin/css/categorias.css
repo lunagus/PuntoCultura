@@ -143,24 +143,6 @@
     box-shadow: 0 0 0 3px rgba(58, 150, 255, 0.15);
 }
 
-.form-button {
-    padding: 12px;
-    background-color: #3a96fffd; /* CAMBIO: Color azul para el botón de añadir, acorde a la paleta */
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 1.1rem;
-}
-
-.form-button:hover {
-    background-color: #2980ff; /* Azul más oscuro en hover */
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(58, 150, 255, 0.3);
-}
-
 .form-message {
     margin-top: 20px;
     padding: 10px;
@@ -247,23 +229,14 @@
     transition: background-color 0.2s ease;
 }
 
-.table-actions .edit-btn {
-    background-color: #ffc107; /* Amarillo para editar */
-    color: #333;
+/* Remove this override that breaks button colors: */
+/*
+.table-actions .edit-btn, .table-actions .edit-btn:hover, .table-actions .delete-btn, .table-actions .delete-btn:hover {
+    background: unset !important;
+    color: unset !important;
+    box-shadow: unset !important;
 }
-
-.table-actions .edit-btn:hover {
-    background-color: #e0a800;
-}
-
-.table-actions .delete-btn {
-    background-color: #dc3545; /* Rojo para eliminar */
-    color: white;
-}
-
-.table-actions .delete-btn:hover {
-    background-color: #c82333;
-}
+*/
 
 .mensaje-vacio {
     text-align: center;
@@ -317,30 +290,8 @@
     justify-content: center;
     margin-top: 10px;
 }
-.pill-btn {
-    border: none;
-    border-radius: 20px;
-    padding: 7px 22px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    background: #12bcd3;
-    color: #fff;
-    transition: background 0.18s;
-    box-shadow: 0 2px 6px rgba(18,188,211,0.08);
-}
-.pill-btn.edit {
-    background: #12bcd3;
-}
-.pill-btn.delete {
-    background: #e53935;
-}
-.pill-btn.edit:hover {
-    background: #0a8fa3;
-}
-.pill-btn.delete:hover {
-    background: #b71c1c;
-}
+
+/* Remove .pill-btn and .table-actions button styles */
 
 /* Responsive Design para Categorías */
 @media (max-width: 1200px) {
@@ -375,11 +326,6 @@
         margin-top: 8px;
     }
     
-    .pill-btn {
-        padding: 8px 16px;
-        font-size: 13px;
-    }
-    
     /* Modal responsive */
     .modal-contenido {
         width: 95%;
@@ -392,11 +338,6 @@
     
     .form-input {
         padding: 10px;
-        font-size: 14px;
-    }
-    
-    .form-button {
-        padding: 12px;
         font-size: 14px;
     }
     
@@ -444,13 +385,6 @@
         margin-top: 6px;
     }
     
-    .pill-btn {
-        width: 100%;
-        text-align: center;
-        padding: 8px 12px;
-        font-size: 12px;
-    }
-    
     /* Modal más compacto */
     .modal-contenido {
         width: 98%;
@@ -467,11 +401,6 @@
         padding: 8px;
         font-size: 13px;
         margin-bottom: 8px;
-    }
-    
-    .form-button {
-        padding: 10px;
-        font-size: 13px;
     }
     
     /* Botón flotante más pequeño */
@@ -513,10 +442,6 @@
 @media (hover: none) and (pointer: coarse) {
     .categoria-card:hover {
         transform: none;
-    }
-    
-    .pill-btn {
-        min-height: 44px; /* Tamaño mínimo para touch */
     }
     
     .form-input {
@@ -608,6 +533,49 @@
 
 .pill-btn.delete:hover {
     background: #b71c1c;
+}
+
+.edit-btn, .delete-btn {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    transition: background 0.18s, color 0.18s, transform 0.15s;
+    outline: none;
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+.edit-btn {
+    background: #2196f3;
+    color: #fff;
+    font-weight: 700;
+}
+.edit-btn:hover, .edit-btn:focus {
+    background: #1769aa;
+    color: #fff;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 4px 12px rgba(33,150,243,0.15);
+}
+.delete-btn {
+    background: #e53935;
+    color: #fff;
+    font-weight: 700;
+}
+.delete-btn:hover, .delete-btn:focus {
+    background: #b71c1c;
+    color: #fff;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 4px 12px rgba(229,57,53,0.15);
+}
+@media (max-width: 768px) {
+    .actions {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 8px;
+    }
 }
 
 /* Estilos para el botón de logout */
