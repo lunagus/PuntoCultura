@@ -6,68 +6,135 @@
   <title>Login - Panel de Administración</title>
 
   <style>
-    /* Your original styles can stay here or be moved to login.css */
+    /* Variables de color para consistencia */
     :root {
-      --cultural-red: #e63946;
+      --button-blue-light: #0da8e6; /* Azul claro para el botón */
+      --button-blue-dark: #0461b8; /* Azul oscuro para el botón */
       --cultural-yellow: #ffd166;
       --text-color: #333;
-      --bg-color: #f8f9fa;
+      --bg-color-light: #f8f9fa;
+      --bg-color-dark: #2c3e50;
+      --form-bg-light: rgba(255, 255, 255, 0.95); /* Fondo del formulario ligeramente transparente */
+      --shadow-color: rgba(0, 0, 0, 0.2);
     }
 
     body {
-      font-family: sans-serif;
-      background-color: var(--bg-color);
+      font-family: 'Montserrat', sans-serif; /* Usando la fuente de tu sitio principal */
+      background: linear-gradient(135deg, #0461b8, #0da8e6); /* Degradado cultural azul */
+      /* background-image: url('/frontend/assets/img/bombo.webp'); REMOVIDO: Imagen de fondo */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh; /* Usar min-height para asegurar que ocupe toda la altura */
       margin: 0;
+      color: var(--text-color);
+      transition: background-image 0.5s ease-in-out; /* Transición suave para el fondo */
     }
 
     .login-container {
-      background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      width: 100%;
+      background: var(--form-bg-light);
+      padding: 2.5rem;
+      border-radius: 12px; /* Bordes más redondeados */
+      box-shadow: 0 10px 25px var(--shadow-color); /* Sombra más pronunciada */
+      max-width: 450px; /* Un poco más ancho */
+      width: 90%; /* Responsivo */
+      text-align: center;
+      backdrop-filter: blur(8px); /* Efecto de desenfoque para el fondo */
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+    }
+
+    .login-container h1 {
+      color: #0461b8; /* Color del logo de tu sitio */
+      margin-bottom: 1.8rem;
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
     }
 
     .form-group {
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem; /* Más espacio entre grupos */
+      text-align: left;
     }
 
     .form-group label {
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
+      font-weight: 600;
+      color: #555;
+      font-size: 0.95rem;
     }
 
     .form-group input {
-      width: 100%;
-      padding: 0.75rem;
+      width: calc(100% - 20px); /* Ajuste para padding */
+      padding: 0.9rem 10px; /* Más padding */
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 8px; /* Bordes más redondeados */
+      font-size: 1rem;
+      color: var(--text-color);
+      background-color: #f0f0f0; /* Fondo del input ligeramente gris */
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: #0da8e6; /* Color cultural al enfocar */
+      box-shadow: 0 0 0 3px rgba(13, 168, 230, 0.2); /* Sombra de enfoque */
+      outline: none; /* Quitar el outline por defecto */
+      background-color: #fff;
     }
 
     .login-button {
       width: 100%;
-      padding: 0.75rem;
-      background-color: var(--cultural-red);
+      padding: 1rem;
+      background: linear-gradient(45deg, var(--button-blue-dark), var(--button-blue-light)); /* Degradado azul para el botón */
       border: none;
       color: white;
-      border-radius: 4px;
-      font-size: 1rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
       cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
     }
 
     .login-button:hover {
-      background-color: #d32f2f;
+      background: linear-gradient(45deg, var(--button-blue-light), var(--button-blue-dark)); /* Invertir degradado al hover */
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px); /* Pequeño efecto de levantamiento */
     }
 
     .error-message {
-      color: var(--cultural-red);
-      margin-top: 1rem;
+      color: var(--cultural-red); /* Mantiene el color rojo para mensajes de error */
+      margin-top: 1.2rem;
+      font-weight: 600;
       display: none;
+      font-size: 0.9rem;
+    }
+
+    /* Media Queries para responsividad */
+    @media (max-width: 600px) {
+      .login-container {
+        padding: 1.5rem;
+        margin: 20px; /* Margen en móviles */
+      }
+
+      .login-container h1 {
+        font-size: 1.8rem;
+      }
+
+      .form-group input {
+        padding: 0.8rem 10px;
+        font-size: 0.9rem;
+      }
+
+      .login-button {
+        padding: 0.9rem;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
