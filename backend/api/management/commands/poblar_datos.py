@@ -8,7 +8,7 @@ from django.db import IntegrityError
 
 
 class Command(BaseCommand):
-    help = "Pobla la base de datos con datos de cultura para Santiago del Estero"
+    help = "Poblar la base de datos con datos de cultura para Santiago del Estero"
 
     def add_arguments(self, parser):
         parser.add_argument(
