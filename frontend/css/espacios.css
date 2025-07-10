@@ -14,6 +14,7 @@
      padding: 20px 0px;
      position: fixed;
      transition: background-color 0.3s ease;
+     z-index:10000;
  }
 
 
@@ -56,456 +57,38 @@
  }
 
  #hero {
-     color: white;
-     display: flex;
-     flex-direction: column;
-     width: 100%;
-     height: 55vh;
-     overflow-x: hidden;
-     background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)), url("/frontend/assets/img/museoo.jpg");
-     background-repeat: no-repeat;
-     background-size: cover;
-     background-position: center;
-     justify-content: flex-end;
-     align-items: center;
- }
-
- .hero_content {
-     display: flex;
-     width: 80%;
-     height: 80%;
-     justify-content: flex-start;
-     align-items: flex-end;
-     flex-wrap: wrap;
- }
-
- .hero_content h1 {
-     margin-bottom: 20px;
-     color: white;
-     font-size: 3rem;
-     text-shadow: 1px 1px 100px black;
- }
-
- #institucional {
-     color: rgb(0, 0, 0);
-     display: flex;
-     flex-direction: column;
-     width: 100%;
-     justify-content: center;
-     align-items: center;
-     background-color: rgb(237, 237, 237);
- }
-
- .datos-institucion {
-     margin: 50px 0;
-     display: flex;
-     width: 80%;
-     flex-direction: column;
-     justify-content: center;
-     gap: 20px;
- }
-
- .autoridad-institucion {
-     display: flex;
-     align-items: center;
-     justify-content: space-evenly;
-     gap: 20px;
- }
-
- .autoridad-card {
-     display: flex;
-     width: 50%;
-     height: 150px;
-     justify-content: center;
-     align-items: center;
-     border-radius: 10px;
-     gap: 20px;
-     padding: 10px;
-     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
- }
-
- .autoridad-img img {
-     width: 100px;
-     height: 100px;
-     border-radius: 50%;
- }
-
- .mision-institucion {
-     display: flex;
-     flex-direction: column;
-     gap: 20px;
- }
-
- .funciones-institucion {
-     display: flex;
-     flex-direction: column;
-     gap: 20px;
- }
-
- #information {
-     margin: 50px 0;
-     color: rgb(0, 0, 0);
-     display: flex;
-     flex-direction: column;
-     width: 100%;
-     height: 50vh;
-     justify-content: center;
-     align-items: center;
- }
-
- .information-cards {
-     margin: 50px 0;
-     display: flex;
-     width: 80%;
-     justify-content: space-evenly;
-     align-items: center;
-     flex-wrap: wrap;
-     gap: 20px;
- }
-
- .card {
-     display: flex;
-     width: 30%;
-     height: 80px;
-     justify-content: center;
-     align-items: center;
-     box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.2);
-     border-color: #000000;
-     font-size: 11px;
-     border-radius: 10px;
-     gap: 20px;
-     padding: 10px;
-     text-decoration: none;
-     color: rgb(42, 61, 71);
- }
-
- .card:hover {
-     background: #12bcd3b6;
-     transition: 0.1s;
-     scale: 1.05;
- }
-
- .card img {
-     width: 30px;
- }
-
- #footer {
-     display: flex;
-     width: 100%;
-     height: 100%;
-    background: linear-gradient(to right, #0461b8, #0da8e6);
-
-
-     color: white;
-     justify-content: center;
-     align-items: center;
- }
-
- .footer {
-     margin: 50px 0;
-     height: 100%;
-     display: flex;
-     width: 100%; /* Ahora ocupa el 100% del ancho del #footer */
-     justify-content: space-between;
-     align-items: center;
-     font-size: 12px;
-     padding: 0 20px; /* Añadido padding para el espaciado interno */
-     box-sizing: border-box; /* Asegura que el padding no añada ancho extra */
- }
-
- .footer-img {
-     width: 50%;
-     display: flex;
-     gap: 50px;
- }
-
- .footer-img img {
-     width: 100px;
- }
-
-
- .footer-datos {
-     width: 50%;
-     display: flex;
-     align-items: flex-end;
-     flex-direction: column;
-     gap: 10px;
- }
-
- .footer-datos img {
-     margin-left: 5px;
- }
-
- .footer-social {
-     width: 100%;
-     display: flex;
-     align-items: center;
-     justify-content: flex-end;
-     gap: 5px;
- }
-
- .footer-social img {
-     width: 20px;
- }
-
-.container {
-    margin-top: 120px;
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    color: black;
-}
-
-.section-header h2 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    color: #12bcd3;
-}
-
-.section-header p {
-    font-size: 1rem;
-    color: #444;
-}
-
-.filtros-wrapper {
-    margin: 30px auto;
-    width: 80%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.filtro-grupo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.filtro-label {
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.filtro-select {
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-.filtros-container {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.filtro-btn {
-    background-color: transparent;
-    border: 1px solid #12bcd3;
-    color: #12bcd3;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.filtro-btn.activo,
-.filtro-btn:hover {
-    background-color: #12bcd3;
     color: white;
-}
-
-/* css/puntos.css - Estilos para la página de Puntos Culturales */
-.puntos-section .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-.puntos-section {
-    padding-top: 60px;
-    padding-bottom: 50px;
-    align-items: center;
-}
-
-.puntos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 2.5rem;
-    margin-top: 0;
-    align-items: center;
-    justify-content: center; /* <-- Esto centra las cards */
-}
-
-
-.punto-card {
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease;
-    align-items: center;
-    cursor: pointer; /* Añadido para indicar que es clicable */
-}
-
-.punto-card:hover {
-    transform: scale(1.03);
-}
-
-.punto-card-img-container {
     width: 100%;
-    height: 180px; /* reducido de 220px */
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    height: 50vh; /* Ajustado para que no sea tan alto en la página de espacios */
     overflow: hidden;
-}
-
-.punto-card-img-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.punto-card-content {
-    padding: 1rem; /* reducido */
-    text-align: center;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.punto-titulo {
-    font-size: 1.2rem; /* reducido */
-    margin-bottom: 0.5rem;
-    color: #333;
-}
-
-.punto-horarios { /* Nuevo estilo para los horarios en la vista previa */
-    font-size: 0.95rem;
-    color: #666;
-    margin-bottom: 0.5rem;
-}
-
-.punto-direccion {
-    font-size: 0.9rem;
-    color: #777;
-    margin-bottom: 1rem; /* reducido */
-    flex-grow: 1;
-}
-
-.punto-ubicacion-btn {
-    display: inline-block;
-    padding: 0.6rem 1.5rem; /* más compacto */
-    background-color: #333;
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
-}
-
-.punto-ubicacion-btn:hover {
-    background-color: #555;
-}
-
-/* Estilos para el Modal de Espacios Culturales */
-.modal-overlay {
-    display: none; /* Oculto por defecto */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente */
-    z-index: 2000; /* Asegura que esté por encima de todo */
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)), url(/frontend/assets/img/museoo.jpg); /* Puedes cambiar esta imagen si tienes una específica para espacios */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
     justify-content: center;
     align-items: center;
-    overflow-y: auto; /* Permite scroll si el contenido es largo */
 }
 
-.modal-content {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    max-width: 600px;
-    width: 90%;
-    position: relative;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    text-align: left;
-    transform: translateY(-50px); /* Efecto de entrada */
-    opacity: 0; /* Oculto inicialmente */
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+.hero_content {
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    text-align: center; /* Centrar el texto en el hero */
 }
 
-.modal-content.active {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-.modal-close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-    transition: color 0.2s ease;
-}
-
-.modal-close-btn:hover {
-    color: #c30135;
-}
-
-.modal-img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.modal-title {
-    font-size: 2rem;
-    color: #222;
-    margin-bottom: 10px;
-}
-
-.modal-horarios, .modal-direccion, .modal-description {
-    font-size: 1rem;
-    color: #555;
-    margin-bottom: 8px;
-}
-
-.modal-description {
-    line-height: 1.6;
-    margin-top: 20px;
-}
-
-.modal-map-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #12bcd3;
+.hero_content h1 {
     color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
+    font-size: 3rem; /* Ajustado el tamaño de la fuente */
+    text-shadow: 1px 1px 100px black;
+    width: 100%; /* Asegurar que ocupe todo el ancho */
 }
 
-.modal-map-btn:hover {
-    background-color: #0a8fa3;
-}
-
-/* Estilos para la barra de búsqueda en espacios culturales */
+/* Barra de búsqueda en espacios culturales */
 .search-section {
     width: 100%;
     margin: 20px auto; /* Centrar y añadir margen vertical */
@@ -517,15 +100,15 @@
 
 .search-container {
     width: 100%;
-    max-width: 800px;
+    max-width: 80%;
     position: relative;
     padding: 0 20px;
 }
 
 .search-input {
     width: 100%;
-    padding: 14px 24px 14px 48px;
-    font-size: 18px;
+    padding: 18px 30px 18px 54px; /* Aumentado el padding para hacerla más grande */
+    font-size: 20px; /* Aumentado el tamaño de la fuente */
     border: none;
     border-radius: 50px;
     background: rgba(230, 230, 230, 0.95);
@@ -545,7 +128,7 @@
     box-shadow: 0 0 0 3px rgba(113, 99, 240, 0.25);
 }
 
-.search-icon { /* Si usas un icono dentro del input */
+.search-icon {
     position: absolute;
     top: 50%;
     left: 36px;
@@ -556,21 +139,212 @@
     opacity: 0.8;
 }
 
+/* Estilos para la cuadrícula de puntos culturales */
+.puntos-section {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
-/* Responsive para el modal */
-@media (max-width: 600px) {
-    .modal-content {
-        padding: 20px;
-        max-width: 95%;
-    }
-    .modal-title {
-        font-size: 1.5rem;
-    }
-    .modal-horarios, .modal-direccion, .modal-description {
-        font-size: 0.9rem;
-    }
-    .modal-map-btn {
-        padding: 8px 15px;
-        font-size: 0.9rem;
-    }
+.puntos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.punto-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.punto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.punto-card-img-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.punto-card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.punto-card:hover .punto-card-img-container img {
+    transform: scale(1.05);
+}
+
+.punto-card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.punto-titulo {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: 600;
+}
+
+.punto-descripcion {
+    font-size: 0.95em;
+    color: #666;
+    line-height: 1.5;
+    flex-grow: 1; /* Permite que la descripción ocupe el espacio disponible */
+}
+
+/* Footer */
+#footer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #0461b8, #0da8e6);
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer {
+    margin: 50px 0;
+    height: 100%;
+    display: flex;
+    width: 100%; /* Ahora ocupa el 100% del ancho del #footer */
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    padding: 0 20px; /* Añadido padding para el espaciado interno */
+    box-sizing: border-box; /* Asegura que el padding no añada ancho extra */
+}
+
+.footer-img {
+    width: 50%;
+    display: flex;
+    gap: 50px;
+}
+
+.footer-img img {
+    width: 100px;
+}
+
+
+.footer-datos {
+    width: 50%;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-datos img {
+    margin-left: 5px;
+}
+
+.footer-social {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.footer-social img {
+    width: 20px;
+}
+
+/* Modal de Espacios Culturales */
+.modal-overlay {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté por encima de todo */
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal-content.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.modal-img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.modal-title {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.modal-horarios,
+.modal-direccion,
+.modal-description {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.modal-map-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.modal-map-btn:hover {
+    background-color: #0056b3;
 }

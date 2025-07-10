@@ -2,6 +2,43 @@
 
 const buscador = document.getElementById("buscador");
 
+// Cache para almacenar los datos de la API una vez cargados
+let allEvents = [];
+let allCenters = [];
+let allCategories = [];
+
+/**
+ * Carga todos los datos necesarios (eventos, centros, categorías) desde la API.
+ * Esto se hace una vez para optimizar las búsquedas posteriores.
+ */
+async function loadAllData() {
+    try {
+        const [eventsResponse, centersResponse, categoriesResponse] = await Promise.all([
+            fetch('http://127.0.0.1:8000/api/eventos/'),
+            fetch('http://127.0.0.1:8000/api/centros/'),
+            fetch('http://127.0.0.1:8000/api/categorias/')
+        ]);
+
+        if (!eventsResponse.ok) throw new Error(`Error HTTP al cargar eventos: ${eventsResponse.status}`);
+        if (!centersResponse.ok) throw new Error(`Error HTTP al cargar centros: ${centersResponse.status}`);
+        if (!categoriesResponse.ok) throw new Error(`Error HTTP al cargar categorías: ${categoriesResponse.status}`);
+
+        allEvents = await eventsResponse.json();
+        allCenters = await centersResponse.json();
+        allCategories = await categoriesResponse.json();
+
+        console.log("Datos cargados para el buscador:", { allEvents, allCenters, allCategories });
+
+    } catch (error) {
+        console.error("Error al cargar datos para el buscador:", error);
+        // Podrías mostrar un mensaje al usuario si la carga inicial falla
+    }
+}
+
+// Cargar los datos cuando el DOM esté completamente cargado
+document.addEventListener('DOMContentLoaded', loadAllData);
+
+
 buscador.addEventListener("keypress", async function (e) {
     if (e.key === "Enter") {
         e.preventDefault();
@@ -12,62 +49,73 @@ buscador.addEventListener("keypress", async function (e) {
 
         let found = false;
 
-        // Buscar en eventos
-        try {
-            const responseEventos = await fetch('http://127.0.0.1:8000/api/eventos/');
-            if (!responseEventos.ok) {
-                throw new Error(`Error HTTP al buscar eventos: ${responseEventos.status}`);
+        // 1. Buscar coincidencia EXACTA de evento por título
+        const exactEventMatch = allEvents.find(evento =>
+            evento.titulo.toLowerCase() === termino
+        );
+        if (exactEventMatch) {
+            if (typeof showEventModal === 'function') {
+                showEventModal(exactEventMatch);
+                found = true;
+            } else {
+                console.error("showEventModal no está definido. Asegúrate de que modal-handler.js esté cargado.");
             }
-            const eventos = await responseEventos.json();
-            const eventoEncontrado = eventos.find(evento =>
+        }
+
+        // 2. Buscar coincidencia EXACTA de centro cultural por nombre (si no se encontró evento exacto)
+        if (!found) {
+            const exactCenterMatch = allCenters.find(centro =>
+                centro.nombre.toLowerCase() === termino
+            );
+            if (exactCenterMatch) {
+                if (typeof showCentroModal === 'function') {
+                    showCentroModal(exactCenterMatch);
+                    found = true;
+                } else {
+                    console.error("showCentroModal no está definido. Asegúrate de que modal-handler.js esté cargado.");
+                }
+            }
+        }
+
+        // 3. Buscar coincidencia EXACTA de categoría por nombre (si no se encontró nada exacto)
+        if (!found) {
+            const exactCategoryMatch = allCategories.find(categoria =>
+                categoria.nombre.toLowerCase() === termino
+            );
+            if (exactCategoryMatch) {
+                window.location.href = `/frontend/pages/eventos.html?categoria=${exactCategoryMatch.id}`;
+                found = true;
+            }
+        }
+
+        // 4. Buscar coincidencias PARCIALES de eventos (si no se encontró nada exacto)
+        if (!found) {
+            const partialEventMatches = allEvents.filter(evento =>
                 evento.titulo.toLowerCase().includes(termino) ||
                 evento.descripcion.toLowerCase().includes(termino)
             );
-
-            if (eventoEncontrado) {
-                // Asegúrate de que showEventModal esté disponible globalmente (desde modal-handler.js)
-                if (typeof showEventModal === 'function') {
-                    showEventModal(eventoEncontrado);
-                    found = true;
-                } else {
-                    console.error("showEventModal no está definido. Asegúrate de que modal-handler.js esté cargado.");
-                }
+            if (partialEventMatches.length > 0) {
+                window.location.href = `/frontend/pages/eventos.html?busqueda=${encodeURIComponent(termino)}`;
+                found = true;
             }
-        } catch (error) {
-            console.error("Error al buscar eventos:", error);
         }
 
-        // Si no se encontró en eventos, buscar en centros
+        // 5. Buscar coincidencias PARCIALES de centros culturales (si no se encontró nada)
         if (!found) {
-            try {
-                const responseCentros = await fetch('http://127.0.0.1:8000/api/centros/');
-                if (!responseCentros.ok) {
-                    throw new Error(`Error HTTP al buscar centros: ${responseCentros.status}`);
-                }
-                const centros = await responseCentros.json();
-                const centroEncontrado = centros.find(centro =>
-                    centro.nombre.toLowerCase().includes(termino) ||
-                    centro.direccion.toLowerCase().includes(termino) ||
-                    centro.descripcion.toLowerCase().includes(termino)
-                );
-
-                if (centroEncontrado) {
-                    // Asegúrate de que showCentroModal esté disponible globalmente (desde modal-handler.js)
-                    if (typeof showCentroModal === 'function') {
-                        showCentroModal(centroEncontrado);
-                        found = true;
-                    } else {
-                        console.error("showCentroModal no está definido. Asegúrate de que modal-handler.js esté cargado.");
-                    }
-                }
-            } catch (error) {
-                console.error("Error al buscar centros culturales:", error);
+            const partialCenterMatches = allCenters.filter(centro =>
+                centro.nombre.toLowerCase().includes(termino) ||
+                (centro.direccion && centro.direccion.toLowerCase().includes(termino)) ||
+                (centro.descripcion && centro.descripcion.toLowerCase().includes(termino))
+            );
+            if (partialCenterMatches.length > 0) {
+                window.location.href = `/frontend/pages/espacios culturales.html?busqueda=${encodeURIComponent(termino)}`;
+                found = true;
             }
         }
 
         // Si no se encontró en ninguno
         if (!found) {
-            alert(`No se encontraron resultados para "${termino}" en eventos ni espacios culturales.`);
+            alert(`No se encontraron resultados para "${termino}" en eventos, categorías ni espacios culturales.`);
         }
     }
 });

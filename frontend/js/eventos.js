@@ -83,8 +83,13 @@ async function cargarEventos() {
     // Verifica si hay un término de búsqueda en la URL (desde el buscador de la página principal).
     const parametrosURL = new URLSearchParams(window.location.search);
     const busquedaURL = parametrosURL.get('busqueda');
+    const categoriaURL = parametrosURL.get('categoria'); // <--- Nuevo: Leer parámetro de categoría
+
     if (busquedaURL) {
       document.getElementById("filtro-texto").value = busquedaURL; // Rellena el campo de búsqueda.
+    }
+    if (categoriaURL) { // <--- Nuevo: Si hay parámetro de categoría, selecciona la opción
+      selectCat.value = categoriaURL;
     }
 
     filtrarYRenderizar(); // Aplica los filtros y renderiza los eventos.
@@ -284,48 +289,3 @@ function cerrarModalEvento() {
     modalOverlay.style.display = 'none';
   }, 300); // Coincide con la duración de la transición CSS.
 }
-
-// Nota: La función eliminarEvento no se utiliza en esta implementación de vista previa/modal,
-// pero se mantiene por si el usuario desea añadir funcionalidad de administración.
-/*
-async function eliminarEvento(id) {
-  const confirmacion = confirm("¿Seguro que quieres eliminar este evento?");
-  if (!confirmacion) return;
-
-  try {
-    const response = await fetch(`http://127.0.0.1:8000/api/eventos/${id}/`, {
-      method: "DELETE",
-    });
-
-    if (response.ok) {
-      alert("Evento eliminado correctamente.");
-      cargarEventos();
-    } else {
-      alert("No se pudo eliminar el evento.");
-    }
-  } catch (error) {
-    console.error("Error al eliminar evento:", error);
-  }
-}
-*/
-
-// Nota: La función cargarOpciones parece estar relacionada con un formulario de administración,
-// no directamente con la visualización de eventos para el usuario final.
-/*
-async function cargarOpciones() {
-  try {
-    const centros = await fetch("http://127.0.0.1:8000/api/centros/").then((res) => res.json());
-    const categorias = await fetch("http://127.0.0.1:8000/api/categorias/").then((res) => res.json());
-
-    const centroSelect = document.getElementById("centro_cultural");
-    centros.forEach((c) => {
-      const option = document.createElement("option");
-      option.value = c.id;
-      option.textContent = c.nombre;
-      centroSelect.appendChild(option);
-    });
-  } catch (error) {
-    console.error("Error al cargar opciones:", error);
-  }
-}
-*/

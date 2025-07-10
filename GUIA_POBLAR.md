@@ -10,4 +10,4 @@ python manage.py crear_roles
 
 python manage.py poblar_datos --unsplash-key[key]
 
-python manage createsuperuser
+python manage.py createsuperuser

@@ -49,6 +49,17 @@ async function cargarEspacios() {
         // Si tu API no tiene un campo 'publicado', puedes eliminar esta línea.
         espaciosGlobal = data.filter(espacio => espacio.publicado); 
 
+        // <--- Nuevo: Leer el parámetro de búsqueda de la URL
+        const parametrosURL = new URLSearchParams(window.location.search);
+        const busquedaURL = parametrosURL.get('busqueda');
+        if (busquedaURL) {
+            const buscadorEspacios = document.getElementById('buscador-espacios');
+            if (buscadorEspacios) {
+                buscadorEspacios.value = busquedaURL; // Rellena el campo de búsqueda.
+            }
+        }
+        // Fin de la nueva sección
+
         filtrarYRenderizarEspacios(); // Filtra y renderiza los espacios cargados.
 
     } catch (error) {
