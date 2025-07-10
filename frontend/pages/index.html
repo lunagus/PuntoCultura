@@ -56,8 +56,9 @@
                 <div class="carousel-3d" id="carousel">
                     <!-- Las cards se cargarán dinámicamente con JavaScript -->
                 </div>
-                <button class="carousel-btn prev" onclick="prevSlide()">‹</button>
-                <button class="carousel-btn next" onclick="nextSlide()">›</button>
+                <!-- Botones del carrusel sin atributos onclick -->
+                <button class="carousel-btn prev">‹</button>
+                <button class="carousel-btn next">›</button>
             </div>
         </section>
         <section class="search-section">
@@ -95,7 +96,7 @@
     <footer id="footer">
         <div class="footer">
             <div class="footer-img">
-                <img src="/frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="Logo Secretaría de Deportes">
+                <img src="/frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="Logo cultura">
                 <img src="/frontend/assets/icons/logo-sde.svg" alt="Santiago del Estero">
             </div>
             <div class="footer-datos">
@@ -113,9 +114,36 @@
         </div>
     </footer>
 
+    <!-- Modal de Eventos -->
+    <div id="eventoModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <img id="modal-evento-img" src="" alt="Imagen del evento" class="modal-img">
+            <h2 id="modal-evento-titulo" class="modal-title"></h2>
+            <p id="modal-evento-fecha" class="modal-horarios"></p>
+            <p id="modal-evento-centro" class="modal-direccion"></p>
+            <p id="modal-evento-descripcion" class="modal-description"></p>
+            <p id="modal-evento-horario" class="modal-horarios"></p>
+        </div>
+    </div>
+
+    <!-- Modal de Centros Culturales -->
+    <div id="centroModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <img id="modal-centro-img" src="" alt="Imagen del centro cultural" class="modal-img">
+            <h2 id="modal-centro-nombre" class="modal-title"></h2>
+            <p id="modal-centro-horarios" class="modal-horarios"></p>
+            <p id="modal-centro-direccion" class="modal-direccion"></p>
+            <p id="modal-centro-descripcion" class="modal-description"></p>
+            <a id="modal-centro-maplink" href="#" target="_blank" class="modal-map-btn">Ver en Mapa</a>
+        </div>
+    </div>
+
     <script src="/frontend/js/blurryNav.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script src="/frontend/js/calendario.js"></script>
+    <script src="/frontend/js/modal-handler.js"></script> <!-- Nuevo script para manejar modales -->
     <script src="/frontend/js/carrusel.js"></script>
     <script src="/frontend/js/buscador.js"></script>
     <script src="/frontend/js/menu.js"></script> <!-- Nuevo archivo JS para el menú hamburguesa -->

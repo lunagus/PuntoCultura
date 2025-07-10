@@ -59,6 +59,9 @@ async function loadEventsForCarousel() {
                     <h3>${evento.titulo}</h3>
                 </div>
             `;
+            // Almacena los datos completos del evento en el dataset de la tarjeta
+            card.dataset.evento = JSON.stringify(evento); // Guardamos el objeto completo como string
+            card.addEventListener('click', () => showEventModal(evento)); // Agregamos el event listener para abrir el modal al hacer clic
             carousel.appendChild(card); // Añade la tarjeta al carrusel.
         });
 
@@ -137,10 +140,14 @@ if (carousel) {
     carousel.addEventListener("mouseleave", startAutoSlide);
 
     // Si tienes botones de navegación (prev/next) en tu HTML, puedes añadir listeners aquí.
-    // const prevBtn = document.querySelector('.carousel-btn.prev');
-    // const nextBtn = document.querySelector('.carousel-btn.next');
-    // if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-    // if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    const prevBtn = document.querySelector('.carousel-btn.prev');
+    const nextBtn = document.querySelector('.carousel-btn.next');
+    if (prevBtn) {
+        prevBtn.addEventListener('click', prevSlide);
+    }
+    if (nextBtn) {
+        nextBtn.addEventListener('click', nextSlide);
+    }
 }
 
 // Llama a la función para cargar eventos cuando el DOM esté completamente cargado.
