@@ -52,18 +52,18 @@ async function eliminarEvento(element) {
             });
 
             if (response && response.ok) {
-                // Eliminar del array allEvents
+        // Eliminar del array allEvents
                 allEvents = allEvents.filter(event => event.id != eventId);
-                
+
                 // Volver a renderizar el filtro de años y eventos
                 // renderYearsFilter(); // Eliminado
                 filterEvents();
-                
-                alert(`Evento "${eventName}" eliminado correctamente.`);
-                
-                // Llama a loadStats para actualizar los contadores del dashboard
-                if (window.loadStats) {
-                    window.loadStats();
+
+        alert(`Evento "${eventName}" eliminado correctamente.`);
+
+        // Llama a loadStats para actualizar los contadores del dashboard
+        if (window.loadStats) {
+            window.loadStats();
                 }
             } else if (response) {
                 const errorData = await response.json();
@@ -302,9 +302,9 @@ function renderEvents(eventsToRender) {
                 <div class="evento-fecha"><strong>Fecha:</strong> ${eventData.date}</div>
                 <div class="evento-descripcion">${eventData.description}</div>
                 ${additionalInfo}
-                <div class="actions">
-                    <button class="edit-btn" onclick="editarEvento('${eventData.id}')">Editar</button>
-                    <button class="delete-btn" onclick="eliminarEvento(this)">Eliminar</button>
+            <div class="actions">
+                <button class="edit-btn" onclick="editarEvento('${eventData.id}')">Editar</button>
+                <button class="delete-btn" onclick="eliminarEvento(this)">Eliminar</button>
                 </div>
             </div>
         `;

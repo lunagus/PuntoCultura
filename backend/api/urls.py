@@ -6,6 +6,7 @@ from .views import (
     CentroCulturalViewSet,
     CreateEditorUserView,
     UserDetailView,
+    UserListView,
     admin_panel,
     CustomTokenObtainPairView,
 )
@@ -19,6 +20,7 @@ router.register(r"centros", CentroCulturalViewSet)
 urlpatterns = [
     path("create-editor/", CreateEditorUserView.as_view(), name="create-editor"),
     path("users/<int:user_id>/", UserDetailView.as_view(), name="user-detail"),
+    path("users/", UserListView.as_view(), name="user-list"),
     path("admin.html", admin_panel, name="admin-panel"),
     path("token/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("", include(router.urls)),

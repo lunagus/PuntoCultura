@@ -9,7 +9,13 @@ class CategoriaSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate_nombre(self, value):
-        if Categoria.objects.filter(nombre__iexact=value).exists():
+        # Si estamos editando una instancia, self.instance estará presente
+        categoria_id = self.instance.id if self.instance else None
+        if (
+            Categoria.objects.exclude(id=categoria_id)
+            .filter(nombre__iexact=value)
+            .exists()
+        ):
             raise serializers.ValidationError("Esta categoría ya existe.")
         return value
 
@@ -83,3 +89,11 @@ class EditorUserCreateSerializer(serializers.ModelSerializer):
         editor_group = Group.objects.get(name="Editor")
         user.groups.add(editor_group)
         return user
+
+
+class UserListSerializer(serializers.ModelSerializer):
+    groups = serializers.SlugRelatedField(many=True, slug_field="name", read_only=True)
+
+    class Meta:
+        model = User
+        fields = ["id", "username", "email", "is_staff", "groups"]

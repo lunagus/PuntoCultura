@@ -10,6 +10,7 @@ from .serializers import (
     CategoriaSerializer,
     CentroCulturalSerializer,
     EditorUserCreateSerializer,
+    UserListSerializer,
 )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -88,12 +89,65 @@ def admin_panel(request):
 
 
 class UserDetailView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdmin]
 
     def get(self, request, user_id):
         try:
             user = User.objects.get(id=user_id)
             return Response({"username": user.username})
+        except User.DoesNotExist:
+            return Response(
+                {"error": "User not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+    def put(self, request, user_id):
+        admin_password = request.data.get("admin_password")
+        if not admin_password or not request.user.check_password(admin_password):
+            return Response(
+                {"error": "Contraseña de administrador incorrecta."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response(
+                {"error": "User not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        data = request.data
+        if "email" in data:
+            user.email = data["email"]
+        if "password" in data and data["password"]:
+            user.set_password(data["password"])
+        if "username" in data:
+            user.username = data["username"]
+        user.save()
+        from .serializers import UserListSerializer
+
+        return Response(UserListSerializer(user).data)
+
+    def delete(self, request, user_id):
+        import json
+
+        try:
+            body = (
+                request.data
+                if hasattr(request, "data") and request.data
+                else json.loads(request.body.decode())
+            )
+        except Exception:
+            body = {}
+        admin_password = body.get("admin_password")
+        if not admin_password or not request.user.check_password(admin_password):
+            return Response(
+                {"error": "Contraseña de administrador incorrecta."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        try:
+            user = User.objects.get(id=user_id)
+            user.delete()
+            return Response(
+                {"message": "User deleted"}, status=status.HTTP_204_NO_CONTENT
+            )
         except User.DoesNotExist:
             return Response(
                 {"error": "User not found"}, status=status.HTTP_404_NOT_FOUND
@@ -155,3 +209,12 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 {"detail": "Credenciales inválidas"},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+
+
+class UserListView(APIView):
+    permission_classes = [IsAdmin]
+
+    def get(self, request):
+        users = User.objects.all()
+        serializer = UserListSerializer(users, many=True)
+        return Response(serializer.data)

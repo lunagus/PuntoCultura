@@ -16,22 +16,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Cargar estadísticas y hacerla global para que otros scripts la puedan llamar
-    window.loadStats = async function() { // <--- CAMBIO AQUÍ: `window.loadStats`
+    window.loadStats = async function() {
         const totalEventosEl = document.getElementById('totalEventos');
         const totalCategoriasEl = document.getElementById('totalCategorias');
         const totalEspaciosEl = document.getElementById('totalEspacios');
-        const totalUsuariosEl = document.getElementById('totalUsuarios'); // Si tienes una API para usuarios
+        const totalUsuariosEl = document.getElementById('totalUsuarios');
 
         const eventos = await fetchData("http://127.0.0.1:8000/api/eventos/");
         const categorias = await fetchData("http://127.0.0.1:8000/api/categorias/");
         const espacios = await fetchData("http://127.0.0.1:8000/api/centros/");
-        // No hay API para listar todos los usuarios, usar valor fijo o 0
-        const usuarios = null; // No hay endpoint /api/users/
+        const usuarios = await fetchData("http://127.0.0.1:8000/api/users/");
 
         if (eventos) totalEventosEl.textContent = eventos.length;
         if (categorias) totalCategoriasEl.textContent = categorias.length;
         if (espacios) totalEspaciosEl.textContent = espacios.length;
-        if (totalUsuariosEl) totalUsuariosEl.textContent = "N/A"; // No hay API de usuarios
+        if (usuarios) totalUsuariosEl.textContent = usuarios.length;
     };
 
     // Cargar actividad reciente
