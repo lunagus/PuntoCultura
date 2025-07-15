@@ -83,7 +83,7 @@ buscador.addEventListener("keypress", async function (e) {
                 categoria.nombre.toLowerCase() === termino
             );
             if (exactCategoryMatch) {
-                window.location.href = `/frontend/pages/eventos.html?categoria=${exactCategoryMatch.id}`;
+                window.location.href = `eventos.html?categoria=${exactCategoryMatch.id}`;
                 found = true;
             }
         }
@@ -95,7 +95,7 @@ buscador.addEventListener("keypress", async function (e) {
                 evento.descripcion.toLowerCase().includes(termino)
             );
             if (partialEventMatches.length > 0) {
-                window.location.href = `/frontend/pages/eventos.html?busqueda=${encodeURIComponent(termino)}`;
+                window.location.href = `eventos.html?busqueda=${encodeURIComponent(termino)}`;
                 found = true;
             }
         }
@@ -108,7 +108,7 @@ buscador.addEventListener("keypress", async function (e) {
                 (centro.descripcion && centro.descripcion.toLowerCase().includes(termino))
             );
             if (partialCenterMatches.length > 0) {
-                window.location.href = `/frontend/pages/espacios culturales.html?busqueda=${encodeURIComponent(termino)}`;
+                window.location.href = `espacios.html?busqueda=${encodeURIComponent(termino)}`;
                 found = true;
             }
         }

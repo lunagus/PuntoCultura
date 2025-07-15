@@ -67,9 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const categorias = await fetchData("http://127.0.0.1:8000/api/categorias/");
         const espacios = await fetchData("http://127.0.0.1:8000/api/centros/");
 
-        renderList(recentEventsList, eventos, 'titulo', '/Frontend/Vista Admin-Editores/admin/eventos-c.html'); // Asume que 'titulo' es el campo de nombre
-        renderList(recentCategoriasList, categorias, 'nombre', '/Frontend/Vista Admin-Editores/admin/categorias.html'); // Asume que 'nombre' es el campo de nombre
-        renderList(recentEspaciosList, espacios, 'nombre', '/Frontend/Vista Admin-Editores/admin/espacios.html'); // Asume que 'nombre' es el campo de nombre
+        renderList(recentEventsList, eventos, 'titulo', 'eventos.html'); // Asume que 'titulo' es el campo de nombre
+        renderList(recentCategoriasList, categorias, 'nombre', 'categorias.html'); // Asume que 'nombre' es el campo de nombre
+        renderList(recentEspaciosList, espacios, 'nombre', 'espacios.html'); // Asume que 'nombre' es el campo de nombre
     }
 
     // Cargar todo al inicio

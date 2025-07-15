@@ -6,9 +6,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
     <!-- CSS base para la vista de editor (contiene sidebar, hidden, etc.) -->
-    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/admin/css/estilo.editor.css">
+    <link rel="stylesheet" href="css/estilo.editor.css">
     <!-- CSS específico para espacios (definirá el estilo del formulario en el modal y la tabla) -->
-    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/admin/css/espacios.css">
+    <link rel="stylesheet" href="css/espacios.css">
     <!-- Flatpickr (date/time picker) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -19,15 +19,15 @@
     <button id="menu-toggle" class="menu-btn">&#9776;</button>
 
     <div class="sidebar">
-        <a href="/frontend/Vista Admin-Editores/admin/dashboardadmin.html">
-            <img src="/Frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="" /></a>
+        <a href="dashboard.html">
+            <img src="../../assets/icons/sgo-cultura-removebg-preview.png" alt="" /></a>
             <h2>Menú</h2>
             
         <div class="Menú">
-            <a href="/frontend/Vista Admin-Editores/admin/eventos-c.html">Eventos</a>
-            <a href="/frontend/Vista Admin-Editores/admin/categorias.html">Categorias</a>
-            <a href="/frontend/Vista Admin-Editores/admin/espacios.html">Espacios Culturales</a>
-            <a href="/frontend/Vista Admin-Editores/admin/agregarusers.html">Usuarios</a>
+            <a href="eventos.html">Eventos</a>
+            <a href="categorias.html">Categorias</a>
+            <a href="espacios.html">Espacios Culturales</a>
+            <a href="users.html">Usuarios</a>
         </div>
         <div class="logout-section">
             <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
@@ -190,10 +190,10 @@
     </div>
 
     <!-- Scripts -->
-    <script src="/frontend/js/config.js"></script>
-    <script src="/frontend/js/login.js"></script>
-    <script src="/frontend/Vista Admin-Editores/admin/js/espacios.js"></script>
-    <script src="/frontend/Vista Admin-Editores/admin/js/sidebar.js"></script>
+    <script src="../../js/config.js"></script>
+    <script src="../../js/login.js"></script>
+    <script src="js/espacios.js"></script>
+    <script src="js/sidebar.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         flatpickr('#horario_apertura', {

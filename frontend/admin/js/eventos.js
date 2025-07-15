@@ -469,7 +469,7 @@ window.logout = function() {
     if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
         localStorage.removeItem('authToken');
         localStorage.removeItem('userType');
-        window.location.href = '/frontend/pages/login.html';
+        window.location.href = '../../login.html';
     }
 };
 

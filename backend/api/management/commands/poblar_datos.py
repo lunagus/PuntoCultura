@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.core.files.base import ContentFile
 from datetime import datetime, time
 from api.models import Categoria, CentroCultural, Evento
-from django.db import IntegrityError
 
 
 class Command(BaseCommand):
@@ -41,34 +40,26 @@ class Command(BaseCommand):
         editor = None
 
         try:
-            editor = User.objects.get(id=3)
-            self.stdout.write(self.style.SUCCESS("Usuario con id=3 encontrado."))
-        except User.DoesNotExist:
-            self.stdout.write(self.style.WARNING("Usuario con id=3 no encontrado."))
-            # Intentamos obtenerlo por username
-            try:
-                editor = User.objects.get(username="editor")
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        "Usuario con username='editor' ya existía con otro id."
-                    )
-                )
-            except User.DoesNotExist:
-                # Crear nuevo usuario si no existe ninguno con ese username
-                try:
-                    editor = User.objects.create_user(
-                        username="editor",
-                        email="editor@cultura.santiago.gob.ar",
-                        password="editor123",
-                        first_name="Editor",
-                        last_name="Cultural",
-                    )
-                    self.stdout.write(self.style.SUCCESS("Usuario 'editor' creado."))
-                except IntegrityError as e:
-                    self.stderr.write(
-                        self.style.ERROR(f"No se pudo crear el usuario: {e}")
-                    )
-                return
+            editor, created = User.objects.get_or_create(
+                username="editor",
+                defaults={
+                    "email": "editor@cultura.santiago.gob.ar",
+                    "first_name": "Editor",
+                    "last_name": "Cultural",
+                },
+            )
+            if created:
+                # Set password properly (hashed)
+                editor.set_password("editor123")
+                editor.save()
+                self.stdout.write(self.style.SUCCESS("Usuario 'editor' creado."))
+            else:
+                self.stdout.write(self.style.SUCCESS("Usuario 'editor' ya existía."))
+        except Exception as e:
+            self.stderr.write(
+                self.style.ERROR(f"Error al obtener o crear el usuario: {e}")
+            )
+            return
 
         # Crear categorías (solo si no es --solo-eventos)
         if not options["solo_eventos"]:

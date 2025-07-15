@@ -7,9 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
     <!-- CSS base para la vista de editor (contiene sidebar, hidden, etc.) -->
-    <link rel="stylesheet" href="/frontend/Vista Admin-Editores/admin/css/estilo.editor.css">
+    <link rel="stylesheet" href="css/estilo.editor.css">
     <!-- Nuevo CSS específico para el dashboard -->
-    <link rel="stylesheet" href="/Frontend/Vista Admin-Editores/admin/css/dashboard.css">
+    <link rel="stylesheet" href="css/dashboard.css">
     <!-- Opcional: Iconos de Font Awesome si los usas para el dashboard -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -19,15 +19,15 @@
     <button id="menu-toggle" class="menu-btn">&#9776;</button>
 
     <div class="sidebar">
-        <a href="/Frontend/Vista Admin-Editores/admin/dashboardadmin.html">
-        <img src="/Frontend/assets/icons/sgo-cultura-removebg-preview.png" alt="" />
+        <a href="dashboard.html">
+        <img src="../../assets/icons/sgo-cultura-removebg-preview.png" alt="" />
         <h2>Menú</h2>
         </a>
         <div class="Menú">
-            <a href="/Frontend/Vista Admin-Editores/admin/eventos-c.html">Eventos</a>
-            <a href="/Frontend/Vista Admin-Editores/admin/categorias.html">Categorias</a>
-            <a href="/Frontend/Vista Admin-Editores/admin/espacios.html">Espacios Culturales</a>
-            <a href="/frontend/Vista Admin-Editores/admin/agregarusers.html">Usuarios</a>
+            <a href="eventos.html">Eventos</a>
+            <a href="categorias.html">Categorias</a>
+            <a href="espacios.html">Espacios Culturales</a>
+            <a href="users.html">Usuarios</a>
         </div>
         <div class="logout-section">
             <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
@@ -97,7 +97,7 @@
                 <div class="tarjeta">
                     <h2>Eventos Agregados Recientemente</h2>
                     <p>Un resumen de los últimos eventos que han sido publicados en la plataforma.</p>
-                    <a href="/Frontend/Vista Admin-Editores/admin/eventos-c.html" class="news-button">Ver Eventos</a>
+                    <a href="eventos.html" class="news-button">Ver Eventos</a>
                 </div>
                 <!--<div class="tarjeta">
                     <h2>Eventos en Cola (Pendientes de Revisión)</h2>
@@ -114,7 +114,7 @@
             const token = localStorage.getItem('authToken');
             if (!token) {
                 alert('Debes iniciar sesión para acceder al panel de administración');
-                window.location.href = '/frontend/pages/login.html';
+                window.location.href = '../../login.html';
                 return false;
             }
             return true;
@@ -125,7 +125,7 @@
             if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
                 localStorage.removeItem('authToken');
                 localStorage.removeItem('userType');
-                window.location.href = '/frontend/pages/login.html';
+                window.location.href = '../../login.html';
             }
         }
 
@@ -137,9 +137,9 @@
         });
     </script>
     <!-- Scripts -->
-    <script src="/frontend/js/config.js"></script>
-    <script src="/frontend/js/login.js"></script>
-    <script src="/Frontend/Vista Admin-Editores/admin/js/dashboard.js"></script>
-    <script src="/Frontend/Vista Admin-Editores/admin/js/sidebar.js"></script>
+    <script src="../../js/config.js"></script>
+    <script src="../../js/login.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/sidebar.js"></script>
 </body>
 </html>

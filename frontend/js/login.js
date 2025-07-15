@@ -6,7 +6,7 @@ function handleUnauthorized() {
     localStorage.removeItem('userType');
     
     // Redirect to login page
-    window.location.href = '/frontend/pages/login.html';
+    window.location.href = '/login.html';
 }
 
 // Function to check if user is authenticated
@@ -103,7 +103,7 @@ async function handleLogin(event) {
             localStorage.setItem('refresh', data.refresh);
             localStorage.setItem('userType', 'admin');
 
-            window.location.href = '/frontend/Vista Admin-Editores/admin/dashboardadmin.html';
+            window.location.href = 'admin/dashboard.html';
         } else {
             errorMessage.textContent = data.detail || 'Credenciales inválidas';
             errorMessage.style.display = 'block';
@@ -120,10 +120,9 @@ async function handleLogin(event) {
 // Check authentication on page load
 document.addEventListener('DOMContentLoaded', function() {
     // If we're already on the login page, don't redirect
-    if (window.location.pathname.includes('login.html')) {
+    if (/\/login(\.html)?$/.test(window.location.pathname)) {
         return;
     }
-    
     // If user is not authenticated and not on login page, redirect to login
     if (!isAuthenticated()) {
         handleUnauthorized();
