@@ -9,6 +9,15 @@ document.addEventListener('DOMContentLoaded', function() {
     let isEditing = false;
     let currentEditId = null;
 
+    // --- ADVANCED FILTERS STATE ---
+    let allCentros = [];
+    let filterState = {
+        text: '',
+        publicado: '',
+        horarioApertura: '',
+        horarioCierre: ''
+    };
+
     // Función para mostrar/ocultar el mensaje
     function showMessage(text, isSuccess) {
         mensajeDiv.textContent = text;
@@ -64,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Función para cargar los espacios culturales existentes
     async function loadEspacios() {
         try {
             const response = await authenticatedFetch("http://127.0.0.1:8000/api/centros/"); // Corregido: usar /api/centros/
@@ -72,66 +80,148 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
             }
             const centros = await response.json();
-            
-            espaciosGridContainer.innerHTML = ''; // Limpiar espacios existentes
-            if (centros.length === 0) {
-                noEspaciosMessage.classList.remove('hidden');
-            } else {
-                noEspaciosMessage.classList.add('hidden');
-                centros.forEach(centro => {
-                    const espacioCard = document.createElement('div');
-                    espacioCard.classList.add('espacio-card');
-                    // Add class for published/draft
-                    if (centro.publicado) {
-                        espacioCard.classList.add('publicado');
-                    } else {
-                        espacioCard.classList.add('borrador');
-                    }
-                    espacioCard.dataset.id = centro.id; // Almacenar el ID del centro
-
-                    // Determinar la URL de la imagen
-                    let imagenHtml = centro.imagen
-                        ? `<img src="${centro.imagen}" alt="${centro.nombre}">`
-                        : `<div class="placeholder-img">Sin Imagen</div>`;
-
-                    // Construir información adicional
-                    let additionalInfo = '';
-                    if (centro.horario_apertura && centro.horario_cierre) {
-                        additionalInfo += `<p><strong>Horario:</strong> ${centro.horario_apertura} - ${centro.horario_cierre}</p>`;
-                    }
-                    if (centro.direccion) {
-                        additionalInfo += `<p><strong>Dirección:</strong> ${centro.direccion}</p>`;
-                    }
-
-                    espacioCard.innerHTML = `
-                        <div class="espacio-card-img-container">
-                            ${imagenHtml}
-                            ${centro.publicado ? '' : `<span class="estado-badge borrador">Borrador</span>`}
-                        </div>
-                        <div class="espacio-card-content">
-                            <h3>${centro.nombre}</h3>
-                            <div class="espacio-direccion"><strong>Dirección:</strong> ${centro.direccion || 'No especificada'}</div>
-                            <div class="espacio-descripcion">${centro.descripcion}</div>
-                            ${additionalInfo}
-                            <div class="actions">
-                                <button class="edit-btn" data-id="${centro.id}">Editar</button>
-                                <button class="delete-btn" data-id="${centro.id}">Eliminar</button>
-                            </div>
-                        </div>
-                    `;
-                    espaciosGridContainer.appendChild(espacioCard);
-
-                    // Añadir listeners para los botones de editar y eliminar
-                    espacioCard.querySelector('.edit-btn').addEventListener('click', () => editarEspacio(centro.id));
-                    espacioCard.querySelector('.delete-btn').addEventListener('click', () => eliminarEspacio(centro.id));
-                });
-            }
+            allCentros = centros;
+            renderEspacios();
         } catch (error) {
             console.error("Error al cargar centros culturales:", error);
             showMessage("Error al cargar centros culturales: " + error.message, false);
             noEspaciosMessage.classList.remove('hidden');
             noEspaciosMessage.textContent = "Error al cargar centros culturales.";
         }
+    }
+
+    function renderEspacios() {
+        espaciosGridContainer.innerHTML = '';
+        let filtered = allCentros;
+        // Text search
+        if (filterState.text) {
+            const t = filterState.text.toLowerCase();
+            filtered = filtered.filter(centro =>
+                (centro.nombre && centro.nombre.toLowerCase().includes(t)) ||
+                (centro.descripcion && centro.descripcion.toLowerCase().includes(t)) ||
+                (centro.direccion && centro.direccion.toLowerCase().includes(t))
+            );
+        }
+        // Horario apertura
+        if (filterState.horarioApertura) {
+            filtered = filtered.filter(centro =>
+                centro.horario_apertura && centro.horario_apertura >= filterState.horarioApertura
+            );
+        }
+        // Horario cierre
+        if (filterState.horarioCierre) {
+            filtered = filtered.filter(centro =>
+                centro.horario_cierre && centro.horario_cierre <= filterState.horarioCierre
+            );
+        }
+        // Publicado filter
+        if (filterState.publicado === 'true') {
+            filtered = filtered.filter(centro => centro.publicado);
+        } else if (filterState.publicado === 'false') {
+            filtered = filtered.filter(centro => !centro.publicado);
+        }
+        if (filtered.length === 0) {
+            noEspaciosMessage.classList.remove('hidden');
+        } else {
+            noEspaciosMessage.classList.add('hidden');
+            filtered.forEach(centro => {
+                const espacioCard = document.createElement('div');
+                espacioCard.classList.add('espacio-card');
+                if (centro.publicado) {
+                    espacioCard.classList.add('publicado');
+                } else {
+                    espacioCard.classList.add('borrador');
+                }
+                espacioCard.dataset.id = centro.id;
+                let imagenHtml = centro.imagen
+                    ? `<img src="${centro.imagen}" alt="${centro.nombre}">`
+                    : `<div class="placeholder-img">Sin Imagen</div>`;
+                let additionalInfo = '';
+                if (centro.horario_apertura && centro.horario_cierre) {
+                    additionalInfo += `<p><strong>Horario:</strong> ${centro.horario_apertura} - ${centro.horario_cierre}</p>`;
+                }
+                if (centro.direccion) {
+                    additionalInfo += `<p><strong>Dirección:</strong> ${centro.direccion}</p>`;
+                }
+                espacioCard.innerHTML = `
+                    <div class="espacio-card-img-container">
+                        ${imagenHtml}
+                        ${centro.publicado ? '' : `<span class="estado-badge borrador">Borrador</span>`}
+                    </div>
+                    <div class="espacio-card-content">
+                        <h3>${centro.nombre}</h3>
+                        <div class="espacio-descripcion">${centro.descripcion}</div>
+                        ${additionalInfo}
+                        <div class="actions">
+                            <button class="edit-btn" data-id="${centro.id}">Editar</button>
+                            <button class="delete-btn" data-id="${centro.id}">Eliminar</button>
+                        </div>
+                    </div>
+                `;
+                espaciosGridContainer.appendChild(espacioCard);
+                espacioCard.querySelector('.edit-btn').addEventListener('click', () => editarEspacio(centro.id));
+                espacioCard.querySelector('.delete-btn').addEventListener('click', () => eliminarEspacio(centro.id));
+            });
+        }
+    }
+
+    // Search bar event
+    const searchInput = document.getElementById('search-espacios-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            filterState.text = e.target.value;
+            renderEspacios();
+        });
+    }
+
+    // Advanced filter modal logic
+    const advBtn = document.getElementById('advanced-filter-espacios-btn');
+    const advModal = document.getElementById('advanced-filter-espacios-modal');
+    const advClose = document.getElementById('close-advanced-filter-espacios');
+    if (advBtn && advModal && advClose) {
+        advBtn.addEventListener('click', () => {
+            advModal.style.display = 'flex';
+            const advTitle = document.getElementById('advanced-filter-espacios-title');
+            if (advTitle) advTitle.textContent = 'Filtros Avanzados';
+        });
+        advClose.addEventListener('click', () => { advModal.style.display = 'none'; });
+        advModal.addEventListener('click', (e) => { if (e.target === advModal) advModal.style.display = 'none'; });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') advModal.style.display = 'none'; });
+    }
+    // Advanced filter form
+    const applyBtn = document.getElementById('apply-advanced-filters-espacios');
+    if (applyBtn) {
+        applyBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            filterState.publicado = document.getElementById('filter-publicado-espacios').value;
+            filterState.horarioApertura = document.getElementById('filter-horario-apertura').value;
+            filterState.horarioCierre = document.getElementById('filter-horario-cierre').value;
+            advModal.style.display = 'none';
+            renderEspacios();
+        });
+    }
+    const resetBtn = document.getElementById('reset-advanced-filters-espacios');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('advancedFilterEspaciosForm').reset();
+            filterState.publicado = '';
+            filterState.horarioApertura = '';
+            filterState.horarioCierre = '';
+            renderEspacios();
+        });
+    }
+    const clearBtn = document.getElementById('clear-filters-espacios-btn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+            filterState.text = '';
+            filterState.publicado = '';
+            filterState.horarioApertura = '';
+            filterState.horarioCierre = '';
+            if (searchInput) searchInput.value = '';
+            document.getElementById('advancedFilterEspaciosForm').reset();
+            renderEspacios();
+        });
     }
 
     // Función para manejar el envío del formulario

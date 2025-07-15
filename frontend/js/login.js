@@ -25,28 +25,52 @@ function getAuthHeaders() {
     return headers;
 }
 
-// Wrapper function for fetch that handles 401 errors
+// Wrapper function for fetch that handles 401 errors and auto-refreshes JWT
 async function authenticatedFetch(url, options = {}) {
-    const headers = getAuthHeaders();
-    
-    // Merge headers
-    options.headers = { ...headers, ...options.headers };
-    
-    try {
-        const response = await fetch(url, options);
-        
-        // If we get a 401, redirect to login
-        if (response.status === 401) {
-            handleUnauthorized();
-            return null;
+    const getAuthHeaders = () => {
+        const token = localStorage.getItem('authToken');
+        const headers = {};
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
         }
-        
-        return response;
-    } catch (error) {
-        console.error('Fetch error:', error);
-        throw error;
+        return headers;
+    };
+
+    // Merge headers
+    options.headers = { ...getAuthHeaders(), ...options.headers };
+
+    let response = await fetch(url, options);
+
+    // If we get a 401, try to refresh the token
+    if (response.status === 401) {
+        const refresh = localStorage.getItem('refresh');
+        if (refresh) {
+            // Try to refresh the access token
+            const refreshResponse = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ refresh })
+            });
+            if (refreshResponse.ok) {
+                const data = await refreshResponse.json();
+                localStorage.setItem('authToken', data.access);
+                // Retry the original request with the new token
+                options.headers = { ...getAuthHeaders(), ...options.headers };
+                response = await fetch(url, options);
+                if (response.status !== 401) {
+                    return response;
+                }
+            }
+        }
+        // If refresh fails or still 401, log out
+        handleUnauthorized();
+        return null;
     }
+    return response;
 }
+
+// Export for use in other scripts
+window.authenticatedFetch = authenticatedFetch;
 
 async function handleLogin(event) {
     event.preventDefault();

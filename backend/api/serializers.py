@@ -40,10 +40,19 @@ class EventoSerializer(serializers.ModelSerializer):
     imagen = serializers.ImageField(required=False)
     categoria = CategoriaSerializer(read_only=True)
     centro_cultural = CentroCulturalSerializer(read_only=True)
-    # Add ID fields for backward compatibility
-    categoria_id = serializers.IntegerField(source="categoria.id", read_only=True)
-    centro_cultural_id = serializers.IntegerField(
-        source="centro_cultural.id", read_only=True
+    categoria_id = serializers.PrimaryKeyRelatedField(
+        queryset=Categoria.objects.all(),
+        source="categoria",
+        write_only=True,
+        required=False,
+        allow_null=True,  # Allow setting to None
+    )
+    centro_cultural_id = serializers.PrimaryKeyRelatedField(
+        queryset=CentroCultural.objects.all(),
+        source="centro_cultural",
+        write_only=True,
+        required=False,
+        allow_null=True,  # Allow setting to None
     )
 
     class Meta:

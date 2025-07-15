@@ -1,7 +1,7 @@
 // Array para almacenar todos los eventos
 let allEvents = [];
 
-// Función para cargar eventos existentes desde la API
+// Función para cargar eventos existentes desde la API y poblar los filtros
 async function loadEventos() {
     try {
         const response = await authenticatedFetch("http://127.0.0.1:8000/api/eventos/");
@@ -9,8 +9,6 @@ async function loadEventos() {
             throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
         }
         const eventos = await response.json();
-        
-        // Convertir los datos de la API al formato esperado por el frontend
         allEvents = eventos.map(evento => ({
             id: evento.id,
             name: evento.titulo,
@@ -19,17 +17,31 @@ async function loadEventos() {
             year: new Date(evento.fecha_inicio).getFullYear().toString(),
             horario_apertura: evento.horario_apertura,
             horario_cierre: evento.horario_cierre,
-            categoria: evento.categoria, // Ahora es un objeto completo
-            centro_cultural: evento.centro_cultural, // Ahora es un objeto completo
+            categoria: evento.categoria,
+            centro_cultural: evento.centro_cultural,
             direccion: evento.centro_cultural ? evento.centro_cultural.direccion : null,
             imagen: evento.imagen,
             publicado: evento.publicado,
             fecha_fin: evento.fecha_fin
         }));
-        
-        // Renderizar eventos
+        // Populate filter dropdowns (Choices.js)
+        if (choicesCategoria) {
+            const cats = getUniqueCategorias(allEvents);
+            choicesCategoria.clearChoices();
+            choicesCategoria.setChoices(cats.map(c => ({ value: c.id, label: c.nombre })), 'value', 'label', true);
+        }
+        if (choicesCentro) {
+            const centros = getUniqueCentros(allEvents);
+            choicesCentro.clearChoices();
+            choicesCentro.setChoices(centros.map(c => ({ value: c.id, label: c.nombre })), 'value', 'label', true);
+        }
+        // Populate year dropdown
+        const yearSel = document.getElementById('filter-year');
+        if (yearSel) {
+            const years = getUniqueYears(allEvents);
+            yearSel.innerHTML = '<option value="">Todos</option>' + years.map(y => `<option value="${y}">${y}</option>`).join('');
+        }
         filterEvents();
-        
     } catch (error) {
         console.error("Error al cargar eventos:", error);
         alert("Error al cargar eventos: " + error.message);
@@ -83,9 +95,12 @@ function generateUniqueId() {
 
 function mostrarFormulario() {
     document.getElementById("modal-formulario").style.display = "flex";
-    // Cargar opciones al abrir el formulario
-    cargarOpciones();
+    // Only call cargarOpciones if not editing (i.e., adding a new event)
+    if (!isEditing) cargarOpciones();
     document.getElementById("mensaje").classList.add("hidden"); // Ocultar mensaje de éxito al abrir
+    // Set modal title for add/edit
+    const formTitle = document.getElementById('evento-modal-title');
+    if (formTitle) formTitle.textContent = isEditing ? 'Editar Evento' : 'Crear Evento';
 }
 
 function cerrarFormulario() {
@@ -93,12 +108,20 @@ function cerrarFormulario() {
     document.getElementById("eventoForm").reset(); // Reiniciar el formulario por su ID
     document.getElementById("preview-imagen").innerHTML = ""; // Limpiar la vista previa
     document.getElementById("mensaje").classList.add("hidden"); // Ocultar mensaje de éxito
-    
     // Resetear modo de edición
     isEditing = false;
     currentEditId = null;
-    document.querySelector('.form-title').textContent = 'Agregar/Editar Evento';
+    // Reset modal title
+    const formTitle = document.getElementById('evento-modal-title');
+    if (formTitle) formTitle.textContent = 'Crear Evento';
     document.querySelector('button[type="submit"]').textContent = 'Guardar Evento';
+}
+
+// Add this helper at the top or before the form submit handler
+function toISODate(dateStr) {
+  if (!dateStr) return "";
+  const [d, m, y] = dateStr.split("/");
+  return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
 }
 
 // Función adaptada para agregar o guardar eventos
@@ -109,6 +132,31 @@ document.getElementById("eventoForm").addEventListener("submit", async function 
     const data = new FormData(form);
     const submitBtn = form.querySelector("button[type='submit']");
     submitBtn.disabled = true;
+
+    // --- PATCH: Ensure categoria_id and centro_cultural_id are sent as IDs ---
+    data.delete('categoria');
+    data.delete('centro_cultural');
+    data.delete('categoria_id');
+    data.delete('centro_cultural_id');
+    const categoriaId = form.querySelector('[name="categoria"]').value;
+    const centroId = form.querySelector('[name="centro_cultural"]').value;
+    console.log("SUBMIT categoriaId:", categoriaId, "centroId:", centroId); // DEBUG LOG
+    if (categoriaId) {
+        data.append('categoria_id', parseInt(categoriaId));
+    } else {
+        data.append('categoria_id', '');
+    }
+    if (centroId) {
+        data.append('centro_cultural_id', parseInt(centroId));
+    } else {
+        data.append('centro_cultural_id', '');
+    }
+    // --- END PATCH ---
+
+    // Convert and append fechas in ISO format
+    data.set('fecha_inicio', toISODate(form.querySelector('[name="fecha_inicio"]').value));
+    const fechaFinValue = form.querySelector('[name="fecha_fin"]').value;
+    data.set('fecha_fin', fechaFinValue ? toISODate(fechaFinValue) : '');
 
     // Añadir campos de horario si están presentes
     const horarioApertura = document.getElementById("horario_apertura").value;
@@ -223,6 +271,11 @@ function previsualizarImagen(event) {
     }
 }
 
+function formatTimeHHMM(timeStr) {
+  if (!timeStr) return '';
+  // Accepts HH:MM or HH:MM:SS, returns HH:MM
+  return timeStr.split(':').slice(0,2).join(':');
+}
 
 function renderEvents(eventsToRender) {
     const eventosContainer = document.getElementById("eventosGrid");
@@ -280,7 +333,7 @@ function renderEvents(eventsToRender) {
         // Construir información adicional
         let additionalInfo = '';
         if (eventData.horario_apertura && eventData.horario_cierre) {
-            additionalInfo += `<p><strong>Horario:</strong> ${eventData.horario_apertura} - ${eventData.horario_cierre}</p>`;
+            additionalInfo += `<p><strong>Horario:</strong> ${formatTimeHHMM(eventData.horario_apertura)} - ${formatTimeHHMM(eventData.horario_cierre)}</p>`;
         }
         if (categoriaNombre && categoriaNombre !== 'Otros') {
             additionalInfo += `<p><strong>Categoría:</strong> <span class="evento-categoria-badge ${categoriaClase}">${categoriaNombre}</span></p>`;
@@ -349,7 +402,11 @@ async function editarEvento(id) {
     isEditing = true;
     currentEditId = id;
 
-    await cargarOpciones(); // Espera a que las opciones estén cargadas
+    // Pass selected IDs to cargarOpciones
+    const selectedCategoriaId = evento.categoria && evento.categoria.id ? evento.categoria.id : null;
+    const selectedCentroId = evento.centro_cultural && evento.centro_cultural.id ? evento.centro_cultural.id : null;
+    console.log("DEBUG editarEvento: categoria.id", selectedCategoriaId, "centro_cultural.id", selectedCentroId);
+    await cargarOpciones(selectedCategoriaId, selectedCentroId);
 
     // Prellenar el formulario con los datos del evento
     document.getElementById('titulo').value = evento.name;
@@ -358,16 +415,6 @@ async function editarEvento(id) {
     document.getElementById('fecha_fin').value = evento.fecha_fin || '';
     document.getElementById('horario_apertura').value = evento.horario_apertura || '';
     document.getElementById('horario_cierre').value = evento.horario_cierre || '';
-
-    // Prellenar dropdowns con los IDs correctos (como string)
-    const categoriaSelect = document.getElementById('categoria');
-    const centroSelect = document.getElementById('centro_cultural');
-    if (evento.categoria && evento.categoria.id) {
-        categoriaSelect.value = String(evento.categoria.id);
-    }
-    if (evento.centro_cultural && evento.centro_cultural.id) {
-        centroSelect.value = String(evento.centro_cultural.id);
-    }
 
     // Prellenar checkbox de publicado si existe
     const publicadoCheckbox = document.getElementById('publicado');
@@ -427,7 +474,7 @@ window.logout = function() {
 };
 
 // Función para cargar opciones de centros culturales y categorías
-async function cargarOpciones() {
+async function cargarOpciones(selectedCategoriaId = null, selectedCentroId = null) {
     try {
         const centrosResponse = await authenticatedFetch("http://127.0.0.1:8000/api/centros/");
         const categoriasResponse = await authenticatedFetch("http://127.0.0.1:8000/api/categorias/");
@@ -446,6 +493,11 @@ async function cargarOpciones() {
             option.textContent = c.nombre;
             centroSelect.appendChild(option);
         });
+        // Set selected centro_cultural if provided
+        if (selectedCentroId !== null && selectedCentroId !== undefined) {
+            centroSelect.value = selectedCentroId.toString();
+            console.log("DEBUG cargarOpciones: set centro_cultural value to", selectedCentroId.toString());
+        }
 
         const categoriaSelect = document.getElementById('categoria');
         categoriaSelect.innerHTML = '<option value="">Selecciona una categoría</option>'; // Reset options
@@ -455,13 +507,110 @@ async function cargarOpciones() {
             option.textContent = cat.nombre;
             categoriaSelect.appendChild(option);
         });
+        // Set selected categoria if provided
+        if (selectedCategoriaId !== null && selectedCategoriaId !== undefined) {
+            categoriaSelect.value = selectedCategoriaId.toString();
+            console.log("DEBUG cargarOpciones: set categoria value to", selectedCategoriaId.toString());
+        }
+        // Debug: log all option values
+        console.log("DEBUG cargarOpciones: selectedCategoriaId", selectedCategoriaId, "selectedCentroId", selectedCentroId);
+        console.log("DEBUG cargarOpciones: categoria options", Array.from(categoriaSelect.options).map(o => o.value));
+        console.log("DEBUG cargarOpciones: centro_cultural options", Array.from(centroSelect.options).map(o => o.value));
     } catch (error) {
         console.error("Error cargando opciones:", error);
         alert("No se pudieron cargar los centros culturales o categorías. Asegúrate de que el backend esté funcionando.");
     }
 }
 
-// Event listeners
+// --- ADVANCED FILTERS STATE ---
+let filterState = {
+  text: '',
+  dateStart: '',
+  dateEnd: '',
+  year: '',
+  categorias: [],
+  centros: [],
+  publicado: ''
+};
+
+function getUniqueYears(events) {
+  const years = new Set(events.map(e => new Date(e.date).getFullYear()));
+  return Array.from(years).sort((a, b) => b - a);
+}
+
+function getUniqueCategorias(events) {
+  const cats = {};
+  events.forEach(e => {
+    if (e.categoria && e.categoria.id) cats[e.categoria.id] = e.categoria.nombre;
+  });
+  return Object.entries(cats).map(([id, nombre]) => ({ id, nombre }));
+}
+
+function getUniqueCentros(events) {
+  const centros = {};
+  events.forEach(e => {
+    if (e.centro_cultural && e.centro_cultural.id) centros[e.centro_cultural.id] = e.centro_cultural.nombre;
+  });
+  return Object.entries(centros).map(([id, nombre]) => ({ id, nombre }));
+}
+
+function applyFilters() {
+  let filtered = allEvents;
+  // Text search
+  if (filterState.text) {
+    const t = filterState.text.toLowerCase();
+    filtered = filtered.filter(e =>
+      e.name.toLowerCase().includes(t) ||
+      e.description.toLowerCase().includes(t) ||
+      (e.direccion && e.direccion.toLowerCase().includes(t)) ||
+      (e.categoria && e.categoria.nombre && e.categoria.nombre.toLowerCase().includes(t)) ||
+      (e.centro_cultural && e.centro_cultural.nombre && e.centro_cultural.nombre.toLowerCase().includes(t))
+    );
+  }
+  // Date range
+  if (filterState.dateStart) {
+    filtered = filtered.filter(e => e.date >= filterState.dateStart);
+  }
+  if (filterState.dateEnd) {
+    filtered = filtered.filter(e => e.date <= filterState.dateEnd);
+  }
+  // Year
+  if (filterState.year) {
+    filtered = filtered.filter(e => new Date(e.date).getFullYear().toString() === filterState.year);
+  }
+  // Categoria (multi)
+  if (filterState.categorias.length > 0) {
+    filtered = filtered.filter(e => e.categoria && filterState.categorias.includes(e.categoria.id.toString()));
+  }
+  // Centro cultural (multi)
+  if (filterState.centros.length > 0) {
+    filtered = filtered.filter(e => e.centro_cultural && filterState.centros.includes(e.centro_cultural.id.toString()));
+  }
+  // Publicado
+  if (filterState.publicado === 'true') {
+    filtered = filtered.filter(e => e.publicado);
+  } else if (filterState.publicado === 'false') {
+    filtered = filtered.filter(e => !e.publicado);
+  }
+  renderEvents(filtered);
+}
+
+function resetFilters() {
+  filterState = { text: '', dateStart: '', dateEnd: '', year: '', categorias: [], centros: [], publicado: '' };
+  document.getElementById('search-input').value = '';
+  // Reset advanced filter form
+  document.getElementById('advancedFilterForm').reset();
+  // Deselect all in multi-selects
+  document.getElementById('filter-categoria').selectedIndex = -1;
+  document.getElementById('filter-centro').selectedIndex = -1;
+  applyFilters();
+}
+
+// --- UI HOOKUP ---
+// --- Choices.js multi-selects for advanced filters ---
+let choicesCategoria = null;
+let choicesCentro = null;
+
 document.addEventListener('DOMContentLoaded', function() {
     // Cerrar modal al hacer clic fuera de él
     const modal = document.getElementById('modal-formulario');
@@ -488,4 +637,182 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cargar eventos al cargar la página
     loadEventos();
+
+    // Populate filter dropdowns after events are loaded
+    // loadEventos = async function() { // This block is now redundant as loadEventos is called directly
+    //     try {
+    //         const response = await authenticatedFetch("http://127.0.0.1:8000/api/eventos/");
+    //         if (!response || !response.ok) {
+    //             throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
+    //         }
+    //         const eventos = await response.json();
+    //         allEvents = eventos.map(evento => ({
+    //             id: evento.id,
+    //             name: evento.titulo,
+    //             date: evento.fecha_inicio,
+    //             description: evento.descripcion,
+    //             year: new Date(evento.fecha_inicio).getFullYear().toString(),
+    //             horario_apertura: evento.horario_apertura,
+    //             horario_cierre: evento.horario_cierre,
+    //             categoria: evento.categoria,
+    //             centro_cultural: evento.centro_cultural,
+    //             direccion: evento.centro_cultural ? evento.centro_cultural.direccion : null,
+    //             imagen: evento.imagen,
+    //             publicado: evento.publicado,
+    //             fecha_fin: evento.fecha_fin
+    //         }));
+    //         // Populate filter dropdowns
+    //         const yearSel = document.getElementById('filter-year');
+    //         if (yearSel) {
+    //             const years = getUniqueYears(allEvents);
+    //             yearSel.innerHTML = '<option value="">Todos</option>' + years.map(y => `<option value="${y}">${y}</option>`).join('');
+    //         }
+    //         const catSel = document.getElementById('filter-categoria');
+    //         if (catSel) {
+    //             const cats = getUniqueCategorias(allEvents);
+    //             catSel.innerHTML = cats.map(c => `<option value="${c.id}">${c.nombre}</option>`).join('');
+    //         }
+    //         const centroSel = document.getElementById('filter-centro');
+    //         if (centroSel) {
+    //             const centros = getUniqueCentros(allEvents);
+    //             centroSel.innerHTML = centros.map(c => `<option value="${c.id}">${c.nombre}</option>`).join('');
+    //         }
+    //         filterEvents();
+    //     } catch (error) {
+    //         console.error("Error al cargar eventos:", error);
+    //         alert("Error al cargar eventos: " + error.message);
+    //     }
+    // }
+
+    // Search bar
+    document.getElementById('search-input').addEventListener('input', function(e) {
+        filterState.text = e.target.value;
+        applyFilters();
+    });
+    // Advanced filter modal logic
+    const advBtn = document.getElementById('advanced-filter-btn');
+    const advModal = document.getElementById('advanced-filter-modal');
+    const advClose = document.getElementById('close-advanced-filter');
+    advBtn.addEventListener('click', () => {
+        advModal.style.display = 'flex';
+        const advTitle = document.getElementById('advanced-filter-title');
+        if (advTitle) advTitle.textContent = 'Filtros Avanzados';
+    });
+    advClose.addEventListener('click', () => { advModal.style.display = 'none'; });
+    advModal.addEventListener('click', (e) => { if (e.target === advModal) advModal.style.display = 'none'; });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') advModal.style.display = 'none'; });
+    // Advanced filter form
+    document.getElementById('apply-advanced-filters').addEventListener('click', function(e) {
+        e.preventDefault();
+        filterState.dateStart = document.getElementById('filter-date-start').value;
+        filterState.dateEnd = document.getElementById('filter-date-end').value;
+        filterState.year = document.getElementById('filter-year').value;
+        filterState.categorias = choicesCategoria ? choicesCategoria.getValue(true) : [];
+        filterState.centros = choicesCentro ? choicesCentro.getValue(true) : [];
+        filterState.publicado = document.getElementById('filter-publicado').value;
+        advModal.style.display = 'none';
+        applyFilters();
+    });
+    document.getElementById('reset-advanced-filters').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('advancedFilterForm').reset();
+        if (choicesCategoria) choicesCategoria.removeActiveItems();
+        if (choicesCentro) choicesCentro.removeActiveItems();
+        filterState.dateStart = '';
+        filterState.dateEnd = '';
+        filterState.year = '';
+        filterState.categorias = [];
+        filterState.centros = [];
+        filterState.publicado = '';
+        applyFilters();
+    });
+    document.getElementById('clear-filters-btn').addEventListener('click', function() {
+        resetFilters();
+        if (choicesCategoria) choicesCategoria.removeActiveItems();
+        if (choicesCentro) choicesCentro.removeActiveItems();
+    });
+
+    // Initialize Choices.js for multi-selects after DOM is ready
+    choicesCategoria = new Choices('#filter-categoria', {
+        removeItemButton: true,
+        shouldSort: false,
+        searchEnabled: true,
+        placeholder: true,
+        placeholderValue: 'Selecciona categoría(s)',
+        itemSelectText: '',
+        renderChoiceLimit: -1,
+        duplicateItemsAllowed: false,
+        maxItemCount: -1,
+        position: 'auto',
+    });
+    choicesCentro = new Choices('#filter-centro', {
+        removeItemButton: true,
+        shouldSort: false,
+        searchEnabled: true,
+        placeholder: true,
+        placeholderValue: 'Selecciona centro(s)',
+        itemSelectText: '',
+        renderChoiceLimit: -1,
+        duplicateItemsAllowed: false,
+        maxItemCount: -1,
+        position: 'auto',
+    });
+
+    // When repopulating options, update Choices.js
+    function updateChoicesOptions() {
+        // Categoria
+        const catSel = document.getElementById('filter-categoria');
+        if (catSel && choicesCategoria) {
+            const cats = getUniqueCategorias(allEvents);
+            choicesCategoria.clearChoices();
+            choicesCategoria.setChoices(cats.map(c => ({ value: c.id, label: c.nombre })), 'value', 'label', false);
+        }
+        // Centro
+        const centroSel = document.getElementById('filter-centro');
+        if (centroSel && choicesCentro) {
+            const centros = getUniqueCentros(allEvents);
+            choicesCentro.clearChoices();
+            choicesCentro.setChoices(centros.map(c => ({ value: c.id, label: c.nombre })), 'value', 'label', false);
+        }
+    }
+
+    // Patch loadEventos to update Choices.js options after loading
+    const originalLoadEventos = loadEventos;
+    loadEventos = async function() {
+        await originalLoadEventos();
+        updateChoicesOptions();
+    };
+
+    // Patch filterState.categorias and filterState.centros to use Choices.js selected values
+    document.getElementById('apply-advanced-filters').addEventListener('click', function(e) {
+        e.preventDefault();
+        filterState.dateStart = document.getElementById('filter-date-start').value;
+        filterState.dateEnd = document.getElementById('filter-date-end').value;
+        filterState.year = document.getElementById('filter-year').value;
+        filterState.categorias = choicesCategoria ? choicesCategoria.getValue(true) : [];
+        filterState.centros = choicesCentro ? choicesCentro.getValue(true) : [];
+        filterState.publicado = document.getElementById('filter-publicado').value;
+        document.getElementById('advanced-filter-modal').style.display = 'none';
+        applyFilters();
+    });
+
+    document.getElementById('reset-advanced-filters').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('advancedFilterForm').reset();
+        if (choicesCategoria) choicesCategoria.removeActiveItems();
+        if (choicesCentro) choicesCentro.removeActiveItems();
+        filterState.dateStart = '';
+        filterState.dateEnd = '';
+        filterState.year = '';
+        filterState.categorias = [];
+        filterState.centros = [];
+        filterState.publicado = '';
+        applyFilters();
+    });
+
+    document.getElementById('clear-filters-btn').addEventListener('click', function() {
+        resetFilters();
+        if (choicesCategoria) choicesCategoria.removeActiveItems();
+        if (choicesCentro) choicesCentro.removeActiveItems();
+    });
 });

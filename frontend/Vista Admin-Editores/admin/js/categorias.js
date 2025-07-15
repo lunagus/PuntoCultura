@@ -122,71 +122,78 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Función para manejar el envío del formulario
-    if (categoriaForm) {
-    categoriaForm.addEventListener("submit", async function (e) {
-        e.preventDefault();
-        const form = e.target;
-        const nombreInput = form.querySelector('input[name="nombre"]');
-            const colorInput = form.querySelector('input[name="color"]');
-        const data = {
-            nombre: nombreInput.value,
-                color: colorInput ? colorInput.value : "#FFFFFF" // Incluir color, por defecto blanco
-        };
-        const submitButton = form.querySelector('.form-button');
-        submitButton.disabled = true; // Deshabilitar el botón para evitar envíos dobles
+    // --- SEARCH BAR LOGIC ---
+    let allCategorias = [];
+    let currentSearchTerm = '';
 
+    // Patch loadCategorias to store allCategorias
+    const originalLoadCategorias = loadCategorias;
+    loadCategorias = async function() {
         try {
-                let response;
-                let url = "http://127.0.0.1:8000/api/categorias/";
-                let method = "POST";
-
-                if (isEditing && currentEditId) {
-                    // Modo edición - usar PUT para actualizar
-                    url = `http://127.0.0.1:8000/api/categorias/${currentEditId}/`;
-                    method = "PUT";
-                }
-
-                response = await authenticatedFetch(url, {
-                    method: method,
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                });
-
-                if (response && response.ok) {
-                    if (isEditing) {
-                        showMessage("¡Categoría actualizada con éxito!", true);
-                    } else {
-                showMessage("¡Categoría creada con éxito!", true);
-                    }
-                    
-                form.reset(); // Limpiar el formulario
-                await loadCategorias(); // Recargar la lista de categorías
-                    
-                    // Resetear modo de edición
-                    isEditing = false;
-                    currentEditId = null;
-                    
-                if (window.loadStats) { // Llama a loadStats para actualizar los contadores del dashboard
-                    window.loadStats();
-                }
-                setTimeout(() => {
-                    cerrarFormulario(); // Cerrar el modal después de un breve tiempo
-                }, 1500);
-                } else if (response) {
-                const errorData = await response.json();
-                    showMessage("Error al " + (isEditing ? "actualizar" : "crear") + " categoría: " + JSON.stringify(errorData), false);
+            const response = await authenticatedFetch("http://127.0.0.1:8000/api/categorias/");
+            if (!response || !response.ok) {
+                throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
             }
+            const categorias = await response.json();
+            allCategorias = categorias;
+            renderCategorias();
         } catch (error) {
-            showMessage("Error de conexión: " + error.message, false);
-        } finally {
-            submitButton.disabled = false; // Habilitar el botón nuevamente
+            console.error("Error al cargar categorías:", error);
+            showMessage("Error al cargar categorías: " + error.message, false);
+            if (noCategoriasMessage) {
+                noCategoriasMessage.classList.remove('hidden');
+                noCategoriasMessage.textContent = "Error al cargar categorías.";
+            }
         }
-    });
-    } else {
-        console.error('categoriaForm not found');
+    }
+
+    function normalizeString(str) {
+        return str.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+    }
+
+    function renderCategorias() {
+        if (!categoriasTableBody) return;
+        categoriasTableBody.innerHTML = '';
+        let filtered = allCategorias;
+        if (currentSearchTerm) {
+            const t = normalizeString(currentSearchTerm);
+            filtered = allCategorias.filter(cat =>
+                (cat.nombre && normalizeString(cat.nombre).includes(t)) ||
+                (cat.color && cat.color.toLowerCase().includes(t))
+            );
+        }
+        if (filtered.length === 0) {
+            if (noCategoriasMessage) noCategoriasMessage.classList.remove('hidden');
+        } else {
+            if (noCategoriasMessage) noCategoriasMessage.classList.add('hidden');
+            filtered.forEach(categoria => {
+                const row = categoriasTableBody.insertRow();
+                row.innerHTML = `
+                    <td>${categoria.nombre}</td> 
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 20px; height: 20px; background-color: ${categoria.color}; border: 1px solid #ccc; border-radius: 4px;"></div>
+                            <span>${categoria.color}</span>
+                        </div>
+                    </td>
+                    <td class="table-actions">
+                        <button class="edit-btn" data-id="${categoria.id}">Editar</button>
+                        <button class="delete-btn" data-id="${categoria.id}">Eliminar</button>
+                    </td>
+                `;
+                row.querySelector('.edit-btn').addEventListener('click', () => editarCategoria(categoria.id));
+                row.querySelector('.delete-btn').addEventListener('click', () => eliminarCategoria(categoria.id));
+            });
+        }
+    }
+
+    // Search bar event
+    const searchInput = document.getElementById('search-categorias-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            currentSearchTerm = e.target.value;
+            renderCategorias();
+        });
     }
 
     // Funciones de ejemplo para Editar y Eliminar
@@ -265,6 +272,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Cargar categorías al iniciar la página
+    // Initial load
     loadCategorias();
 });

@@ -729,14 +729,39 @@
     margin-top: 20px;
 }
 
+.form-button {
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 160px;
+}
+
+.form-button:not(.secondary) {
+    background: linear-gradient(135deg, #12bcd3, #0a8fa3);
+    color: white;
+    box-shadow: 0 4px 12px rgba(18, 188, 211, 0.3);
+}
+
+.form-button:not(.secondary):hover {
+    background: linear-gradient(135deg, #0a8fa3, #077a8a);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(18, 188, 211, 0.4);
+}
+
 .form-button.secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: white;
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
 }
 
 .form-button.secondary:hover {
-    background-color: #5a6268;
-    border-color: #545b62;
+    background: linear-gradient(135deg, #5a6268, #495057);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(108, 117, 125, 0.4);
 }
 
 /* Estilos para los badges de estado */
@@ -868,6 +893,12 @@
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     padding: 32px 0 32px 0;
+}
+
+.espacios-list-container .page-title,
+.espacios-list-container .search-container {
+    text-align: center;
+    width: 100%;
 }
 
 /* --- Card Grid Improvements --- */

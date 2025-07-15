@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="/frontend/Vista Admin-Editores/admin/css/estilo.editor.css">
     <!-- CSS específico para espacios (definirá el estilo del formulario en el modal y la tabla) -->
     <link rel="stylesheet" href="/frontend/Vista Admin-Editores/admin/css/espacios.css">
+    <!-- Flatpickr (date/time picker) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
     <title>Espacios Culturales</title>
 </head>
 <body>
@@ -32,7 +36,45 @@
 
     <main>
             <div class="espacios-list-container">
-            <h1 class="page-title">Espacios culturales</h1>
+            <div class="flex flex-col items-center w-full mb-4">
+                <h1 class="page-title text-center">Espacios Culturales</h1>
+                <div class="search-container flex flex-col md:flex-row md:items-center md:justify-center gap-2 w-full">
+                    <input type="text" id="search-espacios-input" placeholder="Buscar espacios..." class="search-input form-input w-full md:w-1/2" />
+                    <div class="flex gap-2 mt-2 md:mt-0 justify-center">
+                        <button id="advanced-filter-espacios-btn" type="button" class="form-button secondary">Filtros avanzados</button>
+                        <button id="clear-filters-espacios-btn" type="button" class="form-button">Limpiar filtros</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Advanced Filter Modal -->
+            <div id="advanced-filter-espacios-modal" class="modal" style="display:none;">
+              <div class="modal-contenido max-w-lg w-full">
+                <span class="cerrar" id="close-advanced-filter-espacios">×</span>
+                <h2 id="advanced-filter-espacios-title" class="form-title mb-4">Filtros Avanzados</h2>
+                <form id="advancedFilterEspaciosForm" class="flex flex-col gap-4">
+                  <div>
+                    <label for="filter-horario-apertura">Horario de apertura desde:</label>
+                    <input type="time" id="filter-horario-apertura" class="form-input" />
+                  </div>
+                  <div>
+                    <label for="filter-horario-cierre">Horario de cierre hasta:</label>
+                    <input type="time" id="filter-horario-cierre" class="form-input" />
+                  </div>
+                  <div>
+                    <label for="filter-publicado-espacios">Estado de publicación:</label>
+                    <select id="filter-publicado-espacios" class="form-input">
+                      <option value="">Todos</option>
+                      <option value="true">Publicados</option>
+                      <option value="false">Borradores</option>
+                    </select>
+                  </div>
+                  <div class="flex gap-2 justify-end">
+                    <button type="button" id="apply-advanced-filters-espacios" class="form-button">Aplicar filtros</button>
+                    <button type="button" id="reset-advanced-filters-espacios" class="form-button secondary">Limpiar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
             <div class="espacios-grid" id="espacios-list">
                 <!-- Las tarjetas de espacios se insertan aquí por JS -->
             </div>
@@ -151,5 +193,41 @@
     <script src="/frontend/js/login.js"></script>
     <script src="/frontend/Vista Admin-Editores/admin/js/espacios.js"></script>
     <script src="/frontend/Vista Admin-Editores/admin/js/sidebar.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        flatpickr('#horario_apertura', {
+          locale: 'es',
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: 'H:i',
+          time_24hr: true,
+          allowInput: true
+        });
+        flatpickr('#horario_cierre', {
+          locale: 'es',
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: 'H:i',
+          time_24hr: true,
+          allowInput: true
+        });
+        flatpickr('#filter-horario-apertura', {
+          locale: 'es',
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: 'H:i',
+          time_24hr: true,
+          allowInput: true
+        });
+        flatpickr('#filter-horario-cierre', {
+          locale: 'es',
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: 'H:i',
+          time_24hr: true,
+          allowInput: true
+        });
+      });
+    </script>
 </body>
 </html>

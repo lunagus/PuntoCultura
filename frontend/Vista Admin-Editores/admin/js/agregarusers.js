@@ -1,7 +1,12 @@
 // Barebones CRUD for users (no password-protection yet)
 
-// Utility: API call with JWT, redirect to login on 401/403
+// Utility: API call with JWT, redirect to login on 401/403, with auto-refresh
 async function apiFetch(url, options = {}) {
+    if (window.authenticatedFetch) {
+        // Use the global authenticatedFetch if available
+        return await window.authenticatedFetch(url, options);
+    }
+    // Fallback: legacy logic
     const token = localStorage.getItem('authToken');
     options.headers = options.headers || {};
     if (token) options.headers['Authorization'] = `Bearer ${token}`;
