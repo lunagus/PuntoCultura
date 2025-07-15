@@ -19,10 +19,11 @@
 
 ## ✨ Características principales
 
+- **Interfaz pública:** Diseño totalmente responsive con tarjetas y vistas públicas accesibles y modernas.
 - **Gestión de eventos culturales:** Creación, edición, publicación, borrador y visualización de eventos por parte de administradores y editores.
-- **Panel administrativo avanzado:** Interfaz segura con autenticación, control de acceso basado en roles, filtros avanzados (fecha, año, categoría, centro, estado publicado/borrador), carga y previsualización de imágenes, gestión de usuarios y roles.
+- **Panel administrativo avanzado:** Interfaz segura con autenticación, control de acceso basado en roles, filtros, carga y previsualización de imágenes, gestión de usuarios y roles.
 - **Calendario de eventos:** Visualización dinámica con FullCalendar.
-- **Búsqueda y filtros:** Filtros por texto, categoría, año, centro, fecha, estado de publicación y combinaciones.
+- **Búsqueda y filtros:** Sistema robusto para filtrar por texto, categoría, año, centro, fecha, estado de publicación y combinaciones.
 - **Paginación:** Navegación por páginas en listados de eventos.
 - **Carrusel 3D:** Destacados de eventos en la página principal.
 - **Gestión de medios:** Carga y visualización de imágenes asociadas a eventos y centros.
@@ -30,7 +31,6 @@
 - **Formulario de contacto:** Sección de contacto para consultas, con datos de contacto y redes sociales.
 - **Integración con Facebook:** Última publicación embebida en la página principal.
 - **Enlaces externos:** Acceso a DNI Cultural, Patrimonio Cultural, Biblioteca Digital, redes sociales y Google Maps.
-- **Capa pública y privada separadas:** Interfaz pública de eventos y panel de gestión diferenciados.
 - **Autenticación JWT segura** y middleware anti-inyección SQL.
 - **Soporte de borradores:** Eventos y centros pueden estar en estado "borrador" (no publicados).
 
@@ -83,8 +83,9 @@
 
 ## 🔐 Características de seguridad
 
-- **Autenticación JWT** segura: tokens almacenados en `localStorage` y enviados en headers.
-- **Middleware contra inyección SQL**: bloquea patrones sospechosos en las solicitudes.
+- **Autenticación JWT** segura: Tokens almacenados en `localStorage` y enviados en headers, con soporte para auto refrescar el token.
+- **Middleware contra inyección SQL**: Bloquea patrones sospechosos en las solicitudes.
+- **Detección de intentos de logueo**: Se detectan todos los intentos de inicio de sesión con usuario ingresado, IP, estado y timestamp
 - **Acceso basado en roles**: solo usuarios en los grupos correspondientes pueden crear, editar o eliminar.
 - **Soporte de borradores:** Eventos y centros pueden estar ocultos al público hasta ser publicados.
 
