@@ -29,6 +29,7 @@ SECRET_KEY = "django-insecure--obwe1*u6*z*qm@-%^6(m3mqo&=)!hkuo!w+mo#5ixe0luujig
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    "https://puntocultura.onrender.com",
     "puntocultura.up.railway.app",
     "localhost",
     "127.0.0.1",

@@ -1,10 +1,14 @@
-// config.js
-// Dynamically set API base URL for local and production
-if (
-  window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
-) {
-  window.API_BASE_URL = 'http://127.0.0.1:8000';
-} else {
-  window.API_BASE_URL = 'https://puntocultura.up.railway.app';
-}
+// frontend/js/config.js
+// Configuración de la URL base de la API
+
+// Detectar si estamos en desarrollo local o en producción
+const isLocalhost = window.location.hostname === 'localhost' || 
+                   window.location.hostname === '127.0.0.1' || 
+                   window.location.hostname === '';
+
+// Configurar la URL base de la API
+window.API_BASE_URL = isLocalhost 
+    ? 'http://127.0.0.1:8000'  // Desarrollo local
+    : 'https://puntocultura.onrender.com';  // Producción
+
+console.log('API Base URL:', window.API_BASE_URL);
