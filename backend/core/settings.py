@@ -167,17 +167,15 @@ LOGGING = {
     "handlers": {
         "login_file": {
             "level": "INFO",
-            "class": "logging.FileHandler",
-            "filename": os.path.join(BASE_DIR, "logs", "login.log"),
+            "class": "logging.StreamHandler",
+            "stream": "ext://sys.stdout",
             "formatter": "simple",
-            "encoding": "utf-8",
         },
         "sql_injection_file": {
             "level": "WARNING",
-            "class": "logging.FileHandler",
-            "filename": os.path.join(BASE_DIR, "logs", "inyeccion.log"),
+            "class": "logging.StreamHandler",
+            "stream": "ext://sys.stdout",
             "formatter": "simple",
-            "encoding": "utf-8",
         },
     },
     "loggers": {
