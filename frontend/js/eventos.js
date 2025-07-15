@@ -166,7 +166,7 @@ function renderizarEventos(eventos) {
 
     card.innerHTML = `
       <div class="categoria-banda ${categoriaClase}"></div>
-      <img src="${ev.imagen || '/frontend/assets/img/default-event.jpg'}" alt="${ev.titulo}">
+      <img src="${ev.imagen || 'assets/img/feria-del-libro.jpg'}" alt="${ev.titulo}">
       <div class="evento-card-content">
         <span class="evento-categoria-badge ${categoriaClase}">${categoriaNombre}</span>
         <h3 class="evento-titulo">${ev.titulo}</h3>
@@ -223,7 +223,7 @@ function mostrarModalEvento(evento) {
   const modalContent = document.querySelector('.modal-content');
 
   // Rellena el modal con los datos del evento.
-  modalImg.src = evento.imagen || '/frontend/assets/img/default-event.jpg';
+  modalImg.src = evento.imagen || 'assets/img/feria-del-libro.jpg';
   modalTitle.textContent = evento.titulo;
   
   // Get category information from the nested object

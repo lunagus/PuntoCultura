@@ -21,7 +21,7 @@ function showEventModal(event) {
         return;
     }
 
-    modalImg.src = event.imagen || '/frontend/assets/img/default-event.jpg';
+    modalImg.src = event.imagen || 'assets/img/feria-del-libro.jpg';
     modalTitulo.textContent = event.titulo || 'Título no disponible';
     modalFecha.textContent = `Fecha: ${event.fecha_inicio} ${event.fecha_fin ? ' - ' + event.fecha_fin : ''}`;
     // Asumiendo que el campo centro_cultural contiene el nombre o un identificador que se puede mostrar.
@@ -73,7 +73,7 @@ function showCentroModal(espacio) {
         return;
     }
 
-    modalImg.src = espacio.imagen || '/frontend/assets/img/default-espacio.jpg';
+    modalImg.src = espacio.imagen || 'assets/img/ccb.jpg';
     modalNombre.textContent = espacio.nombre || 'Nombre no disponible';
     let horarioTexto = 'No especificado';
     if (espacio.horario_apertura && espacio.horario_cierre) {

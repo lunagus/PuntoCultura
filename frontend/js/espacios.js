@@ -112,7 +112,7 @@ function filtrarYRenderizarEspacios() {
 
         card.innerHTML = `
             <div class="punto-card-img-container">
-                <img src="${espacio.imagen || '/frontend/assets/img/default-espacio.jpg'}" alt="${espacio.nombre}">
+                <img src="${espacio.imagen || 'assets/img/ccb.jpg'}" alt="${espacio.nombre}">
             </div>
             <div class="punto-card-content">
                 <h3 class="punto-titulo">${espacio.nombre}</h3>
@@ -147,7 +147,7 @@ function mostrarModalEspacio(espacio) {
     }
 
     // Rellena el modal con los datos del espacio.
-    modalImg.src = espacio.imagen || '/frontend/assets/img/default-espacio.jpg'; // Usa imagen para el modal también
+    modalImg.src = espacio.imagen || 'assets/img/ccb.jpg'; // Usa imagen para el modal también
     modalNombre.textContent = espacio.nombre || 'Nombre no disponible';
     // Usar los campos reales del backend para horario
     let horarioTexto = 'No especificado';

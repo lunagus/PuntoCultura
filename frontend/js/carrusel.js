@@ -54,7 +54,7 @@ async function loadEventsForCarousel() {
             card.className = 'card'; // Asigna la clase CSS 'card'.
             // Estructura HTML de la tarjeta, incluyendo imagen y un overlay para el título.
             card.innerHTML = `
-                <img src="${evento.imagen || '/frontend/assets/img/default-event.jpg'}" alt="${evento.titulo}" />
+                <img src="${evento.imagen || 'assets/img/feria-del-libro.jpg'}" alt="${evento.titulo}" />
                 <div class="card-overlay">
                     <h3>${evento.titulo}</h3>
                 </div>
