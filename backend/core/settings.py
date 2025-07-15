@@ -28,7 +28,11 @@ SECRET_KEY = "django-insecure--obwe1*u6*z*qm@-%^6(m3mqo&=)!hkuo!w+mo#5ixe0luujig
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "puntocultura.up.railway.app",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition

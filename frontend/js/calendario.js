@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     // Función para cargar los eventos del calendario desde una fuente externa (API).
     events: function(fetchInfo, successCallback, failureCallback) {
-      fetch('http://127.0.0.1:8000/api/eventos/') // Realiza una solicitud a tu API de eventos.
+      fetch(`${window.API_BASE_URL}/api/eventos/`) // Realiza una solicitud a tu API de eventos.
         .then(response => {
           // Verifica si la respuesta de la red fue exitosa.
           if (!response.ok) throw new Error('Error en la respuesta de la API');

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const mensaje = document.getElementById('mensaje');
 
   try {
-    const response = await fetch('http://localhost:8000/api/eventos/');
+    const response = await fetch(`${window.API_BASE_URL}/api/eventos/`);
     if (!response.ok) throw new Error('Error al obtener eventos');
 
     const eventos = await response.json();

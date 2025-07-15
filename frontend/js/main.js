@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch('http://localhost:8000/api/eventos/', {
+      const response = await fetch(`${window.API_BASE_URL}/api/eventos/`, {
         method: 'POST',
         body: formData,
       });

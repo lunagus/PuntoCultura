@@ -5,7 +5,7 @@ document.getElementById('formularioRegistro').addEventListener('submit', async (
   const clave = document.getElementById('clave').value;
 
   try {
-    const respuesta = await fetch('/api/register/', {
+    const respuesta = await fetch(`${window.API_BASE_URL}/api/register/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

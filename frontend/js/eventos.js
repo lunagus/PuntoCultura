@@ -45,8 +45,8 @@ const eventosPorPagina = 9; // Número de eventos a mostrar por página.
 async function cargarEventos() {
   try {
     // Obtiene eventos y categorías de la API.
-    eventosGlobal = await fetch("http://127.0.0.1:8000/api/eventos/").then(r => r.json());
-    categoriasGlobal = await fetch("http://127.0.0.1:8000/api/categorias/").then(r => r.json());
+    eventosGlobal = await fetch(`${window.API_BASE_URL}/api/eventos/`).then(r => r.json());
+    categoriasGlobal = await fetch(`${window.API_BASE_URL}/api/categorias/`).then(r => r.json());
 
     // Llena el dropdown de categorías.
     const selectCat = document.getElementById("filtro-categoria");

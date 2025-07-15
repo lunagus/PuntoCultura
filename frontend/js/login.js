@@ -46,7 +46,7 @@ async function authenticatedFetch(url, options = {}) {
         const refresh = localStorage.getItem('refresh');
         if (refresh) {
             // Try to refresh the access token
-            const refreshResponse = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
+            const refreshResponse = await fetch(`${window.API_BASE_URL}/api/token/refresh/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ refresh })
@@ -88,7 +88,7 @@ async function handleLogin(event) {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/token/', {
+        const response = await fetch(`${window.API_BASE_URL}/api/token/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

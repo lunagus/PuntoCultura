@@ -14,9 +14,9 @@ let allCategories = [];
 async function loadAllData() {
     try {
         const [eventsResponse, centersResponse, categoriesResponse] = await Promise.all([
-            fetch('http://127.0.0.1:8000/api/eventos/'),
-            fetch('http://127.0.0.1:8000/api/centros/'),
-            fetch('http://127.0.0.1:8000/api/categorias/')
+            fetch(`${window.API_BASE_URL}/api/eventos/`),
+            fetch(`${window.API_BASE_URL}/api/centros/`),
+            fetch(`${window.API_BASE_URL}/api/categorias/`)
         ]);
 
         if (!eventsResponse.ok) throw new Error(`Error HTTP al cargar eventos: ${eventsResponse.status}`);

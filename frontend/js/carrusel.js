@@ -20,7 +20,7 @@ async function loadEventsForCarousel() {
 
     try {
         // Realiza una solicitud a la API de eventos.
-        const response = await fetch('http://127.0.0.1:8000/api/eventos/');
+        const response = await fetch(`${window.API_BASE_URL}/api/eventos/`);
         if (!response.ok) {
             // Si la respuesta no es exitosa (ej. 404, 500), lanza un error.
             throw new Error(`Error HTTP! estado: ${response.status}`);

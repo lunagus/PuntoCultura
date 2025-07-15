@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function cargarEspacios() {
     try {
         // Realiza una solicitud a la API de espacios culturales.
-        const response = await fetch('http://127.0.0.1:8000/api/centros/'); // Asumiendo este endpoint
+        const response = await fetch(`${window.API_BASE_URL}/api/centros/`); // Asumiendo este endpoint
         if (!response.ok) {
             throw new Error(`Error HTTP! estado: ${response.status}`);
         }
