@@ -108,13 +108,20 @@ function cerrarFormulario() {
     document.getElementById("eventoForm").reset(); // Reiniciar el formulario por su ID
     document.getElementById("preview-imagen").innerHTML = ""; // Limpiar la vista previa
     document.getElementById("mensaje").classList.add("hidden"); // Ocultar mensaje de éxito
-    // Resetear modo de edición
-    isEditing = false;
-    currentEditId = null;
+    // Don't reset editing mode here - it will be reset after successful form submission
+    // isEditing = false;
+    // currentEditId = null;
     // Reset modal title
     const formTitle = document.getElementById('evento-modal-title');
     if (formTitle) formTitle.textContent = 'Crear Evento';
     document.querySelector('button[type="submit"]').textContent = 'Guardar Evento';
+}
+
+// Function to reset editing mode
+function resetEditingMode() {
+    isEditing = false;
+    currentEditId = null;
+    console.log("DEBUG: Editing mode reset");
 }
 
 // Add this helper at the top or before the form submit handler
@@ -132,6 +139,10 @@ document.getElementById("eventoForm").addEventListener("submit", async function 
     const data = new FormData(form);
     const submitBtn = form.querySelector("button[type='submit']");
     submitBtn.disabled = true;
+
+    console.log("DEBUG: Form submission started");
+    console.log("DEBUG: isEditing =", isEditing);
+    console.log("DEBUG: currentEditId =", currentEditId);
 
     // --- PATCH: Ensure categoria_id and centro_cultural_id are sent as IDs ---
     data.delete('categoria');
@@ -178,12 +189,24 @@ document.getElementById("eventoForm").addEventListener("submit", async function 
             // Modo edición - usar PUT para actualizar
             url = `${window.API_BASE_URL}/api/eventos/${currentEditId}/`;
             method = "PUT";
+            console.log("DEBUG: Using PUT method for editing, URL:", url);
+        } else {
+            console.log("DEBUG: Using POST method for creating, URL:", url);
+        }
+
+        console.log("DEBUG: About to send request with method:", method);
+        console.log("DEBUG: FormData contents:");
+        for (let [key, value] of data.entries()) {
+            console.log("  ", key, ":", value);
         }
 
         response = await authenticatedFetch(url, {
             method: method,
             body: data,
         });
+
+        console.log("DEBUG: Response received:", response);
+        console.log("DEBUG: Response status:", response ? response.status : 'No response');
 
         if (response && response.ok) {
             document.getElementById("mensaje").classList.remove("hidden"); // Mostrar mensaje de éxito
@@ -198,8 +221,7 @@ document.getElementById("eventoForm").addEventListener("submit", async function 
             await loadEventos();
             
             // Resetear modo de edición
-            isEditing = false;
-            currentEditId = null;
+            resetEditingMode();
             document.querySelector('.form-title').textContent = 'Agregar/Editar Evento';
             document.querySelector('button[type="submit"]').textContent = 'Guardar Evento';
             
@@ -211,14 +233,15 @@ document.getElementById("eventoForm").addEventListener("submit", async function 
             // Cerrar el formulario después de un breve retraso para que el mensaje sea visible
             setTimeout(() => {
                 cerrarFormulario();
-            }, 1500); 
+            }, 1500);
 
         } else if (response) {
             const errData = await response.json();
+            console.error("DEBUG: Error response:", errData);
             alert("Error al " + (isEditing ? "actualizar" : "crear") + " el evento: " + JSON.stringify(errData));
         }
     } catch (error) {
-        console.error("Error en la conexión:", error);
+        console.error("DEBUG: Exception caught:", error);
         alert("Error en la conexión con la API: " + error.message);
     } finally {
         submitBtn.disabled = false; // Habilitar el botón de nuevo
@@ -391,6 +414,8 @@ let isEditing = false;
 let currentEditId = null;
 
 async function editarEvento(id) {
+    console.log("DEBUG: editarEvento called with id:", id);
+    
     // Buscar el evento en el array local
     const evento = allEvents.find(e => e.id == id);
     if (!evento) {
@@ -401,6 +426,7 @@ async function editarEvento(id) {
     // Cambiar a modo edición
     isEditing = true;
     currentEditId = id;
+    console.log("DEBUG: Set isEditing =", isEditing, "currentEditId =", currentEditId);
 
     // Pass selected IDs to cargarOpciones
     const selectedCategoriaId = evento.categoria && evento.categoria.id ? evento.categoria.id : null;
@@ -436,6 +462,7 @@ async function editarEvento(id) {
     if (formTitle) formTitle.textContent = 'Editar Evento';
     if (submitButton) submitButton.textContent = 'Actualizar Evento';
 
+    console.log("DEBUG: About to show modal for editing");
     // Mostrar el modal
     mostrarFormulario();
 }
@@ -617,6 +644,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (modal) {
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
+                resetEditingMode(); // Reset editing mode when closing manually
                 cerrarFormulario();
             }
         });
@@ -625,6 +653,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cerrar modal con tecla ESC
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
+            resetEditingMode(); // Reset editing mode when closing manually
             cerrarFormulario();
         }
     });

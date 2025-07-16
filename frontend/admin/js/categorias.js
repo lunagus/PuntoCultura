@@ -61,10 +61,94 @@ document.addEventListener('DOMContentLoaded', function() {
         if (categoriaForm) categoriaForm.reset(); // Limpiar el formulario al cerrar
         if (mensajeDiv) mensajeDiv.classList.add("hidden"); // Ocultar mensaje al cerrar
         
-        // Resetear modo de edición
+        // Don't reset editing mode here - it will be reset after successful form submission
+        // isEditing = false;
+        // currentEditId = null;
+    };
+
+    // Function to reset editing mode
+    function resetEditingMode() {
         isEditing = false;
         currentEditId = null;
-    };
+        console.log("DEBUG: Editing mode reset");
+    }
+
+    // Form submission handler
+    categoriaForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const form = e.target;
+        const submitBtn = form.querySelector("button[type='submit']");
+        submitBtn.disabled = true;
+
+        console.log("DEBUG: Form submission started");
+        console.log("DEBUG: isEditing =", isEditing);
+        console.log("DEBUG: currentEditId =", currentEditId);
+
+        const formData = new FormData(form);
+        
+        try {
+            let response;
+            let url = `${window.API_BASE_URL}/api/categorias/`;
+            let method = "POST";
+
+            if (isEditing && currentEditId) {
+                // Modo edición - usar PUT para actualizar
+                url = `${window.API_BASE_URL}/api/categorias/${currentEditId}/`;
+                method = "PUT";
+                console.log("DEBUG: Using PUT method for editing, URL:", url);
+            } else {
+                console.log("DEBUG: Using POST method for creating, URL:", url);
+            }
+
+            console.log("DEBUG: About to send request with method:", method);
+            console.log("DEBUG: FormData contents:");
+            for (let [key, value] of formData.entries()) {
+                console.log("  ", key, ":", value);
+            }
+
+            response = await authenticatedFetch(url, {
+                method: method,
+                body: formData,
+            });
+
+            console.log("DEBUG: Response received:", response);
+            console.log("DEBUG: Response status:", response ? response.status : 'No response');
+
+            if (response && response.ok) {
+                if (isEditing) {
+                    showMessage("¡Categoría actualizada con éxito!", true);
+                } else {
+                    showMessage("¡Categoría guardada con éxito!", true);
+                }
+                
+                // Recargar categorías desde la API para obtener los datos actualizados
+                await loadCategorias();
+                
+                // Resetear modo de edición
+                resetEditingMode();
+                
+                // Llama a loadStats para actualizar los contadores del dashboard
+                if (window.loadStats) {
+                    window.loadStats();
+                }
+
+                // Cerrar el formulario después de un breve retraso para que el mensaje sea visible
+                setTimeout(() => {
+                    cerrarFormulario();
+                }, 1500); 
+
+            } else if (response) {
+                const errData = await response.json();
+                console.error("DEBUG: Error response:", errData);
+                showMessage("Error al " + (isEditing ? "actualizar" : "crear") + " la categoría: " + JSON.stringify(errData), false);
+            }
+        } catch (error) {
+            console.error("DEBUG: Exception caught:", error);
+            showMessage("Error en la conexión con la API: " + error.message, false);
+        } finally {
+            submitBtn.disabled = false; // Habilitar el botón de nuevo
+        }
+    });
 
     // Función para cargar las categorías existentes
     async function loadCategorias() {
@@ -198,8 +282,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Funciones de ejemplo para Editar y Eliminar
     async function editarCategoria(id) {
+        console.log("DEBUG: editarCategoria called with id:", id);
+        
         isEditing = true;
         currentEditId = id;
+        console.log("DEBUG: Set isEditing =", isEditing, "currentEditId =", currentEditId);
+        
         mostrarFormulario(); // Abrir el modal
 
         try {
@@ -260,6 +348,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (modalFormulario) {
         modalFormulario.addEventListener('click', function(e) {
             if (e.target === modalFormulario) {
+                resetEditingMode(); // Reset editing mode when closing manually
                 cerrarFormulario();
             }
         });
@@ -268,6 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cerrar modal con tecla ESC
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
+            resetEditingMode(); // Reset editing mode when closing manually
             cerrarFormulario();
         }
     });

@@ -101,7 +101,7 @@
     <!-- Modal para el formulario de agregar/editar evento -->
     <div id="modal-formulario" class="modal">
         <div class="modal-contenido">
-            <span class="cerrar" onclick="cerrarFormulario()">×</span>
+            <span class="cerrar" onclick="resetEditingMode(); cerrarFormulario()">×</span>
             <h2 id="evento-modal-title" class="form-title">Agregar/Editar Evento</h2>
             <form id="eventoForm" enctype="multipart/form-data">
                 <label for="titulo">Título del Evento:</label>
