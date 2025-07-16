@@ -66,6 +66,16 @@ class Command(BaseCommand):
                 )
                 return
 
+        # Check for existing eventos with potential datetime issues
+        self.stdout.write("Verificando eventos existentes...")
+        existing_eventos = Evento.objects.all()
+        for evento in existing_eventos:
+            self.stdout.write(
+                f"DEBUG: Existing evento '{evento.titulo}': "
+                f"fecha_inicio={evento.fecha_inicio} (type: {type(evento.fecha_inicio)}), "
+                f"fecha_fin={evento.fecha_fin} (type: {type(evento.fecha_fin)})"
+            )
+
         try:
             editor = None
 
@@ -700,11 +710,19 @@ class Command(BaseCommand):
                         )
                         continue
 
-                    # Convertir fechas de string a datetime
+                    # Convertir fechas de string a date (no datetime)
                     fecha_inicio = datetime.strptime(
                         evento_data["fecha_inicio"], "%Y-%m-%d"
+                    ).date()
+                    fecha_fin = datetime.strptime(
+                        evento_data["fecha_fin"], "%Y-%m-%d"
+                    ).date()
+
+                    self.stdout.write(
+                        f"DEBUG: Creating evento '{evento_data['titulo']}' with dates: "
+                        f"inicio={fecha_inicio} (type: {type(fecha_inicio)}), "
+                        f"fin={fecha_fin} (type: {type(fecha_fin)})"
                     )
-                    fecha_fin = datetime.strptime(evento_data["fecha_fin"], "%Y-%m-%d")
 
                     evento, created = Evento.objects.get_or_create(
                         titulo=evento_data["titulo"],

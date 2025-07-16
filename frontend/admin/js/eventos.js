@@ -9,21 +9,41 @@ async function loadEventos() {
             throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
         }
         const eventos = await response.json();
-        allEvents = eventos.map(evento => ({
-            id: evento.id,
-            name: evento.titulo,
-            date: evento.fecha_inicio,
-            description: evento.descripcion,
-            year: new Date(evento.fecha_inicio).getFullYear().toString(),
-            horario_apertura: evento.horario_apertura,
-            horario_cierre: evento.horario_cierre,
-            categoria: evento.categoria,
-            centro_cultural: evento.centro_cultural,
-            direccion: evento.centro_cultural ? evento.centro_cultural.direccion : null,
-            imagen: evento.imagen,
-            publicado: evento.publicado,
-            fecha_fin: evento.fecha_fin
-        }));
+        
+        console.log("DEBUG: Raw API response for eventos:", eventos);
+        console.log("DEBUG: First evento sample:", eventos[0]);
+        
+        allEvents = eventos.map(evento => {
+            // Safely calculate year from date
+            let year = '';
+            try {
+                if (evento.fecha_inicio) {
+                    year = new Date(evento.fecha_inicio).getFullYear().toString();
+                }
+            } catch (error) {
+                console.warn("DEBUG: Error parsing date for year calculation:", evento.fecha_inicio, error);
+                year = '';
+            }
+            
+            return {
+                id: evento.id,
+                name: evento.titulo,
+                date: evento.fecha_inicio,
+                description: evento.descripcion,
+                year: year,
+                horario_apertura: evento.horario_apertura,
+                horario_cierre: evento.horario_cierre,
+                categoria: evento.categoria,
+                centro_cultural: evento.centro_cultural,
+                direccion: evento.centro_cultural ? evento.centro_cultural.direccion : null,
+                imagen: evento.imagen,
+                publicado: evento.publicado,
+                fecha_fin: evento.fecha_fin
+            };
+        });
+        
+        console.log("DEBUG: Processed allEvents sample:", allEvents[0]);
+        
         // Populate filter dropdowns (Choices.js)
         if (choicesCategoria) {
             const cats = getUniqueCategorias(allEvents);
@@ -124,11 +144,44 @@ function resetEditingMode() {
     console.log("DEBUG: Editing mode reset");
 }
 
+// Function to convert ISO date (YYYY-MM-DD) to dd/mm/yyyy format
+function isoToDisplayDate(isoDate) {
+    if (!isoDate) return "";
+    
+    // Handle ISO date format (YYYY-MM-DD)
+    if (isoDate.includes('-') && isoDate.split('-').length === 3) {
+        const [year, month, day] = isoDate.split('-');
+        return `${day}/${month}/${year}`;
+    }
+    
+    // If it's already in dd/mm/yyyy format, return as is
+    if (isoDate.includes('/')) {
+        return isoDate;
+    }
+    
+    console.warn("DEBUG: Could not parse date format:", isoDate);
+    return "";
+}
+
 // Add this helper at the top or before the form submit handler
 function toISODate(dateStr) {
   if (!dateStr) return "";
-  const [d, m, y] = dateStr.split("/");
-  return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
+  
+  // Handle different date formats
+  if (dateStr.includes('/')) {
+    // Format: dd/mm/yyyy
+    const [d, m, y] = dateStr.split("/");
+    if (d && m && y) {
+      return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
+    }
+  } else if (dateStr.includes('-')) {
+    // Format: yyyy-mm-dd (already ISO format)
+    return dateStr;
+  }
+  
+  // If we can't parse it, return empty string
+  console.warn("DEBUG: Could not parse date format:", dateStr);
+  return "";
 }
 
 // Función adaptada para agregar o guardar eventos
@@ -165,8 +218,13 @@ document.getElementById("eventoForm").addEventListener("submit", async function 
     // --- END PATCH ---
 
     // Convert and append fechas in ISO format
-    data.set('fecha_inicio', toISODate(form.querySelector('[name="fecha_inicio"]').value));
+    const fechaInicioValue = form.querySelector('[name="fecha_inicio"]').value;
     const fechaFinValue = form.querySelector('[name="fecha_fin"]').value;
+    
+    console.log("DEBUG: fecha_inicio raw value:", fechaInicioValue);
+    console.log("DEBUG: fecha_fin raw value:", fechaFinValue);
+    
+    data.set('fecha_inicio', toISODate(fechaInicioValue));
     data.set('fecha_fin', fechaFinValue ? toISODate(fechaFinValue) : '');
 
     // Añadir campos de horario si están presentes
@@ -437,10 +495,17 @@ async function editarEvento(id) {
     // Prellenar el formulario con los datos del evento
     document.getElementById('titulo').value = evento.name;
     document.getElementById('descripcion').value = evento.description;
-    document.getElementById('fecha_inicio').value = evento.date;
-    document.getElementById('fecha_fin').value = evento.fecha_fin || '';
+    document.getElementById('fecha_inicio').value = isoToDisplayDate(evento.date);
+    document.getElementById('fecha_fin').value = evento.fecha_fin ? isoToDisplayDate(evento.fecha_fin) : '';
     document.getElementById('horario_apertura').value = evento.horario_apertura || '';
     document.getElementById('horario_cierre').value = evento.horario_cierre || '';
+
+    console.log("DEBUG: Setting form values for editing:");
+    console.log("  - evento.date (ISO):", evento.date);
+    console.log("  - evento.date (converted):", isoToDisplayDate(evento.date));
+    console.log("  - evento.fecha_fin (ISO):", evento.fecha_fin);
+    console.log("  - evento.fecha_fin (converted):", evento.fecha_fin ? isoToDisplayDate(evento.fecha_fin) : '');
+    console.log("  - fecha_inicio field value after setting:", document.getElementById('fecha_inicio').value);
 
     // Prellenar checkbox de publicado si existe
     const publicadoCheckbox = document.getElementById('publicado');

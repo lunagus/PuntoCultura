@@ -22,6 +22,19 @@ class CategoriaSerializer(serializers.ModelSerializer):
 
 class CentroCulturalSerializer(serializers.ModelSerializer):
     imagen = serializers.ImageField(required=False)
+    # Custom time fields to ensure consistent formatting
+    horario_apertura = serializers.TimeField(
+        format="%H:%M",
+        input_formats=["%H:%M", "%H:%M:%S"],
+        required=False,
+        allow_null=True,
+    )
+    horario_cierre = serializers.TimeField(
+        format="%H:%M",
+        input_formats=["%H:%M", "%H:%M:%S"],
+        required=False,
+        allow_null=True,
+    )
 
     class Meta:
         model = CentroCultural
@@ -53,6 +66,29 @@ class EventoSerializer(serializers.ModelSerializer):
         write_only=True,
         required=False,
         allow_null=True,  # Allow setting to None
+    )
+    # Custom date fields to ensure consistent formatting
+    fecha_inicio = serializers.DateField(
+        format="%Y-%m-%d", input_formats=["%Y-%m-%d", "%d/%m/%Y"]
+    )
+    fecha_fin = serializers.DateField(
+        format="%Y-%m-%d",
+        input_formats=["%Y-%m-%d", "%d/%m/%Y"],
+        required=False,
+        allow_null=True,
+    )
+    # Custom time fields to ensure consistent formatting
+    horario_apertura = serializers.TimeField(
+        format="%H:%M",
+        input_formats=["%H:%M", "%H:%M:%S"],
+        required=False,
+        allow_null=True,
+    )
+    horario_cierre = serializers.TimeField(
+        format="%H:%M",
+        input_formats=["%H:%M", "%H:%M:%S"],
+        required=False,
+        allow_null=True,
     )
 
     class Meta:

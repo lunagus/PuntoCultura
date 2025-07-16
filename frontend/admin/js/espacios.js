@@ -311,12 +311,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             const centro = await response.json();
 
+            console.log("DEBUG: Centro data received:", centro);
+            console.log("DEBUG: horario_apertura:", centro.horario_apertura, "type:", typeof centro.horario_apertura);
+            console.log("DEBUG: horario_cierre:", centro.horario_cierre, "type:", typeof centro.horario_cierre);
+
             // Prellenar el formulario con los datos del centro
             espacioForm.querySelector('[name="nombre"]').value = centro.nombre;
             espacioForm.querySelector('[name="descripcion"]').value = centro.descripcion;
             espacioForm.querySelector('[name="direccion"]').value = centro.direccion || '';
-            espacioForm.querySelector('[name="horario_apertura"]').value = centro.horario_apertura || '';
-            espacioForm.querySelector('[name="horario_cierre"]').value = centro.horario_cierre || '';
+            
+            // Handle time fields - ensure they are in HH:MM format for HTML time inputs
+            const horarioApertura = centro.horario_apertura || '';
+            const horarioCierre = centro.horario_cierre || '';
+            
+            console.log("DEBUG: Setting horario_apertura to:", horarioApertura);
+            console.log("DEBUG: Setting horario_cierre to:", horarioCierre);
+            
+            espacioForm.querySelector('[name="horario_apertura"]').value = horarioApertura;
+            espacioForm.querySelector('[name="horario_cierre"]').value = horarioCierre;
+            
             espacioForm.querySelector('[name="ubicacion_lat"]').value = centro.ubicacion_lat || '';
             espacioForm.querySelector('[name="ubicacion_lon"]').value = centro.ubicacion_lon || '';
             espacioForm.querySelector('[name="publicado"]').checked = centro.publicado || false;
