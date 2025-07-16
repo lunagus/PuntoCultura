@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "puntocultura.onrender.com",
-    "puntocultura.up.railway.app",
+    "stale-linell-puntocultura-dd2ca381.koyeb.app",
     "localhost",
     "127.0.0.1",
 ]
