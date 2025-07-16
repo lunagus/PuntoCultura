@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
     async function loadCategorias() {
         try {
             console.log('Loading categorias...');
-            const response = await authenticatedFetch("http://127.0.0.1:8000/api/categorias/");
+            const response = await authenticatedFetch(`${window.API_BASE_URL}/api/categorias/`);
             if (!response || !response.ok) {
                 throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
             }
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const originalLoadCategorias = loadCategorias;
     loadCategorias = async function() {
         try {
-            const response = await authenticatedFetch("http://127.0.0.1:8000/api/categorias/");
+            const response = await authenticatedFetch(`${window.API_BASE_URL}/api/categorias/`);
             if (!response || !response.ok) {
                 throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
             }
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mostrarFormulario(); // Abrir el modal
 
         try {
-            const response = await authenticatedFetch(`http://127.0.0.1:8000/api/categorias/${id}/`);
+            const response = await authenticatedFetch(`${window.API_BASE_URL}/api/categorias/${id}/`);
             if (!response || !response.ok) {
                 throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
             }
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!confirmacion) return;
 
         try {
-            const response = await authenticatedFetch(`http://127.0.0.1:8000/api/categorias/${id}/`, {
+            const response = await authenticatedFetch(`${window.API_BASE_URL}/api/categorias/${id}/`, {
                 method: "DELETE"
             });
 

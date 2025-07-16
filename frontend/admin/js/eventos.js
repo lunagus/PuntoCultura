@@ -4,7 +4,7 @@ let allEvents = [];
 // Función para cargar eventos existentes desde la API y poblar los filtros
 async function loadEventos() {
     try {
-        const response = await authenticatedFetch("http://127.0.0.1:8000/api/eventos/");
+        const response = await authenticatedFetch(`${window.API_BASE_URL}/api/eventos/`);
         if (!response || !response.ok) {
             throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
         }
@@ -59,7 +59,7 @@ async function eliminarEvento(element) {
 
     if (confirmacion) {
         try {
-            const response = await authenticatedFetch(`http://127.0.0.1:8000/api/eventos/${eventId}/`, {
+            const response = await authenticatedFetch(`${window.API_BASE_URL}/api/eventos/${eventId}/`, {
                 method: "DELETE"
             });
 
@@ -171,12 +171,12 @@ document.getElementById("eventoForm").addEventListener("submit", async function 
 
     try {
         let response;
-        let url = "http://127.0.0.1:8000/api/eventos/";
+        let url = `${window.API_BASE_URL}/api/eventos/`;
         let method = "POST";
 
         if (isEditing && currentEditId) {
             // Modo edición - usar PUT para actualizar
-            url = `http://127.0.0.1:8000/api/eventos/${currentEditId}/`;
+            url = `${window.API_BASE_URL}/api/eventos/${currentEditId}/`;
             method = "PUT";
         }
 
@@ -476,8 +476,8 @@ window.logout = function() {
 // Función para cargar opciones de centros culturales y categorías
 async function cargarOpciones(selectedCategoriaId = null, selectedCentroId = null) {
     try {
-        const centrosResponse = await authenticatedFetch("http://127.0.0.1:8000/api/centros/");
-        const categoriasResponse = await authenticatedFetch("http://127.0.0.1:8000/api/categorias/");
+        const centrosResponse = await authenticatedFetch(`${window.API_BASE_URL}/api/centros/`);
+        const categoriasResponse = await authenticatedFetch(`${window.API_BASE_URL}/api/categorias/`);
 
         if (!centrosResponse || !centrosResponse.ok) throw new Error('Error al cargar centros culturales');
         if (!categoriasResponse || !categoriasResponse.ok) throw new Error('Error al cargar categorías');

@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function loadEspacios() {
         try {
-            const response = await authenticatedFetch("http://127.0.0.1:8000/api/centros/"); // Corregido: usar /api/centros/
+            const response = await authenticatedFetch(`${window.API_BASE_URL}/api/centros/`); // Corregido: usar /api/centros/
             if (!response || !response.ok) {
                 throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
             }
@@ -251,12 +251,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             let response;
-            let url = "http://127.0.0.1:8000/api/centros/";
+            let url = `${window.API_BASE_URL}/api/centros/`;
             let method = "POST";
 
             if (isEditing && currentEditId) {
                 // Modo edición - usar PUT para actualizar
-                url = `http://127.0.0.1:8000/api/centros/${currentEditId}/`;
+                url = `${window.API_BASE_URL}/api/centros/${currentEditId}/`;
                 method = "PUT";
             }
 
@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mostrarFormulario(); // Mostrar el modal
 
         try {
-            const response = await authenticatedFetch(`http://127.0.0.1:8000/api/centros/${id}/`);
+            const response = await authenticatedFetch(`${window.API_BASE_URL}/api/centros/${id}/`);
             if (!response || !response.ok) {
                 throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
             }
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!confirmacion) return;
 
         try {
-            const response = await authenticatedFetch(`http://127.0.0.1:8000/api/centros/${id}/`, {
+            const response = await authenticatedFetch(`${window.API_BASE_URL}/api/centros/${id}/`, {
                 method: "DELETE"
             });
 

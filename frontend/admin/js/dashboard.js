@@ -22,10 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalEspaciosEl = document.getElementById('totalEspacios');
         const totalUsuariosEl = document.getElementById('totalUsuarios');
 
-        const eventos = await fetchData("http://127.0.0.1:8000/api/eventos/");
-        const categorias = await fetchData("http://127.0.0.1:8000/api/categorias/");
-        const espacios = await fetchData("http://127.0.0.1:8000/api/centros/");
-        const usuarios = await fetchData("http://127.0.0.1:8000/api/users/");
+        const eventos = await fetchData(`${window.API_BASE_URL}/api/eventos/`);
+        const categorias = await fetchData(`${window.API_BASE_URL}/api/categorias/`);
+        const espacios = await fetchData(`${window.API_BASE_URL}/api/centros/`);
+        const usuarios = await fetchData(`${window.API_BASE_URL}/api/users/`);
 
         if (eventos) totalEventosEl.textContent = eventos.length;
         if (categorias) totalCategoriasEl.textContent = categorias.length;
@@ -63,9 +63,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        const eventos = await fetchData("http://127.0.0.1:8000/api/eventos/");
-        const categorias = await fetchData("http://127.0.0.1:8000/api/categorias/");
-        const espacios = await fetchData("http://127.0.0.1:8000/api/centros/");
+        const eventos = await fetchData(`${window.API_BASE_URL}/api/eventos/`);
+        const categorias = await fetchData(`${window.API_BASE_URL}/api/categorias/`);
+        const espacios = await fetchData(`${window.API_BASE_URL}/api/centros/`);
 
         renderList(recentEventsList, eventos, 'titulo', 'eventos.html'); // Asume que 'titulo' es el campo de nombre
         renderList(recentCategoriasList, categorias, 'nombre', 'categorias.html'); // Asume que 'nombre' es el campo de nombre
