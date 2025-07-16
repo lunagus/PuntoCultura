@@ -98,7 +98,7 @@
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu_usuario/puntocultura.git
+git clone https://github.com/lunagus/puntocultura.git
 cd puntocultura
 ```
 
