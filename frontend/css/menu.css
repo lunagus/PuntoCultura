@@ -46,6 +46,9 @@
     /* Mostrar el botón de hamburguesa en tablets y móviles */
     .burger {
         display: block;
+        position: absolute;
+        top: 1.5rem;
+        right: 2rem;
     }
 
     /* Clase para mostrar el menú deslizándose */

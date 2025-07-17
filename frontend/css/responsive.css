@@ -95,6 +95,10 @@ body {
     .video-box iframe {
         width: 100% !important;
         height: 300px !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box;
     }
     .footer {
         flex-direction: column;
