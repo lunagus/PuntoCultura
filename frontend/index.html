@@ -78,7 +78,16 @@
                 <!-- Video de Facebook -->
                 <div class="video-box">
                     <h2>Última publicación</h2>
-                    <div id="fb-embed-placeholder"></div>
+                    <iframe
+                        src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fsubsecretariadeculturadesantiagodelestero%2Fposts%2Fpfbid02B8agN7aEWJYkgcAEwZVmSd5ZP5sb6RrStyPvCZhxU4sLRB4iboxGcQNS1bkbCvsLl&show_text=true&width=50&height=100&appId"
+                        width="150%"
+                        height="700"
+                        style="border:none;overflow:hidden;border-radius:10px;"
+                        scrolling="no"
+                        frameborder="0"
+                        allowfullscreen="true"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                    </iframe>
                 </div>
             </div>
         </section>
@@ -139,24 +148,6 @@
     <script src="js/carrusel.js"></script>
     <script src="js/buscador.js"></script>
     <script src="js/menu.js"></script> <!-- Nuevo archivo JS para el menú hamburguesa -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(function() {
-        document.getElementById('fb-embed-placeholder').innerHTML = `
-          <iframe
-            src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fsubsecretariadeculturadesantiagodelestero%2Fposts%2Fpfbid02B8agN7aEWJYkgcAEwZVmSd5ZP5sb6RrStyPvCZhxU4sLRB4iboxGcQNS1bkbCvsLl&show_text=true&width=500&height=700&appId"
-            width="100%"
-            height="700"
-            style="border:none;overflow:hidden;border-radius:10px;max-width:100%;"
-            scrolling="no"
-            frameborder="0"
-            allowfullscreen="true"
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-          </iframe>
-        `;
-      }, 1000); // Delay of 1 second
-    });
-    </script>
 </body>
 
 </html>
