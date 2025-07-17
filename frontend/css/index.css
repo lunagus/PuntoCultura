@@ -146,6 +146,7 @@ nav ul li a:hover {
     border-radius: 10px;
 }
 
+/* --- Make Calendar and Facebook Heights Independent --- */
 #calendar {
     max-width: 900px;
     height: 600px;
@@ -155,7 +156,7 @@ nav ul li a:hover {
     padding: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     font-family: 'Host Grotesk', sans-serif;
-    z-index:-1;
+    z-index: -1;
 }
 
 /* Fuente general */
@@ -562,10 +563,26 @@ html, body {
     min-width: 0;
     box-sizing: border-box;
     display: block;
+    height: 700px;
+}
+
+@media (max-width: 1024px) {
+    .video-box {
+        height: auto;
+    }
+    .video-box iframe {
+        height: 400px !important;
+    }
+    #calendar {
+        height: 400px;
+    }
 }
 
 @media (max-width: 768px) {
     .video-box iframe {
         height: 300px !important;
+    }
+    #calendar {
+        height: 300px;
     }
 }
