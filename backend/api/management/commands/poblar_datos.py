@@ -107,17 +107,17 @@ class Command(BaseCommand):
             if not options["solo_eventos"]:
                 self.stdout.write("Creando categorías...")
                 categorias_data = [
-                    {"nombre": "Música", "color": "#FF6B6B"},
-                    {"nombre": "Literatura", "color": "#4ECDC4"},
-                    {"nombre": "Artesanías", "color": "#45B7D1"},
-                    {"nombre": "Cine y Audiovisual", "color": "#96CEB4"},
-                    {"nombre": "Plástica", "color": "#FFEAA7"},
-                    {"nombre": "Religiosidad", "color": "#DDA0DD"},
-                    {"nombre": "Teatro", "color": "#98D8C8"},
-                    {"nombre": "Mitos y Leyendas", "color": "#F7DC6F"},
-                    {"nombre": "Lengua Quichua", "color": "#BB8FCE"},
-                    {"nombre": "Gastronomía", "color": "#F8C471"},
-                    {"nombre": "Identidad", "color": "#85C1E9"},
+                    {"nombre": "Música", "color": "#CE2446"},
+                    {"nombre": "Literatura", "color": "#1E4291"},
+                    {"nombre": "Artesanías", "color": "#B8935C"},
+                    {"nombre": "Cine y Audiovisual", "color": "#650379"},
+                    {"nombre": "Plástica", "color": "#D19920"},
+                    {"nombre": "Religiosidad", "color": "#428A8F"},
+                    {"nombre": "Teatro", "color": "#462869"},
+                    {"nombre": "Mitos y Leyendas", "color": "#68572A"},
+                    {"nombre": "Lengua Quichua", "color": "#CF8181"},
+                    {"nombre": "Gastronomía", "color": "#359E2C"},
+                    {"nombre": "Identidad", "color": "#1976D2"},
                 ]
 
                 categorias = {}
