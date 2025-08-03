@@ -1,6 +1,6 @@
 # [PuntoCultura](https://puntocultura.netlify.app/)
 
-[![Build](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/lunagus/PuntoCultura/deployments/production-stale-linell%2Fpuntocultura)
+[![Build](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/lunagus/PuntoCultura/deployments/production)
  [![Deployed on Netlify](https://img.shields.io/badge/deployed%20on-Netlify-brightgreen?logo=netlify)](https://puntocultura.netlify.app/) ![HTML](https://img.shields.io/badge/HTML-5-orange?logo=html5) ![CSS](https://img.shields.io/badge/CSS-3-blue?logo=css3) ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow?logo=javascript) ![Django](https://img.shields.io/badge/Django-5.2-blue?logo=django) ![JWT](https://img.shields.io/badge/Auth-JWT-yellow)
 
 **PuntoCultura** es una plataforma digital para la **Subsecretaría de Cultura de Santiago del Estero** que permite gestionar, publicar y explorar eventos culturales en todo el territorio provincial. Este proyecto representa una refuncionalización del sitio institucional, combinando facilidad de uso, gestión segura de contenidos y una interfaz moderna basada en tecnologías abiertas.
