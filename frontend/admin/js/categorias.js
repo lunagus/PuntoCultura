@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
             localStorage.removeItem('authToken');
             localStorage.removeItem('userType');
-            window.location.href = '../../login.html';
+            window.location.href = '../login.html';
         }
     };
 

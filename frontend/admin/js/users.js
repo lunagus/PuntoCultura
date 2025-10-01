@@ -17,7 +17,7 @@ async function apiFetch(url, options = {}) {
         const response = await fetch(url, options);
         if (response.status === 401 || response.status === 403) {
             localStorage.clear();
-            window.location.href = '../../login.html';
+            window.location.href = '../login.html';
             return null;
         }
         return response;
@@ -305,7 +305,7 @@ window.logout = function() {
     if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
         localStorage.removeItem('authToken');
         localStorage.removeItem('userType');
-        window.location.href = '../../login.html';
+        window.location.href = '../login.html';
     }
 };
 
