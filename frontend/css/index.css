@@ -1,0 +1,575 @@
+/* frontend/css/index.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    scroll-behavior: smooth;
+    /* overflow: auto;  Eliminar o ajustar esto si causa problemas de scroll */
+}
+
+.header {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 20px 0px;
+    position: fixed;
+    transition: background-color 0.3s ease;
+    z-index: 1000;
+}
+
+
+.header.scrolled {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: background-color 0.3s ease;
+}
+
+nav {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+nav .logo {
+    display: flex;
+    gap: 20px;
+}
+
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 12px;
+    transition: 0.1s;
+}
+
+nav ul li a:hover {
+    color: #12bcd3;
+}
+
+#hero {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)), url(../assets/img/bombo.webp);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero_content {
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.hero_content h1 {
+    color: white;
+    font-size: 4rem;
+    text-shadow: 1px 1px 100px black;
+}
+
+.hero_content h2 {
+    color: white;
+    font-size: 1.5rem;
+    width: 100%;
+    text-shadow: 1px 1px 100px black;
+}
+
+.hero_content p {
+    color: lightgrey;
+    margin: 0;
+    text-shadow: 1px 1px 100px black;
+    width: 70%;
+    font-size: 14px;
+}
+
+.hero_content .btn {
+    padding: 10px 30px;
+    color: white;
+    background: #6c6c6cb6;
+    text-decoration: none;
+    border-radius: 100px;
+    font-size: 14px;
+    box-shadow: 1px 1px 100px black;
+}
+
+
+.btn:hover {
+    background: #12bcd3b6;
+    transition: 0.1s;
+}
+#calendario-video {
+    padding: 40px 20px;
+}
+
+#busqueda-eventos {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 0 auto 30px auto;
+    display: block;
+}
+
+.calendario-video-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.calendario-box, .video-box {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#calendar {
+    max-width: 900px;
+    height: 600px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Host Grotesk', sans-serif;
+    z-index:-1;
+}
+
+/* Fuente general */
+.fc {
+    font-family: 'Host Grotesk', sans-serif;
+}
+
+/* Título del calendario */
+.fc .fc-toolbar-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #222;
+}
+
+/* Botones del calendario */
+.fc-button {
+    background-color: #444;
+    border: none;
+    color: white;
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-weight: 600;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.fc-button:hover,
+.fc-button:focus {
+    background-color: #666;
+}
+
+/* Día actual */
+.fc-daygrid-day.fc-day-today {
+    background-color: #fcf700c4;
+    border-radius: 4px;
+}
+
+/* Hover sobre días */
+.fc-daygrid-day:hover {
+    background-color: #ada0a0d0;
+    cursor: pointer;
+}
+
+.carousel-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    height: auto;
+}
+
+.carousel-3d-container {
+    width: 100%;
+    max-width: 1200px; /* Increased width to accommodate buttons outside */
+    margin: 0 auto;
+    position: relative;
+    /* overflow: hidden; /* Remove this to allow buttons to go outside */
+    padding: 0 70px; /* Add padding to make space for buttons */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.carousel-3d {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-3d .card {
+    width: 300px;
+    height: 260px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 12px rgba(0,0,0,0.2);
+    transform: scale(0.8);
+    opacity: 0.3;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    cursor: pointer;
+    position: relative; /* Añadido para el overlay */
+}
+
+/* Estilos para el overlay del título en las tarjetas del carrusel */
+.carousel-3d .card .card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
+    color: white;
+    padding: 15px 10px 10px;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: bold;
+    transform: translateY(100%); /* Oculto por defecto */
+    transition: transform 0.3s ease-out;
+}
+
+/* Mostrar el overlay cuando la tarjeta está activa */
+.carousel-3d .card.active .card-overlay {
+    transform: translateY(0%);
+}
+
+/* Mostrar el overlay al pasar el cursor sobre cualquier tarjeta */
+.carousel-3d .card:hover .card-overlay {
+    transform: translateY(0%);
+}
+
+.carousel-3d .card.prev,
+.carousel-3d .card.next {
+    transform: scale(0.9);
+    opacity: 0.6;
+}
+
+.carousel-3d .card.active {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+}
+
+.carousel-3d .card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-3d .card:not(.prev):not(.active):not(.next) {
+    display: none;
+}
+
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 10; /* Ajustado para que los botones sean clickeables y estén por encima */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.carousel-btn.prev { left: -150px; } /* Ajustado para mover el botón más a la izquierda */
+.carousel-btn.next { right: -150px; } /* Ajustado para mover el botón más a la derecha */
+
+.search-section {
+    width: 100%;
+    margin: 0 auto 40px auto;
+    display: flex;
+    justify-content: center;
+    position: relative; /* Cambiado de absolute a relative para que no se superponga con el header */
+    z-index: 1; /* Ajustado el z-index para que la barra de búsqueda sea interactuable */
+}
+
+.search-container {
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    padding: 0 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 14px 24px 14px 48px;
+    font-size: 18px;
+    border: none;
+    border-radius: 50px;
+    background: rgba(230, 230, 230, 0.95);
+    color: #000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.search-input::placeholder {
+    color: #444;
+    opacity: 0.7;
+}
+
+.search-input:focus {
+    background: rgba(240, 240, 240, 1);
+    box-shadow: 0 0 0 3px rgba(113, 99, 240, 0.25);
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 36px;
+    transform: translateY(-50%);
+    color: #555;
+    font-size: 18px;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+#information {
+    margin: 50px 0;
+    color: rgb(0, 0, 0);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 50vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.information-cards {
+    margin: 50px 0;
+    display: flex;
+    width: 80%;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    display: flex;
+    width: 30%;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.2);
+    border-color: #000000;
+    font-size: 11px;
+    border-radius: 10px;
+    gap: 20px;
+    padding: 10px;
+    text-decoration: none;
+    color: rgb(42, 61, 71);
+}
+
+.card:hover {
+    background: none; /* Elimina el fondo azulado */
+    transition: 0.1s;
+    scale: 1.05;
+}
+
+.card img {
+    width: 30px;
+}
+
+#footer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #0461b8, #0da8e6);
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer {
+    margin: 50px 0;
+    height: 100%;
+    display: flex;
+    width: 100%; /* CAMBIO: Ahora ocupa el 100% del ancho del #footer */
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    padding: 0 20px; /* Añadido padding para el espaciado interno */
+    box-sizing: border-box; /* Asegura que el padding no añada ancho extra */
+}
+
+.footer-img {
+    width: 50%;
+    display: flex;
+    gap: 50px;
+}
+
+.footer-img img {
+    width: 100px;
+}
+
+
+.footer-datos {
+    width: 50%;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-datos img {
+    margin-left: 5px;
+}
+
+.footer-social {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.footer-social img {
+    width: 20px;
+}
+
+/* Estilos para los modales (pueden ir en un archivo CSS común si aplica a más páginas) */
+.modal-overlay {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté por encima de todo */
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal-content.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.modal-img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.modal-title {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.modal-horarios,
+.modal-direccion,
+.modal-description {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.modal-map-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.modal-map-btn:hover {
+    background-color: #0056b3;
+}
+
+/* --- GLOBAL OVERFLOW PROTECTION --- */
+html, body {
+    overflow-x: hidden !important;
+}
+
+/* --- FACEBOOK IFRAME RESPONSIVENESS --- */
+.video-box iframe {
+    max-width: 100vw;
+    width: 100% !important;
+    min-width: 0;
+    box-sizing: border-box;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .video-box iframe {
+        height: 300px !important;
+    }
+    .hero_content h1 {
+        text-align: center;
+        width: 100%;
+    }
+}

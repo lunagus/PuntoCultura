@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <!-- CSS base para la vista de editor (contiene sidebar, hidden, etc.) -->
+    <link rel="stylesheet" href="css/estilo.editor.css">
+    <!-- CSS específico para espacios (definirá el estilo del formulario en el modal y la tabla) -->
+    <link rel="stylesheet" href="css/espacios.css">
+    <!-- Flatpickr (date/time picker) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <title>Espacios Culturales</title>
+</head>
+<body>
+    <button id="menu-toggle" class="menu-btn">&#9776;</button>
+
+    <div class="sidebar">
+        <a href="dashboard.html">
+            <img src="../../assets/icons/sgo-cultura-removebg-preview.png" alt="" /></a>
+            <h2>Menú</h2>
+            
+        <div class="Menú">
+            <a href="eventos.html">Eventos</a>
+            <a href="categorias.html">Categorias</a>
+            <a href="espacios.html">Espacios Culturales</a>
+            <a href="users.html">Usuarios</a>
+        </div>
+        <div class="logout-section">
+            <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <main>
+            <div class="espacios-list-container">
+            <div class="flex flex-col items-center w-full mb-4">
+                <h1 class="page-title text-center">Espacios Culturales</h1>
+                <div class="search-container flex flex-col md:flex-row md:items-center md:justify-center gap-2 w-full">
+                    <input type="text" id="search-espacios-input" placeholder="Buscar espacios..." class="search-input form-input w-full md:w-1/2" />
+                    <div class="flex gap-2 mt-2 md:mt-0 justify-center">
+                        <button id="advanced-filter-espacios-btn" type="button" class="form-button secondary">Filtros avanzados</button>
+                        <button id="clear-filters-espacios-btn" type="button" class="form-button">Limpiar filtros</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Advanced Filter Modal -->
+            <div id="advanced-filter-espacios-modal" class="modal" style="display:none;">
+              <div class="modal-contenido max-w-lg w-full">
+                <span class="cerrar" id="close-advanced-filter-espacios">×</span>
+                <h2 id="advanced-filter-espacios-title" class="form-title mb-4">Filtros Avanzados</h2>
+                <form id="advancedFilterEspaciosForm" class="flex flex-col gap-4">
+                  <div>
+                    <label for="filter-horario-apertura">Horario de apertura desde:</label>
+                    <input type="time" id="filter-horario-apertura" class="form-input" />
+                  </div>
+                  <div>
+                    <label for="filter-horario-cierre">Horario de cierre hasta:</label>
+                    <input type="time" id="filter-horario-cierre" class="form-input" />
+                  </div>
+                  <div>
+                    <label for="filter-publicado-espacios">Estado de publicación:</label>
+                    <select id="filter-publicado-espacios" class="form-input">
+                      <option value="">Todos</option>
+                      <option value="true">Publicados</option>
+                      <option value="false">Borradores</option>
+                    </select>
+                  </div>
+                  <div class="flex gap-2 justify-end">
+                    <button type="button" id="apply-advanced-filters-espacios" class="form-button">Aplicar filtros</button>
+                    <button type="button" id="reset-advanced-filters-espacios" class="form-button secondary">Limpiar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="espacios-grid" id="espacios-list">
+                <!-- Las tarjetas de espacios se insertan aquí por JS -->
+            </div>
+            <p id="noEspacios" class="mensaje-vacio hidden">No hay espacios culturales para mostrar.</p>
+        </div>
+    </main>
+
+    <!-- Botón flotante para abrir el formulario modal -->
+    <button class="boton-flotante" onclick="mostrarFormulario()">+</button>
+
+    <!-- Modal para el formulario de agregar/editar Espacio Cultural -->
+    <div id="modal-formulario" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarFormulario()">×</span>
+            <h2 class="form-title">Agregar Espacio Cultural</h2>
+            <form id="espacioForm" enctype="multipart/form-data">
+                <label for="nombre">Nombre del Espacio:</label>
+                <input
+                    type="text"
+                    name="nombre"
+                    id="nombre"
+                    placeholder="Ej: Teatro 25 de Mayo"
+                    required
+                    class="form-input"
+                />
+
+                <label for="descripcion">Descripción:</label>
+                <textarea
+                    name="descripcion"
+                    id="descripcion"
+                    placeholder="Descripción detallada del espacio cultural"
+                    rows="4"
+                    required
+                    class="form-input"
+                ></textarea>
+                
+                <label for="direccion">Dirección:</label>
+                <input
+                    type="text"
+                    name="direccion"
+                    id="direccion"
+                    placeholder="Ej: Av. Belgrano Sur 555"
+                    class="form-input"
+                />
+
+                <label for="horario_apertura">Horario de Apertura:</label>
+                <input
+                    type="time"
+                    name="horario_apertura"
+                    id="horario_apertura"
+                    class="form-input"
+                />
+
+                <label for="horario_cierre">Horario de Cierre:</label>
+                <input
+                    type="time"
+                    name="horario_cierre"
+                    id="horario_cierre"
+                    class="form-input"
+                />
+
+                <label for="ubicacion_lat">Latitud:</label>
+                <input
+                    type="number"
+                    name="ubicacion_lat"
+                    id="ubicacion_lat"
+                    placeholder="Ej: -27.795100"
+                    step="any"
+                    class="form-input"
+                />
+
+                <label for="ubicacion_lon">Longitud:</label>
+                <input
+                    type="number"
+                    name="ubicacion_lon"
+                    id="ubicacion_lon"
+                    placeholder="Ej: -64.261500"
+                    step="any"
+                    class="form-input"
+                />
+
+                <label for="imagen">Imagen:</label>
+                <input
+                    type="file"
+                    name="imagen"
+                    id="imagen"
+                    accept="image/*"
+                    onchange="previsualizarImagen(event)"
+                    class="form-input"
+                />
+                <div id="preview-imagen" class="image-preview"></div>
+
+                <div class="form-checkbox-group">
+                    <label for="publicado" class="checkbox-label">
+                        <input type="checkbox" name="publicado" id="publicado" class="form-checkbox" />
+                        <span class="checkmark"></span>
+                        Publicar centro cultural (desmarcar para guardar como borrador)
+                    </label>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" name="action" value="save" class="form-button">Guardar Espacio</button>
+                    <button type="button" onclick="guardarComoBorrador()" class="form-button secondary">Guardar como Borrador</button>
+                </div>
+            </form>
+            <p
+                id="mensaje"
+                class="form-message hidden"
+            >
+                ¡Espacio cultural guardado con éxito!
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../js/config.js"></script>
+    <script src="../../js/login.js"></script>
+    <script src="js/espacios.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        flatpickr('#horario_apertura', {
+          locale: 'es',
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: 'H:i',
+          time_24hr: true,
+          allowInput: true
+        });
+        flatpickr('#horario_cierre', {
+          locale: 'es',
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: 'H:i',
+          time_24hr: true,
+          allowInput: true
+        });
+        flatpickr('#filter-horario-apertura', {
+          locale: 'es',
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: 'H:i',
+          time_24hr: true,
+          allowInput: true
+        });
+        flatpickr('#filter-horario-cierre', {
+          locale: 'es',
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: 'H:i',
+          time_24hr: true,
+          allowInput: true
+        });
+      });
+    </script>
+</body>
+</html>

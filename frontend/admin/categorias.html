@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <!-- CSS base para la vista de editor (contiene sidebar, hidden, etc.) -->
+    <link rel="stylesheet" href="css/estilo.editor.css">
+    <!-- CSS específico para categorías (definirá el estilo del formulario en el modal y la tabla) -->
+    <link rel="stylesheet" href="css/categorias.css">
+    <title>Categorías</title>
+</head>
+<body>
+    <button id="menu-toggle" class="menu-btn">&#9776;</button>
+
+    <div class="sidebar">
+        <a href="dashboard.html">
+            <img src="../../assets/icons/sgo-cultura-removebg-preview.png" alt="" /></a>
+            <h2>Menú</h2>
+        <div class="Menú">
+            <a href="eventos.html">Eventos</a>
+            <a href="categorias.html">Categorias</a>
+            <a href="espacios.html">Espacios Culturales</a>
+            <a href="users.html">Usuarios</a>
+        </div>
+        <div class="logout-section">
+            <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <main>
+        <div class="contenedor-categorias">
+            <h1 class="page-title">Administrar Categorías</h1>
+            <div class="categorias-list-container">
+                <h2 class="list-title">Categorías Existentes</h2>
+                <div class="search-container mb-4">
+                    <input type="text" id="search-categorias-input" placeholder="Buscar categorías..." class="search-input form-input w-full md:w-1/2" />
+                </div>
+                <table id="categoriasTable" class="categorias-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Color</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Las categorías se cargarán aquí dinámicamente con JavaScript -->
+                    </tbody>
+                </table>
+                <p id="noCategorias" class="mensaje-vacio hidden">No hay categorías para mostrar.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Botón flotante para abrir el formulario modal -->
+    <button class="boton-flotante" onclick="mostrarFormulario()">+</button>
+
+    <!-- Modal para el formulario de agregar/editar categoría -->
+    <div id="modal-formulario" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="resetEditingMode(); cerrarFormulario()">×</span>
+            <h2 class="form-title">Agregar Categoría Cultural</h2>
+            <form id="categoriaForm">
+                <input
+                    type="text"
+                    name="nombre"
+                    placeholder="Nombre de la categoría"
+                    required
+                    class="form-input"
+                />
+                <input
+                    type="color"
+                    name="color"
+                    value="#FFFFFF"
+                    class="form-input"
+                    style="width: 100px; height: 40px;"
+                />
+                <button
+                    type="submit"
+                    class="form-button"
+                >
+                    Guardar Categoría
+                </button>
+            </form>
+            <p
+                id="mensaje"
+                class="form-message hidden"
+            >
+                ¡Categoría guardada con éxito!
+            </p>
+        </div>
+    </div>
+    </main>
+    <!-- Scripts -->
+    <script src="../../js/config.js"></script>
+    <script src="../../js/login.js"></script>
+    <script src="js/categorias.js"></script>
+    <script src="js/sidebar.js"></script>
+</body>
+</html>

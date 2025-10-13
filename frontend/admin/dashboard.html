@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido, Administrador</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <!-- CSS base para la vista de editor (contiene sidebar, hidden, etc.) -->
+    <link rel="stylesheet" href="css/estilo.editor.css">
+    <!-- Nuevo CSS específico para el dashboard -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    <!-- Opcional: Iconos de Font Awesome si los usas para el dashboard -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+</head>
+<body>
+    <button id="menu-toggle" class="menu-btn">&#9776;</button>
+
+    <div class="sidebar">
+        <a href="dashboard.html">
+            <img src="../../assets/icons/sgo-cultura-removebg-preview.png" alt="" />
+            <h2>Menú</h2>
+        </a>
+        <div class="Menú">
+            <a href="eventos.html">Eventos</a>
+            <a href="categorias.html">Categorias</a>
+            <a href="espacios.html">Espacios Culturales</a>
+            <a href="users.html">Usuarios</a>
+        </div>
+        <div class="logout-section">
+            <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <main class="dashboard-main">
+        <div class="dashboard-header">
+            <h1>Bienvenido, Administrador</h1>
+            <p>Resumen de la plataforma y actividades recientes.</p>
+        </div>
+
+        <section class="dashboard-stats">
+            <div class="stat-card">
+                <div class="icon-wrapper"><i class="fas fa-calendar-alt"></i></div>
+                <h3>Total de Eventos</h3>
+                <p id="totalEventos">0</p>
+            </div>
+            <div class="stat-card">
+                <div class="icon-wrapper"><i class="fas fa-tags"></i></div>
+                <h3>Total de Categorías</h3>
+                <p id="totalCategorias">0</p>
+            </div>
+            <div class="stat-card">
+                <div class="icon-wrapper"><i class="fas fa-building"></i></div>
+                <h3>Total de Espacios</h3>
+                <p id="totalEspacios">0</p>
+            </div>
+            <div class="stat-card">
+                <div class="icon-wrapper"><i class="fas fa-users"></i></div>
+                <h3>Usuarios Registrados</h3>
+                <p id="totalUsuarios">0</p>
+            </div>
+        </section>
+
+        <section class="dashboard-recent-activity">
+            <h2>Actividad Reciente</h2>
+            <div class="activity-grid">
+                <div class="activity-card">
+                    <h3>Últimos Eventos Agregados</h3>
+                    <ul id="recentEventsList">
+                        <!-- Eventos recientes se cargarán aquí -->
+                        <li>No hay eventos recientes.</li>
+                    </ul>
+                </div>
+                <div class="activity-card">
+                    <h3>Últimos Espacios Agregados</h3>
+                    <ul id="recentEspaciosList">
+                        <!-- Espacios recientes se cargarán aquí -->
+                        <li>No hay espacios recientes.</li>
+                    </ul>
+                </div>
+                <div class="activity-card">
+                    <h3>Últimas Categorías Agregadas</h3>
+                    <ul id="recentCategoriasList">
+                        <!-- Categorías recientes se cargarán aquí -->
+                        <li>No hay categorías recientes.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de noticias (tarjetas) - se mantiene tu estructura original, con un poco de estilo si es necesario -->
+        <section class="dashboard-news">
+            <h2>Novedades y Anuncios</h2>
+            <div class="news-grid">
+                <div class="tarjeta">
+                    <h2>Eventos Agregados Recientemente</h2>
+                    <p>Un resumen de los últimos eventos que han sido publicados en la plataforma.</p>
+                    <a href="eventos.html" class="news-button">Ver Eventos</a>
+                </div>
+                <!--<div class="tarjeta">
+                    <h2>Eventos en Cola (Pendientes de Revisión)</h2>
+                    <p>Elementos que están esperando ser revisados o publicados por el administrador.</p>
+                    <a href="#" class="news-button">Revisar Pendientes</a>
+                </div>-->
+            </div>
+        </section>
+
+    </main>
+    <script>
+        // Verificar autenticación
+       /* function verificarAutenticacion() {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                alert('Debes iniciar sesión para acceder al panel de administración');
+                window.location.href = '';
+                return false;
+            }
+            return true;
+        } */
+
+        // Función de logout
+        function logout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userType');
+                window.location.href = '../../login.html';
+            }
+        }
+
+        // Verificar autenticación al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!verificarAutenticacion()) {
+                return;
+            }
+        });
+    </script>
+    <!-- Scripts -->
+    <script src="../../js/config.js"></script>
+    <script src="../../js/login.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/sidebar.js"></script>
+</body>
+</html>

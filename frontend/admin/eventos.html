@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@529&family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.editor.css">
+    <link rel="stylesheet" href="css/eventos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <!-- Flatpickr (date/time picker) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <title>Eventos</title>
+</head>
+<body>
+    <button id="menu-toggle" class="menu-btn">&#9776;</button>
+
+    <div class="sidebar">
+        <a href="dashboard.html">
+          <img src="../../assets/icons/sgo-cultura-removebg-preview.png" alt="" /></a>
+          <h2>Menú</h2>
+        <div class="Menú">
+            <a href="eventos.html">Eventos</a>
+            <a href="categorias.html">Categorias</a>
+            <a href="espacios.html">Espacios Culturales</a>
+            <a href="users.html">Usuarios</a>
+        </div>
+        <div class="logout-section">
+            <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <main>
+        <div class="contenedor-eventos">
+            <h1 class="page-title">Administrar Eventos</h1>
+            <div class="eventos-list-container">
+                <h2 class="list-title">Eventos Existentes</h2>
+                <div class="search-container flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-4">
+                    <input type="text" id="search-input" placeholder="Buscar eventos..." class="search-input form-input w-full md:w-1/2" />
+                    <div class="flex gap-2 mt-2 md:mt-0">
+                        <button id="advanced-filter-btn" type="button" class="form-button secondary">Filtros avanzados</button>
+                        <button id="clear-filters-btn" type="button" class="form-button">Limpiar filtros</button>
+                    </div>
+                </div>
+                <!-- Advanced Filter Modal -->
+                <div id="advanced-filter-modal" class="modal" style="display:none;">
+                  <div class="modal-contenido max-w-lg w-full">
+                    <span class="cerrar" id="close-advanced-filter">×</span>
+                    <h2 id="advanced-filter-title" class="form-title mb-4">Filtros avanzados</h2>
+                    <form id="advancedFilterForm" class="flex flex-col gap-4">
+                      <div>
+                        <label for="filter-date-start">Fecha de inicio:</label>
+                        <input type="text" id="filter-date-start" class="form-input" />
+                      </div>
+                      <div>
+                        <label for="filter-date-end">Fecha de fin:</label>
+                        <input type="text" id="filter-date-end" class="form-input" />
+                      </div>
+                      <div>
+                        <label for="filter-year">Año:</label>
+                        <select id="filter-year" class="form-input">
+                          <option value="">Todos</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label for="filter-categoria">Categoría:</label>
+                        <select id="filter-categoria" class="form-input" multiple>
+                        </select>
+                      </div>
+                      <div>
+                        <label for="filter-centro">Centro Cultural:</label>
+                        <select id="filter-centro" class="form-input" multiple>
+                        </select>
+                      </div>
+                      <div>
+                        <label for="filter-publicado">Estado de publicación:</label>
+                        <select id="filter-publicado" class="form-input">
+                          <option value="">Todos</option>
+                          <option value="true">Publicados</option>
+                          <option value="false">Borradores</option>
+                        </select>
+                      </div>
+                      <div class="flex gap-2 justify-end">
+                        <button type="button" id="apply-advanced-filters" class="form-button">Aplicar filtros</button>
+                        <button type="button" id="reset-advanced-filters" class="form-button secondary">Limpiar</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div id="eventosGrid" class="eventos-grid">
+                    <!-- Los eventos se cargarán aquí dinámicamente con JavaScript -->
+                </div>
+                <p id="noEventos" class="mensaje-vacio hidden">No hay eventos para mostrar.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Botón flotante para abrir el formulario modal -->
+    <button class="boton-flotante" onclick="mostrarFormulario()">+</button>
+
+    <!-- Modal para el formulario de agregar/editar evento -->
+    <div id="modal-formulario" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="resetEditingMode(); cerrarFormulario()">×</span>
+            <h2 id="evento-modal-title" class="form-title">Agregar/Editar Evento</h2>
+            <form id="eventoForm" enctype="multipart/form-data">
+                <label for="titulo">Título del Evento:</label>
+                <input type="text" name="titulo" id="titulo" placeholder="Ej: Festival de Música Folklórica" required class="form-input" />
+                
+                <label for="descripcion">Descripción:</label>
+                <textarea name="descripcion" id="descripcion" placeholder="Descripción detallada del evento" rows="4" required class="form-input"></textarea>
+                
+                <label for="fecha_inicio">Fecha de Inicio:</label>
+                <input type="text" name="fecha_inicio" id="fecha_inicio" required class="form-input" />
+                
+                <label for="fecha_fin">Fecha de Fin (opcional):</label>
+                <input type="text" name="fecha_fin" id="fecha_fin" class="form-input" />
+                
+                <label for="horario_apertura">Horario de Apertura:</label>
+                <input type="time" name="horario_apertura" id="horario_apertura" class="form-input" />
+                
+                <label for="horario_cierre">Horario de Cierre:</label>
+                <input type="time" name="horario_cierre" id="horario_cierre" class="form-input" />
+                
+                <label for="imagen">Imagen:</label>
+                <input type="file" name="imagen" id="imagen" accept="image/*" onchange="previsualizarImagen(event)" class="form-input" />
+                <div id="preview-imagen" class="image-preview"></div>
+                
+                <label for="categoria">Categoría:</label>
+                <select name="categoria" id="categoria" class="form-input">
+                    <option value="">Ninguno</option>
+                </select>
+                
+                <label for="centro_cultural">Centro Cultural:</label>
+                <select name="centro_cultural" id="centro_cultural" class="form-input">
+                    <option value="">Ninguno</option>
+                </select>
+                
+                <div class="form-checkbox-group">
+                    <label for="publicado" class="checkbox-label">
+                        <input type="checkbox" name="publicado" id="publicado" class="form-checkbox" />
+                        <span class="checkmark"></span>
+                        Publicar evento (desmarcar para guardar como borrador)
+                    </label>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="submit" name="action" value="save" class="form-button">Guardar Evento</button>
+                    <button type="button" onclick="guardarComoBorrador()" class="form-button secondary">Guardar como Borrador</button>
+                </div>
+            </form>
+            <p id="mensaje" class="form-message hidden">¡Evento guardado con éxito!</p>
+        </div>
+    </div>
+
+    <script src="../../js/config.js"></script>
+    <script src="../../js/login.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="js/eventos.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        flatpickr('#fecha_inicio', {
+          locale: 'es',
+          dateFormat: 'd/m/Y',
+          allowInput: true
+        });
+        flatpickr('#fecha_fin', {
+          locale: 'es',
+          dateFormat: 'd/m/Y',
+          allowInput: true
+        });
+        flatpickr('#horario_apertura', {
+          locale: 'es',
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: 'H:i',
+          time_24hr: true,
+          allowInput: true
+        });
+        flatpickr('#horario_cierre', {
+          locale: 'es',
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: 'H:i',
+          time_24hr: true,
+          allowInput: true
+        });
+        flatpickr('#filter-date-start', {
+          locale: 'es',
+          dateFormat: 'd/m/Y',
+          allowInput: true
+        });
+        flatpickr('#filter-date-end', {
+          locale: 'es',
+          dateFormat: 'd/m/Y',
+          allowInput: true
+        });
+      });
+    </script>
+</body>
+</html>
