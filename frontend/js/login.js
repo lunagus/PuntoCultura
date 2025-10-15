@@ -6,7 +6,7 @@ function handleUnauthorized() {
     localStorage.removeItem('userType');
     
     // Redirect to login page
-    window.location.href = '/login.html';
+    window.location.href = '/frontend/login.html';
 }
 
 // Function to check if user is authenticated
