@@ -9,6 +9,6 @@ const isLocalhost = window.location.hostname === 'localhost' ||
 // Configurar la URL base de la API
 window.API_BASE_URL = isLocalhost 
     ? 'http://127.0.0.1:8000'  // Desarrollo local
-    : 'https://puntocultura.up.railway.app';  // Producción (con https)
+    : 'https://lunagus.pythonanywhere.com/';  // Producción (con https)
 
 console.log('API Base URL:', window.API_BASE_URL);
