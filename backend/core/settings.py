@@ -155,7 +155,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://127.0.0.1:5500",
     "https://puntocultura.netlify.app",
-    "https://lunagus.pythonanywhere.com/",
+    "https://lunagus.pythonanywhere.com",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
