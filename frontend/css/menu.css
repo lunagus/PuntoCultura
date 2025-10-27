@@ -1,48 +1,115 @@
-/* frontend/css/menu.css
-   Estilos específicos para el menú de navegación y el menú hamburguesa. */
+
+.nav-links .dropdown {
+    position: relative;
+    
+}
+
+.dropdown-content {
+    display: none; /* CLAVE: Oculta el menú por defecto */
+    position: absolute;
+    background-color: #333; /* Fondo oscuro, puedes ajustarlo */
+    min-width: 220px;
+    z-index: 10; /* Asegura que esté por encima del contenido */
+    padding: 0;
+    margin-top: 5px; 
+    list-style: none;
+    text-align: left;
+    border-radius: 5px;
+    top: 100%; /* Posiciona justo debajo del elemento principal */
+    left: 0;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/* Estilos para los ítems de la lista dentro del submenú */
+.dropdown-content li {
+    display: block; /* Cada sub-ítem ocupa su propia línea */
+    padding: 0; 
+    margin: 0;
+}
+
+/* Estilos para los enlaces del submenú */
+.dropdown-content li a {
+    color: white; 
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-transform: uppercase; /* Para mantener la coherencia con el menú principal */
+}
+
+/* Efecto hover para los enlaces del submenú */
+.dropdown-content li a:hover {
+    background-color: #555; 
+}
+
+/* 3. CLAVE: Muestra el submenú al pasar el ratón sobre el LI padre */
+.nav-links .dropdown:hover .dropdown-content {
+    display: block;
+}
+.nav-links .dropdown {
+    /* 1. Asegura que el contenedor del desplegable se comporte como un bloque */
+    display: block; 
+    /* 2. Resetea la alineación específica de Flexbox/Grid para que funcione el position: absolute */
+    align-self: auto; 
+    position: relative; /* ¡Debe estar! */
+}
 
 /* Estilos para el botón de hamburguesa */
 .burger {
     display: none; /* Ocultar por defecto en desktop */
     cursor: pointer;
-    z-index: 1001; /* Asegura que esté sobre la navegación */
+    z-index: 1001;
 }
 
 .burger div {
     width: 25px;
     height: 3px;
-    background-color: white; /* Color de las líneas de la hamburguesa */
+    background-color: white; 
     margin: 5px;
     transition: all 0.3s ease;
 }
 
-/* Media Query para pantallas más pequeñas (teléfonos y tablets) */
+/* --- MEDIA QUERY PARA MÓVILES (Menú Hamburguesa) --- */
 @media screen and (max-width: 768px) {
     body {
-        overflow-x: hidden; /* Evita el scroll horizontal cuando el menú está abierto */
+        overflow-x: hidden; 
+    }
+
+    /* Ocultamos el desplegable para evitar problemas en móvil */
+    .dropdown-content {
+        position: static; /* Cambia la posición a estática en móvil */
+        display: none !important; /* Asegura que esté oculto, el JS lo manejará */
+        background: none; /* Quita el fondo para que use el del menú principal */
+        box-shadow: none;
+    }
+    
+    /* Mostrar siempre los sub-items dentro del menú móvil (el JS lo maneja) */
+    .dropdown {
+        /* Asegura que el li del dropdown se vea como los otros li en móvil */
+        width: 100%;
+        text-align: center;
     }
 
     /* Estilos para la lista de navegación cuando está en modo hamburguesa */
     .nav-links {
-        position: fixed; /* Usar 'fixed' para que el menú no se desplace con el scroll */
+        position: fixed; 
         right: 0;
-        height: 92vh; /* Aproximadamente la altura de la vista menos el header */
-        top: 8vh; /* Se alinea debajo del header */
-        background-color: rgba(0, 0, 0, 0.9); /* Fondo oscuro semitransparente */
+        height: 92vh; 
+        top: 8vh; 
+        background-color: rgba(0, 0, 0, 0.9); 
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 50%; /* Ancho del menú desplegado */
-        transform: translateX(100%); /* Ocultar el menú fuera de la pantalla por defecto */
+        width: 50%; 
+        transform: translateX(100%); 
         transition: transform 0.5s ease-in;
-        z-index: 1000; /* Asegura que esté por encima de otros elementos */
-        justify-content: space-around; /* Distribuye los ítems verticalmente */
+        z-index: 1000; 
+        justify-content: space-around; 
     }
 
     .nav-links li {
-        opacity: 0; /* Ocultar ítems hasta que el menú esté abierto */
+        opacity: 0;
     }
-
+    
     /* Mostrar el botón de hamburguesa en tablets y móviles */
     .burger {
         display: block;
@@ -80,6 +147,6 @@
 /* Media Query para móviles más pequeños (ajustes adicionales si es necesario) */
 @media screen and (max-width: 480px) {
     .nav-links {
-        width: 70%; /* Mayor ancho del menú en móviles muy pequeños */
+        width: 70%; 
     }
 }
