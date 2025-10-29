@@ -87,6 +87,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 ON_PYTHONANYWHERE = "PYTHONANYWHERE_DOMAIN" in os.environ
 
 if ON_PYTHONANYWHERE:
@@ -99,13 +100,14 @@ if ON_PYTHONANYWHERE:
 else:
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "Datos",
-            "USER": "postgres",
-            "PASSWORD": "admin",
-            "HOST": "localhost",
-            "PORT": "5432",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "puntocultura",
+	    "USER": "postgres",
+	    "PASSWORD": "root",
+	    "HOST": "localhost",
+	    "PORT": "5432",
         }
+
     }
 
 
