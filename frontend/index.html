@@ -27,7 +27,11 @@
             </div>
             <ul class="nav-links"> <!-- Clase añadida para el menú hamburguesa -->
                 <li><a href="eventos.html">EVENTOS</a></li>
-                <li><a href="espacios.html">ESPACIOS CULTURALES</a></li>
+                <li class="dropdown"><a href="#">ESPACIOS CULTURALES</a></li>
+                    <ul class="dropdown-content">
+                        <li><a href="teatro.html">Teatro 25 de Mayo</a></li>
+                        <li><a href="biblioteca.html">Biblioteca Popular 9 de Julio</a></li>
+                    </ul>
                 <li><a href="https://www.google.com/?hl=es">DNI CULTURAL</a></li>
                 <li><a href="https://www.google.com/?hl=es">PATRIMONIO CULTURAL</a></li>
                 <li><a href="https://www.santiagocultura.gob.ar/biblioteca-digital-2.php">BIBLIOTECA DIGITAL</a></li>
@@ -67,7 +71,7 @@
                 <input type="text" id="buscador" placeholder="Buscar..." class="search-input" />
             </div>
         </section>
-        <section id="calendario-video">
+        <section id="iframe">
             <div class="calendario-video-grid">
                 <!-- Calendario -->
                 <div class="calendario-box">
@@ -79,7 +83,7 @@
                 <div class="video-box">
                     <h2>Última publicación</h2>
                     <iframe
-                        src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fsubsecretariadeculturadesantiagodelestero%2Fposts%2Fpfbid02B8agN7aEWJYkgcAEwZVmSd5ZP5sb6RrStyPvCZhxU4sLRB4iboxGcQNS1bkbCvsLl&show_text=true&width=50&height=100&appId"
+                        id="facebook-iframe" src="https://www.facebook.com/plugins/post.php?href=..."
                         width="150%"
                         height="700"
                         style="border:none;overflow:hidden;border-radius:10px;"
@@ -147,7 +151,8 @@
     <script src="js/modal-handler.js"></script> <!-- Nuevo script para manejar modales -->
     <script src="js/carrusel.js"></script>
     <script src="js/buscador.js"></script>
-    <script src="js/menu.js"></script> <!-- Nuevo archivo JS para el menú hamburguesa -->
+    <script src="js/menu.js"></script> 
+    <script src="js/auto-refresh.js"></script>
 </body>
 
 </html>

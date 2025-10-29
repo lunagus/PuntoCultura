@@ -24,3 +24,7 @@ backend/media/
 .vscode/
 .DS_Store
 *.swp
+
+# Django
+__pycache__/
+db.sqlite3

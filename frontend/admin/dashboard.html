@@ -20,8 +20,8 @@
 
     <div class="sidebar">
         <a href="dashboard.html">
-        <img src="../assets/icons/sgo-cultura-removebg-preview.png" alt="" />
-        <h2>Menú</h2>
+            <img src="../assets/icons/sgo-cultura-removebg-preview.png" alt="" />
+            <h2>Menú</h2>
         </a>
         <div class="Menú">
             <a href="eventos.html">Eventos</a>
@@ -110,22 +110,22 @@
     </main>
     <script>
         // Verificar autenticación
-        function verificarAutenticacion() {
+       /* function verificarAutenticacion() {
             const token = localStorage.getItem('authToken');
             if (!token) {
                 alert('Debes iniciar sesión para acceder al panel de administración');
-                window.location.href = '../login.html';
+                window.location.href = '';
                 return false;
             }
             return true;
-        }
+        } */
 
         // Función de logout
         function logout() {
             if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
                 localStorage.removeItem('authToken');
                 localStorage.removeItem('userType');
-                window.location.href = '../login.html';
+                window.location.href = '../../login.html';
             }
         }
 

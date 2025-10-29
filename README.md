@@ -148,7 +148,7 @@ Credenciales generadas:
 - Contraseña: `editor123`
 
 
-### 4. Crear superusuario administrador
+### 4. Crear superusuario administradorpyh
 
 ```bash
 python manage.py createsuperuser

@@ -32,6 +32,7 @@ ALLOWED_HOSTS = [
     "puntocultura.onrender.com",
     "stale-linell-puntocultura-dd2ca381.koyeb.app",
     "puntocultura.up.railway.app",
+    "lunagus.pythonanywhere.com",
     "localhost",
     "127.0.0.1",
 ]
@@ -86,16 +87,28 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
+
+ON_PYTHONANYWHERE = "PYTHONANYWHERE_DOMAIN" in os.environ
+
+if ON_PYTHONANYWHERE:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+else:
+    DATABASES = {
+        "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "puntocultura",
 	    "USER": "postgres",
 	    "PASSWORD": "root",
 	    "HOST": "localhost",
 	    "PORT": "5432",
+        }
+
     }
-}
 
 
 # Password validation
@@ -144,6 +157,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://127.0.0.1:5500",
     "https://puntocultura.netlify.app",
+    "https://lunagus.pythonanywhere.com",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
