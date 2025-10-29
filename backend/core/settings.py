@@ -103,7 +103,7 @@ else:
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "puntocultura",
 	    "USER": "postgres",
-	    "PASSWORD": "root",
+	    "PASSWORD": "Agostin@",
 	    "HOST": "localhost",
 	    "PORT": "5432",
         }
@@ -217,4 +217,4 @@ LOGGING = {
     },
 }
 
-ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/25170606/ui86l44/"
+
