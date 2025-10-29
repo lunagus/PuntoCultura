@@ -214,3 +214,5 @@ LOGGING = {
         },
     },
 }
+
+ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/25170606/ui86l44/"

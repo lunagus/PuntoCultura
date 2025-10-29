@@ -17,7 +17,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.utils.timezone import now
 import logging
 import re
-
+from django.conf import settings
+import requests
 
 class EventoViewSet(viewsets.ModelViewSet):
     queryset = Evento.objects.all()
@@ -38,6 +39,22 @@ class EventoViewSet(viewsets.ModelViewSet):
 
     def get_serializer_context(self):
         return {"request": self.request}
+    
+
+    def perform_create(self, serializer):
+        evento = serializer.save(creado_por=self.request.user)
+    
+    # Enviar datos a Zapier
+    try:
+        data = {
+            "titulo": Evento.titulo,
+            "descripcion": Evento.descripcion,
+            "fecha": str(Evento.fecha),
+            "lugar": Evento.lugar,
+        }
+        requests.post(settings.ZAPIER_WEBHOOK_URL, json=data)
+    except Exception as e:
+        print(f"Error al enviar el evento a Zapier: {e}")
 
 
 class CategoriaViewSet(viewsets.ModelViewSet):
