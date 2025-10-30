@@ -45,7 +45,6 @@ class EventoViewSet(viewsets.ModelViewSet):
         evento = serializer.save(creado_por=self.request.user)
     
 
-
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
