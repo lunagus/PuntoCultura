@@ -267,6 +267,9 @@ document.getElementById("eventoForm").addEventListener("submit", async function 
         console.log("DEBUG: Response status:", response ? response.status : 'No response');
 
         if (response && response.ok) {
+
+            const eventDataFromAPI = await response.json();
+
             document.getElementById("mensaje").classList.remove("hidden"); // Mostrar mensaje de éxito
             
             if (isEditing) {
@@ -282,7 +285,9 @@ document.getElementById("eventoForm").addEventListener("submit", async function 
                 fecha_fin: document.getElementById("fecha_fin").value,
                 categoria: document.getElementById("categoria").value,
                 centro_cultural: document.getElementById("centro_cultural").value,
-                publicado: document.getElementById("publicado").checked
+                publicado: document.getElementById("publicado").checked,
+
+                imagen_url: eventDataFromAPI.imagen || ""
             };
 
             if (evento.publicado) {
