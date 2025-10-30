@@ -286,6 +286,7 @@ document.getElementById("eventoForm").addEventListener("submit", async function 
             };
 
             if (evento.publicado) {
+                console.log("DEBUG: La casilla 'publicado' está marcada. Iniciando envío a Zapier.")
                 enviarEventoAZapier(evento);
             }       
             // Recargar eventos desde la API para obtener los datos actualizados
@@ -926,14 +927,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // Función para enviar evento a Zapier
 async function enviarEventoAZapier(evento) {
     
-    const zapierWebhookURL = "https://webhook.site/e0c1ed2b-17fa-4652-bf08-3542428e6108"; 
+    const zapierWebhookURL = "https://hooks.zapier.com/hooks/catch/25170606/ui86l44/"; 
 
     try {
         const response = await fetch(zapierWebhookURL, {
             method: "POST", 
-            headers: { 
-                "Content-Type": "application/json" 
-            },
             body: JSON.stringify(evento) 
         });
 
