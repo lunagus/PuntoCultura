@@ -275,6 +275,19 @@ document.getElementById("eventoForm").addEventListener("submit", async function 
                 document.getElementById("mensaje").textContent = "¡Evento guardado con éxito!";
             }
             
+            const evento = {
+                titulo: document.getElementById("titulo").value,
+                descripcion: document.getElementById("descripcion").value,
+                fecha_inicio: document.getElementById("fecha_inicio").value,
+                fecha_fin: document.getElementById("fecha_fin").value,
+                categoria: document.getElementById("categoria").value,
+                centro_cultural: document.getElementById("centro_cultural").value,
+                publicado: document.getElementById("publicado").checked
+            };
+
+            if (evento.publicado) {
+                enviarEventoAZapier(evento);
+            }       
             // Recargar eventos desde la API para obtener los datos actualizados
             await loadEventos();
             
@@ -910,3 +923,28 @@ document.addEventListener('DOMContentLoaded', function() {
         if (choicesCentro) choicesCentro.removeActiveItems();
     });
 });
+// Función para enviar evento a Zapier
+async function enviarEventoAZapier(evento) {
+    
+    const zapierWebhookURL = "https://hooks.zapier.com/hooks/catch/25170606/ui86l44/"; 
+
+    try {
+        const response = await fetch(zapierWebhookURL, {
+            method: "POST", 
+            headers: { 
+                "Content-Type": "application/json" 
+            },
+            body: JSON.stringify(evento) 
+        });
+
+        if (response.ok) {
+            console.log("✅ Evento enviado correctamente a Zapier");
+        } else {
+            console.error("⚠️ Error al enviar evento a Zapier:", response.status);
+            // Opcional: ver el mensaje de error de la respuesta si está disponible
+            // console.error(await response.text()); 
+        }
+    } catch (error) {
+        console.error("❌ Error de conexión con Zapier (revisa la URL o red):", error);
+    }
+}

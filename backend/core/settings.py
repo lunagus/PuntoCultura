@@ -103,7 +103,7 @@ else:
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "puntocultura",
 	    "USER": "postgres",
-	    "PASSWORD": "Agostin@",
+	    "PASSWORD": "admin",
 	    "HOST": "localhost",
 	    "PORT": "5432",
         }
