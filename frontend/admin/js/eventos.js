@@ -284,10 +284,12 @@ document.getElementById("eventoForm").addEventListener("submit", async function 
                 fecha_inicio: document.getElementById("fecha_inicio").value,
                 fecha_fin: document.getElementById("fecha_fin").value,
                 categoria: document.getElementById("categoria").value,
-                centro_cultural: document.getElementById("centro_cultural").value,
+                centro_cultural: eventDataFromAPI.centro_cultural.nombre || eventDataFromAPI.centro_cultural,
                 publicado: document.getElementById("publicado").checked,
 
-                imagen_url: eventDataFromAPI.imagen || ""
+                imagen_url: eventDataFromAPI.imagen || "",
+                horario_apertura: document.getElementById("horario_apertura").value,
+                horario_cierre: document.getElementById("horario_cierre").value,
             };
 
             if (evento.publicado) {
