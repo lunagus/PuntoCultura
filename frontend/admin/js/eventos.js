@@ -5,7 +5,7 @@ let allEvents = [];
 async function loadEventos() {
     try {
         const cacheBuster = new Date().getTime();
-        const apiURL = `${window.API_BASE_URL}/api/eventos/?nocache=${cacheBuster}`;
+        const apiURL = `${window.API_BASE_URL}/api/eventos/?nocache=${cacheBuster}`; 
 
         const response = await authenticatedFetch(apiURL); 
         
