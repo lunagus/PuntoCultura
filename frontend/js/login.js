@@ -4,9 +4,10 @@ function handleUnauthorized() {
     localStorage.removeItem('authToken');
     localStorage.removeItem('refresh');
     localStorage.removeItem('userType');
-    
+    localStorage.removeItem('userName'); // 🔹 limpiar también el nombre del usuario
+
     // Redirect to login page
-    window.location.href = '/frontend/login.html';
+    window.location.href = '../login.html';
 }
 
 // Function to check if user is authenticated
@@ -72,6 +73,8 @@ async function authenticatedFetch(url, options = {}) {
 // Export for use in other scripts
 window.authenticatedFetch = authenticatedFetch;
 
+// -------------------------------------------------------------
+// 🟢 Función principal de login
 async function handleLogin(event) {
     event.preventDefault();
     const username = document.getElementById('username').value.trim();
@@ -90,19 +93,24 @@ async function handleLogin(event) {
     try {
         const response = await fetch(`${window.API_BASE_URL}/api/token/`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
         });
 
         const data = await response.json();
 
         if (response.ok) {
+            // 🔹 Guardamos tokens y tipo de usuario
             localStorage.setItem('authToken', data.access);
             localStorage.setItem('refresh', data.refresh);
             localStorage.setItem('userType', 'admin');
 
+            // 🔹 Guardamos el nombre de usuario (para el dashboard)
+            // Si la API devuelve el nombre en "data.username", se usa eso.
+            // Si no, se guarda el que escribió el usuario en el input.
+            localStorage.setItem('userName', data.username || username || 'Administrador');
+
+            // Redirige al dashboard
             window.location.href = 'admin/dashboard.html';
         } else {
             errorMessage.textContent = data.detail || 'Credenciales inválidas';
@@ -117,13 +125,15 @@ async function handleLogin(event) {
     return false;
 }
 
-// Check authentication on page load
+// -------------------------------------------------------------
+// 🧠 Verificación automática de autenticación
 document.addEventListener('DOMContentLoaded', function() {
-    // If we're already on the login page, don't redirect
+    // Si estamos en la página de login, no redirigir
     if (/\/login(\.html)?$/.test(window.location.pathname)) {
         return;
     }
-    // If user is not authenticated and not on login page, redirect to login
+
+    // Si el usuario no está autenticado y no está en login, redirigir
     if (!isAuthenticated()) {
         handleUnauthorized();
     }
