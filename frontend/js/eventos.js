@@ -62,8 +62,8 @@ async function cargarEventos() {
     const hoy = new Date();
     eventosGlobal = eventosGlobal.filter(ev => ev.publicado); // Solo eventos publicados.
     eventosGlobal.sort((a, b) => {
-      const fechaA = new Date(a.fecha_inicio);
-      const fechaB = new Date(b.fecha_inicio);
+      const fechaA = new Date(a.fecha_inicio + 'T00:00:00Z'); 
+      const fechaB = new Date(b.fecha_inicio + 'T00:00:00Z');
 
       const esFuturoA = fechaA > hoy;
       const esFuturoB = fechaB > hoy;
@@ -71,15 +71,15 @@ async function cargarEventos() {
       if (esFuturoA && !esFuturoB) return -1;
       if (!esFuturoA && esFuturoB) return 1;
 
-      const esPasadoA = new Date(a.fecha_fin || a.fecha_inicio) < hoy;
-      const esPasadoB = new Date(b.fecha_fin || b.fecha_inicio) < hoy;
+      // CAMBIO 2: Aplicar el mismo ajuste a la fecha de fin/inicio para el chequeo de pasado.
+      const esPasadoA = new Date((a.fecha_fin || a.fecha_inicio) + 'T00:00:00Z') < hoy; 
+      const esPasadoB = new Date((b.fecha_fin || b.fecha_inicio) + 'T00:00:00Z') < hoy;
 
       if (esPasadoA && !esPasadoB) return 1;
       if (!esPasadoA && esPasadoB) return -1;
 
       return fechaB - fechaA; // Ordena por fecha de inicio descendente.
     });
-
     // Verifica si hay un término de búsqueda en la URL (desde el buscador de la página principal).
     const parametrosURL = new URLSearchParams(window.location.search);
     const busquedaURL = parametrosURL.get('busqueda');
@@ -170,7 +170,7 @@ function renderizarEventos(eventos) {
       <div class="evento-card-content">
         <span class="evento-categoria-badge ${categoriaClase}">${categoriaNombre}</span>
         <h3 class="evento-titulo">${ev.titulo}</h3>
-        <p class="evento-fecha">${new Date(ev.fecha_inicio).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+            p class="evento-fecha">${new Date(ev.fecha_inicio + 'T00:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</p> 
         <p class="evento-descripcion">${ev.descripcion.substring(0, 100)}...</p>
       </div>
     `;
@@ -249,13 +249,14 @@ function mostrarModalEvento(evento) {
   modalCategory.className = 'modal-category'; // Resetea las clases
   modalCategory.classList.add(categoriaClase);
 
-  const fechaInicio = new Date(evento.fecha_inicio);
-  const fechaFin = evento.fecha_fin ? new Date(evento.fecha_fin) : null;
+  const fechaInicio = new Date(evento.fecha_inicio + 'T00:00:00'); 
+  // CAMBIO 5: Aplicar el ajuste a la fecha de fin (si existe).
+  const fechaFin = evento.fecha_fin ? new Date(evento.fecha_fin + 'T00:00:00') : null;
 
   let fechaTexto = fechaInicio.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
   if (fechaFin && fechaFin.toDateString() !== fechaInicio.toDateString()) {
-    fechaTexto += `  ${fechaFin.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}`;
-  }
+    fechaTexto += ` – ${fechaFin.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+  } 
   modalDate.textContent = `Fecha: ${fechaTexto}`;
 
   // Get time and location from the event or its cultural center
