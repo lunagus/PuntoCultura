@@ -4,15 +4,17 @@ let allEvents = [];
 // Función para cargar eventos existentes desde la API y poblar los filtros
 async function loadEventos() {
     try {
-       const response = await authenticatedFetch(`${window.API_BASE_URL}/api/eventos/?t=${new Date().getTime()}`);
         
+        const response = await authenticatedFetch(`${window.API_BASE_URL}/api/eventos/?t=${new Date().getTime()}`);
+
         if (!response || !response.ok) {
             throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
         }
-        const eventos = await response.json();
-        
-        console.log("DEBUG: Raw API response for eventos:", eventos);
-        console.log("DEBUG: First evento sample:", eventos[0]);
+        const data = await response.json();
+        const eventos = Array.isArray(data) ? data : data.results || data;
+
+        console.log("DEBUG: Cantidad de eventos recibidos:", eventos.length);
+
         
         allEvents = eventos.map(evento => {
             // Safely calculate year from date
