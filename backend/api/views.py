@@ -28,9 +28,6 @@ class EventoViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-
-        cache_buster = self.request.query_params.get('t', None)
-
         user = self.request.user
         if user.is_authenticated:
             # Admin users can see all events, regular users only see their own
