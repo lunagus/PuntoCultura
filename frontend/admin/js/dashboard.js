@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para obtener datos de una API con autenticación
     async function fetchData(url) {
         try {
-            const response = await authenticatedFetch(url);
+            // NOTA: 'authenticatedFetch' debe estar definida en otro archivo (ej: login.js)
+            const response = await authenticatedFetch(url); 
             if (!response || !response.ok) {
                 console.error(`Error al cargar datos de ${url}: ${response ? response.statusText : 'No response'}`);
                 return null;
@@ -71,8 +72,21 @@ document.addEventListener('DOMContentLoaded', function() {
         renderList(recentCategoriasList, categorias, 'nombre', 'categorias.html'); // Asume que 'nombre' es el campo de nombre
         renderList(recentEspaciosList, espacios, 'nombre', 'espacios.html'); // Asume que 'nombre' es el campo de nombre
     }
+    
+    // Obtener e insertar el nombre del usuario
+    function setUserName() {
+        const userName = localStorage.getItem('userName'); 
+        const welcomeHeader = document.getElementById('welcomeHeader');
+
+        if (welcomeHeader && userName) {
+            // Se usa el nombre del usuario directamente. 
+            welcomeHeader.textContent = `Bienvenido, ${userName}`;
+        }
+    }
+    // -------------------------------------------------------------
 
     // Cargar todo al inicio
-    window.loadStats(); // Llamada inicial a las estadísticas
+    setUserName(); 
+    window.loadStats(); 
     loadRecentActivity();
 });
