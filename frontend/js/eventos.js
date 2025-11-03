@@ -254,7 +254,7 @@ function mostrarModalEvento(evento) {
 
   let fechaTexto = fechaInicio.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
   if (fechaFin && fechaFin.toDateString() !== fechaInicio.toDateString()) {
-    fechaTexto += ` - ${fechaFin.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+    fechaTexto += `  ${fechaFin.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}`;
   }
   modalDate.textContent = `Fecha: ${fechaTexto}`;
 
