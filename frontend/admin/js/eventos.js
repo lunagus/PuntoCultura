@@ -287,13 +287,15 @@ document.getElementById("eventoForm").addEventListener("submit", async function 
                 centro_cultural: eventDataFromAPI.centro_cultural.nombre || eventDataFromAPI.centro_cultural,
                 publicado: document.getElementById("publicado").checked,
 
+                publicar_facebook: document.getElementById("publicar_facebook").checked,
+
                 imagen_url: eventDataFromAPI.imagen || "",
                 horario_apertura: document.getElementById("horario_apertura").value,
                 horario_cierre: document.getElementById("horario_cierre").value,
             };
 
-            if (evento.publicado) {
-                console.log("DEBUG: La casilla 'publicado' está marcada. Iniciando envío a Zapier.")
+            if (evento.publicar_facebook) {
+                console.log("DEBUG: La casilla 'Publicar en Faceboook' está marcada. Iniciando envío a Zapier.")
                 enviarEventoAZapier(evento);
             }       
             // Recargar eventos desde la API para obtener los datos actualizados
