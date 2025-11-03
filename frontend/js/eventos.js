@@ -170,7 +170,7 @@ function renderizarEventos(eventos) {
       <div class="evento-card-content">
         <span class="evento-categoria-badge ${categoriaClase}">${categoriaNombre}</span>
         <h3 class="evento-titulo">${ev.titulo}</h3>
-            p class="evento-fecha">${new Date(ev.fecha_inicio + 'T00:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</p> 
+          <p class="evento-fecha">${new Date(ev.fecha_inicio + 'T00:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</p> 
         <p class="evento-descripcion">${ev.descripcion.substring(0, 100)}...</p>
       </div>
     `;
