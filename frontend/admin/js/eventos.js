@@ -7,7 +7,8 @@ async function loadEventos() {
         const cacheBuster = new Date().getTime();
         const apiURL = `${window.API_BASE_URL}/api/eventos/?nocache=${cacheBuster}`;
 
-        const response = await authenticatedFetch(`${window.API_BASE_URL}/api/eventos/`);
+        const response = await authenticatedFetch(apiURL); 
+        
         if (!response || !response.ok) {
             throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
         }
