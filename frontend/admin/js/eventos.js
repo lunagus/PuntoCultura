@@ -4,10 +4,7 @@ let allEvents = [];
 // Función para cargar eventos existentes desde la API y poblar los filtros
 async function loadEventos() {
     try {
-        const cacheBuster = `?cacheBuster=${new Date().getTime()}`;
-        const url = `${window.API_BASE_URL}/api/eventos/${cacheBuster}`;
-
-        const response = await authenticatedFetch(url);
+       const response = await authenticatedFetch(`${window.API_BASE_URL}/api/eventos/?t=${new Date().getTime()}`);
         
         if (!response || !response.ok) {
             throw new Error(`HTTP error! status: ${response ? response.status : 'No response'}`);
