@@ -1,3 +1,19 @@
+/* =======================================
+   🎨 PALETA INSTITUCIONAL UNIFICADA
+   ======================================= */
+
+:root {
+    --color-primario: #004AAD;           /* Azul institucional */
+    --color-secundario: #E63946;         /* Rojo cultural */
+    --color-terciario: #F4A300;          /* Amarillo cálido */
+    --color-complementario: #008B6F;     /* Verde natural */
+    --color-fondo-claro: #F7F9FB;
+    --color-fondo-oscuro: #1E1E2F;
+    --color-texto-principal: #212529;
+    --color-texto-oscuro: #FFFFFF;
+    --color-neutro: #E1E8ED;
+}
+
 /* frontend/css/index.css */
 
 * {
@@ -6,7 +22,7 @@
     box-sizing: border-box;
     font-family: "Montserrat", sans-serif;
     scroll-behavior: smooth;
-    /* overflow: auto;  Eliminar o ajustar esto si causa problemas de scroll */
+    /* overflow: auto;  Eliminar o ajustar esto si causa problemas de scroll */
 }
 
 .header {
@@ -32,7 +48,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: white;
+    color: var(--color-texto-oscuro); /* Cambiado a variable */
 }
 
 nav .logo {
@@ -49,17 +65,19 @@ nav ul {
 
 nav ul li a {
     text-decoration: none;
-    color: white;
+    color: var(--color-texto-oscuro); /* Cambiado a variable */
     font-size: 12px;
     transition: 0.1s;
 }
 
 nav ul li a:hover {
-    color: #12bcd3;
+    /* Usaremos el Amarillo Terciario para el hover del menú */
+    color: var(--color-terciario); 
+    /* color: #12bcd3; <-- Valor anterior */
 }
 
 #hero {
-    color: white;
+    color: var(--color-texto-oscuro); /* Cambiado a variable */
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -83,20 +101,20 @@ nav ul li a:hover {
 }
 
 .hero_content h1 {
-    color: white;
+    color: var(--color-texto-oscuro); /* Cambiado a variable */
     font-size: 4rem;
     text-shadow: 1px 1px 100px black;
 }
 
 .hero_content h2 {
-    color: white;
+    color: var(--color-texto-oscuro); /* Cambiado a variable */
     font-size: 1.5rem;
     width: 100%;
     text-shadow: 1px 1px 100px black;
 }
 
 .hero_content p {
-    color: lightgrey;
+    color: lightgrey; /* Podríamos usar un tono de gris claro, pero lightgrey funciona */
     margin: 0;
     text-shadow: 1px 1px 100px black;
     width: 70%;
@@ -105,7 +123,7 @@ nav ul li a:hover {
 
 .hero_content .btn {
     padding: 10px 30px;
-    color: white;
+    color: var(--color-texto-oscuro); /* Cambiado a variable */
     background: #6c6c6cb6;
     text-decoration: none;
     border-radius: 100px;
@@ -115,7 +133,9 @@ nav ul li a:hover {
 
 
 .btn:hover {
-    background: #12bcd3b6;
+    /* Usaremos el color complementario (Verde) para un hover contrastante */
+    background: var(--color-complementario); 
+    /* background: #12bcd3b6; <-- Valor anterior */
     transition: 0.1s;
 }
 #calendario-video {
@@ -141,7 +161,8 @@ nav ul li a:hover {
 }
 
 .calendario-box, .video-box {
-    background: #f9f9f9;
+    background: var(--color-fondo-claro); /* Cambiado a variable */
+    /* background: #f9f9f9; <-- Valor anterior */
     padding: 20px;
     border-radius: 10px;
 }
@@ -150,7 +171,8 @@ nav ul li a:hover {
     max-width: 900px;
     height: 600px;
     margin: 40px auto;
-    background-color: #ffffff;
+    background-color: var(--color-texto-oscuro); /* Cambiado a variable (Blanco) */
+    /* background-color: #ffffff; <-- Valor anterior */
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -167,14 +189,16 @@ nav ul li a:hover {
 .fc .fc-toolbar-title {
     font-weight: 700;
     font-size: 1.5rem;
-    color: #222;
+    color: var(--color-texto-principal); /* Cambiado a variable (Gris Oscuro) */
+    /* color: #222; <-- Valor anterior */
 }
 
 /* Botones del calendario */
 .fc-button {
-    background-color: #444;
+    background-color: var(--color-primario); /* Cambiado a Azul Primario */
+    /* background-color: #444; <-- Valor anterior */
     border: none;
-    color: white;
+    color: var(--color-texto-oscuro); /* Cambiado a variable */
     border-radius: 100px;
     padding: 6px 14px;
     font-weight: 600;
@@ -184,18 +208,22 @@ nav ul li a:hover {
 
 .fc-button:hover,
 .fc-button:focus {
-    background-color: #666;
+    background-color: var(--color-secundario); /* Cambiado a Rojo Cultural */
+    /* background-color: #666; <-- Valor anterior */
 }
 
 /* Día actual */
 .fc-daygrid-day.fc-day-today {
-    background-color: #fcf700c4;
+    background-color: var(--color-terciario); /* Cambiado a Amarillo Terciario */
+    /* background-color: #fcf700c4; <-- Valor anterior */
     border-radius: 4px;
 }
 
 /* Hover sobre días */
 .fc-daygrid-day:hover {
-    background-color: #ada0a0d0;
+    /* Usaremos el neutro para el hover de los días */
+    background-color: var(--color-neutro); 
+    /* background-color: #ada0a0d0; <-- Valor anterior */
     cursor: pointer;
 }
 
@@ -247,7 +275,7 @@ nav ul li a:hover {
     left: 0;
     width: 100%;
     background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
-    color: white;
+    color: var(--color-texto-oscuro); /* Cambiado a variable */
     padding: 15px 10px 10px;
     text-align: center;
     font-size: 1.1em;
@@ -294,14 +322,14 @@ nav ul li a:hover {
     top: 50%;
     transform: translateY(-50%);
     background: rgba(0, 0, 0, 0.4);
-    color: white;
+    color: var(--color-texto-oscuro); /* Cambiado a variable */
     border: none;
     border-radius: 50%;
     width: 40px;
     height: 40px;
     font-size: 20px;
     cursor: pointer;
-    z-index: 10; /* Ajustado para que los botones sean clickeables y estén por encima */
+    z-index: 10;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -312,8 +340,9 @@ nav ul li a:hover {
     background: rgba(0, 0, 0, 0.6);
 }
 
-.carousel-btn.prev { left: -150px; } /* Ajustado para mover el botón más a la izquierda */
-.carousel-btn.next { right: -150px; } /* Ajustado para mover el botón más a la derecha */
+.carousel-btn.prev { left: -150px; }
+.carousel-btn.next { right: -150px; }
+
 
 .search-section {
     width: 100%;
@@ -337,21 +366,27 @@ nav ul li a:hover {
     font-size: 18px;
     border: none;
     border-radius: 50px;
-    background: rgba(230, 230, 230, 0.95);
-    color: #000;
+    /* Usaremos el fondo neutro para el input */
+    background: var(--color-neutro); 
+    /* background: rgba(230, 230, 230, 0.95); <-- Valor anterior */
+    color: var(--color-texto-principal); /* Cambiado a variable */
+    /* color: #000; <-- Valor anterior */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     outline: none;
     transition: box-shadow 0.3s ease, background 0.3s ease;
 }
 
 .search-input::placeholder {
-    color: #444;
+    color: var(--color-texto-principal); /* Cambiado a variable */
+    /* color: #444; <-- Valor anterior */
     opacity: 0.7;
 }
 
 .search-input:focus {
+    /* Usaremos el primario con transparencia para el foco */
     background: rgba(240, 240, 240, 1);
-    box-shadow: 0 0 0 3px rgba(113, 99, 240, 0.25);
+    box-shadow: 0 0 0 3px rgba(0, 74, 173, 0.25); /* #004AAD con opacidad */
+    /* box-shadow: 0 0 0 3px rgba(113, 99, 240, 0.25); <-- Valor anterior */
 }
 
 .search-icon {
@@ -359,7 +394,8 @@ nav ul li a:hover {
     top: 50%;
     left: 36px;
     transform: translateY(-50%);
-    color: #555;
+    color: var(--color-texto-principal); /* Cambiado a variable */
+    /* color: #555; <-- Valor anterior */
     font-size: 18px;
     pointer-events: none;
     opacity: 0.8;
@@ -367,7 +403,8 @@ nav ul li a:hover {
 
 #information {
     margin: 50px 0;
-    color: rgb(0, 0, 0);
+    color: var(--color-texto-principal); /* Cambiado a variable */
+    /* color: rgb(0, 0, 0); <-- Valor anterior */
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -393,13 +430,15 @@ nav ul li a:hover {
     justify-content: center;
     align-items: center;
     box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.2);
-    border-color: #000000;
+    border-color: var(--color-texto-principal); /* Cambiado a variable */
+    /* border-color: #000000; <-- Valor anterior */
     font-size: 11px;
     border-radius: 10px;
     gap: 20px;
     padding: 10px;
     text-decoration: none;
-    color: rgb(42, 61, 71);
+    color: var(--color-texto-principal); /* Cambiado a variable */
+    /* color: rgb(42, 61, 71); <-- Valor anterior */
 }
 
 .card:hover {
@@ -412,26 +451,40 @@ nav ul li a:hover {
     width: 30px;
 }
 
+
 #footer {
     display: flex;
     width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, #0461b8, #0da8e6);
-    color: white;
+    height: auto; /* Ajustado */
+    
+
+    background-color: var(--color-primario);
+    /* background: linear-gradient(to right, #0461b8, #0da8e6); <-- Valor anterior */
+    
+    color: var(--color-texto-oscuro);
     justify-content: center;
     align-items: center;
+
+    /* Línea de los 3 colores para unificar */
+    border-top: 5px solid;
+    border-image: linear-gradient(to right, 
+        var(--color-secundario) 0%,   /* Rojo Cultural */
+        var(--color-terciario) 30%,   /* Amarillo Cálido */
+        var(--color-complementario) 60%,  /* Verde Natural */
+        var(--color-primario) 100%    /* Azul Institucional */
+    ) 1;
 }
 
 .footer {
     margin: 50px 0;
     height: 100%;
     display: flex;
-    width: 100%; /* CAMBIO: Ahora ocupa el 100% del ancho del #footer */
+    width: 100%; 
     justify-content: space-between;
     align-items: center;
     font-size: 12px;
-    padding: 0 20px; /* Añadido padding para el espaciado interno */
-    box-sizing: border-box; /* Asegura que el padding no añada ancho extra */
+    padding: 0 20px; 
+    box-sizing: border-box; 
 }
 
 .footer-img {
@@ -484,7 +537,8 @@ nav ul li a:hover {
 }
 
 .modal-content {
-    background-color: #fff;
+    background-color: var(--color-texto-oscuro); /* Cambiado a variable */
+    /* background-color: #fff; <-- Valor anterior */
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -510,7 +564,8 @@ nav ul li a:hover {
     border: none;
     font-size: 24px;
     cursor: pointer;
-    color: #333;
+    color: var(--color-texto-principal); /* Cambiado a variable */
+    /* color: #333; <-- Valor anterior */
 }
 
 .modal-img {
@@ -524,7 +579,8 @@ nav ul li a:hover {
 .modal-title {
     font-size: 2em;
     margin-bottom: 10px;
-    color: #333;
+    color: var(--color-texto-principal); /* Cambiado a variable */
+    /* color: #333; <-- Valor anterior */
 }
 
 .modal-horarios,
@@ -539,15 +595,16 @@ nav ul li a:hover {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
+    background-color: var(--color-primario); /* Cambiado a Azul Primario */
+    /* background-color: #007bff; <-- Valor anterior */
+    color: var(--color-texto-oscuro); /* Cambiado a variable */
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
 .modal-map-btn:hover {
-    background-color: #0056b3;
+    background-color: var(--color-secundario); /* Cambiado a Rojo Cultural */
+    /* background-color: #0056b3; <-- Valor anterior */
 }
 
 /* --- GLOBAL OVERFLOW PROTECTION --- */

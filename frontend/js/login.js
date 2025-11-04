@@ -125,8 +125,7 @@ async function handleLogin(event) {
     return false;
 }
 
-// -------------------------------------------------------------
-// 🧠 Verificación automática de autenticación
+
 document.addEventListener('DOMContentLoaded', function() {
     // Si estamos en la página de login, no redirigir
     if (/\/login(\.html)?$/.test(window.location.pathname)) {
