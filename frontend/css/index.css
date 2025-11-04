@@ -455,19 +455,23 @@ nav ul li a:hover {
 #footer {
     display: flex;
     width: 100%;
-    height: auto; /* Ajustado */
+    height: auto;
     
-
-    background-color: var(--color-primario);
-    /* background: linear-gradient(to right, #0461b8, #0da8e6); <-- Valor anterior */
-    
+    /* 1. Gradiente con los 4 colores principales de tu paleta */
+    /* Este gradiente va de izquierda a derecha, mezclando los tonos de forma armónica. */
+    background: linear-gradient(to right, 
+        var(--color-primario) 0%,        /* Azul Institucional */
+        var(--color-complementario) 30%, /* Verde Natural */
+        var(--color-terciario) 70%,      /* Amarillo Cálido */
+        var(--color-secundario) 100%     /* Rojo Cultural */
+    );
     color: var(--color-texto-oscuro);
     justify-content: center;
     align-items: center;
 
     /* Línea de los 3 colores para unificar */
     border-top: 5px solid;
-    border-image: linear-gradient(to right, 
+    border-image: linear-gradient(to left, 
         var(--color-secundario) 0%,   /* Rojo Cultural */
         var(--color-terciario) 30%,   /* Amarillo Cálido */
         var(--color-complementario) 60%,  /* Verde Natural */
