@@ -1,99 +1,93 @@
+/* ESTILOS DE LA CAPA BASE (modal-overlay) */
+.modal-overlay {
+    display: none; /* OCULTO por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; /* DEBE ser muy alto */
+}
+
+/* CLASE QUE ACTIVA EL MODAL CON JAVASCRIPT */
+.modal-overlay.active {
+    display: flex; /* Muestra el modal */
+}
+
 /* Botón Flotante de WhatsApp */
 .whatsapp-float-btn {
     position: fixed;
-    bottom: 25px; /* Ajusta la posición vertical */
-    right: 25px; /* Ajusta la posición horizontal */
+    bottom: 25px; 
+    right: 25px; 
     width: 60px;
     height: 60px;
-    background-color: #25D366; /* Color oficial de WhatsApp */
+    background-color: #25D366; 
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    z-index: 10000; /* Asegura que esté por encima de todo */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 10000; /* Asegura que el botón esté sobre el contenido */
+    transition: transform 0.3s ease;
 }
 
 .whatsapp-float-btn:hover {
     transform: scale(1.08);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 .whatsapp-float-btn img {
-    width: 35px; /* Tamaño del icono de WhatsApp */
+    width: 35px; 
     height: 35px;
-    filter: invert(1); /* Pone el icono blanco si es negro */
+    filter: invert(1); 
 }
 
-/* Modal de WhatsApp (reutilizando y ajustando estilos generales de modal) */
+/* Modal de WhatsApp (Ajustes de Contenido) */
 .whatsapp-modal-content {
-    max-width: 450px; /* Ancho específico para el modal de WhatsApp */
+    max-width: 450px; 
     padding: 25px;
-}
-
-.whatsapp-modal-content .modal-title {
-    color: var(--color-texto-principal);
-    margin-bottom: 15px;
-    font-size: 1.8em;
-}
-
-.whatsapp-modal-content p {
-    color: #555;
-    margin-bottom: 20px;
-    line-height: 1.5;
+    /* (Añade el color de fondo o propiedades que necesites, 
+       pero hereda el color del .modal-content general) */
 }
 
 .whatsapp-options {
     display: flex;
-    flex-direction: column; /* QR y botón en columnas */
+    flex-direction: column; 
     gap: 25px;
     align-items: center;
 }
 
-.whatsapp-qr-container {
-    text-align: center;
-}
-
 .whatsapp-qr-code {
-    width: 180px; /* Tamaño del QR */
+    width: 180px; 
     height: 180px;
-    border: 1px solid var(--color-neutro);
-    border-radius: 5px;
-    padding: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.whatsapp-qr-container p {
-    margin-top: 10px;
-    font-size: 0.9em;
-    color: #777;
+    /* ... otros estilos de borde ... */
 }
 
 .whatsapp-link-btn {
     display: inline-block;
     padding: 12px 25px;
-    background-color: #25D366; /* Color de WhatsApp */
+    background-color: #25D366; 
     color: white;
     text-decoration: none;
     border-radius: 30px;
     font-weight: 600;
-    font-size: 1.1em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease;
 }
 
 .whatsapp-link-btn:hover {
     background-color: #1DA851;
-    transform: translateY(-2px);
 }
 
-/* Sobrescribir el botón de cerrar para el modal de WhatsApp si es necesario */
+/* Cierre específico de WhatsApp para JS */
 .whatsapp-modal-close-btn {
-    color: #888;
-}
-.whatsapp-modal-close-btn:hover {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
     color: #333;
+    cursor: pointer;
 }
-
-/* Reutiliza el .modal-overlay.active de tu modal principal para mostrar este */
