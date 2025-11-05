@@ -1,6 +1,6 @@
 /* frontend/css/eventos.css */
 
-/* Variables de color ya definidas:
+ Variables de color ya definidas:
 :root {
     --color-primario: #004AAD;         // Azul institucional
     --color-secundario: #E63946;       // Rojo cultural
@@ -12,7 +12,7 @@
     --color-texto-oscuro: #FFFFFF;
     --color-neutro: #E1E8ED;
 }
-*/
+
 
 * {
     margin: 0;
