@@ -1,31 +1,43 @@
-// Contenido de js/wpp.js
-document.addEventListener('DOMContentLoaded', () => {
+// Remueve document.addEventListener('DOMContentLoaded', ...) si el script va al final del <body>.
+// Si el script se carga en el <head>, sí debe usar DOMContentLoaded.
+// Para máxima fiabilidad, si va al final del <body>, puedes cargarlo directamente.
+
+(function() {
     
+    // Obtener referencias de los elementos
     const whatsappFloatBtn = document.getElementById('whatsappFloatBtn');
     const whatsappModal = document.getElementById('whatsappModal');
-    // Usamos el selector de clase para el botón de cerrar
     const whatsappCloseBtn = document.querySelector('.whatsapp-modal-close-btn'); 
 
-    // --- Funciones de Control ---
+    // Funciones
     const hideWhatsappModal = () => {
         if (whatsappModal) {
             whatsappModal.classList.remove('active');
+            console.log("Modal de WhatsApp ocultado.");
         }
     };
 
     const showWhatsappModal = () => {
-        if (whatsappModal) {
-            whatsappModal.classList.add('active');
-            // Nota: Aquí puedes poner un console.log para verificar que el click funciona
-            // console.log("Modal de WhatsApp abierto."); 
+        if (!whatsappModal) {
+            console.error("❌ ERROR JS: Elemento 'whatsappModal' no encontrado.");
+            return;
         }
+
+        // Si la referencia existe, intentamos aplicar la clase
+        whatsappModal.classList.add('active');
+        console.log("✅ CLASE 'active' APLICADA. (Revisar CSS si sigue invisible).");
     };
 
-    // --- Event Listeners ---
+    // =========================================================
+    // ADJUNTAR EVENTOS
+    // =========================================================
 
-    // 1. Abre el modal al hacer clic en el botón flotante
     if (whatsappFloatBtn) {
+        // 1. Abre el modal al hacer clic
         whatsappFloatBtn.addEventListener('click', showWhatsappModal);
+        console.log("✅ JS: Event listener adjunto al botón flotante."); // <-- ¡Verifica este mensaje!
+    } else {
+        console.error("❌ ERROR JS: Botón flotante 'whatsappFloatBtn' no encontrado en el DOM.");
     } 
 
     // 2. Cierra el modal al hacer clic en la 'X'
@@ -41,4 +53,5 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
+
+})();

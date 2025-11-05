@@ -1,4 +1,6 @@
-
+/* ========================================================= */
+/* ESTILOS BASE DEL MODAL (CAPA NEGRA/OVERLAY) */
+/* ========================================================= */
 
 .modal-overlay {
     display: none; /* OCULTO por defecto */
@@ -7,17 +9,33 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente */
     justify-content: center;
     align-items: center;
-    z-index: 99999; /* Máximo z-index para cubrir todo */
-    overflow: auto; /* Permite scroll si el contenido es largo */
+    z-index: 99999; /* Alto z-index para cubrir toda la pantalla */
+    overflow: auto;
 }
 
 .modal-overlay.active {
-    display: flex; /* Muestra el modal */
+    display: flex; /* Muestra el modal al añadir la clase con JS */
 }
 
+/* ESTILOS CRÍTICOS DEL CONTENIDO DEL MODAL */
+/* Esto define el tamaño y el fondo BLANCO para que el contenido sea visible */
+.modal-content {
+    background-color: white; /* <--- CORRECCIÓN CLAVE: AÑADIR FONDO BLANCO */
+    border-radius: 10px;
+    padding: 20px;
+    position: relative; 
+    z-index: 1; /* Debe ser más alto que el overlay (99999) */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 90%; /* Ajuste para móviles */
+}
+
+
+/* ========================================================= */
+/* ESTILOS DEL BOTÓN FLOTANTE (whatsapp-float-btn) */
+/* ========================================================= */
 
 .whatsapp-float-btn {
     position: fixed;
@@ -25,14 +43,14 @@
     right: 25px; 
     width: 60px;
     height: 60px;
-    background-color: #25D366; /* Color de WhatsApp */
+    background-color: #25D366; 
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    z-index: 10000; /* Alto z-index para estar sobre el contenido */
+    z-index: 10000;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -42,22 +60,21 @@
 }
 
 /* Regla CRÍTICA para evitar el desbordamiento de la imagen */
-/* Usamos !important para anular cualquier estilo global que cause la imagen gigante */
 .whatsapp-float-btn img {
     width: 35px !important; 
     height: 35px !important;
-    filter: invert(0); 
+    filter: invert(-1); /* Lo hice blanco (invert(1)) para el fondo verde */
 }
 
 /* ========================================================= */
-/* ESTILOS DEL CONTENIDO DEL MODAL (whatsapp-modal-content) */
+/* ESTILOS ESPECÍFICOS DEL CONTENIDO DE WHATSAPP */
 /* ========================================================= */
 
 .whatsapp-modal-content {
     max-width: 450px; 
-    width: 90%; /* Asegura que se vea bien en móvil */
+    width: 90%;
     padding: 25px;
-    /* Asegúrate de tener estilos para .modal-content general, como background-color */
+    /* Ya hereda el background: white de .modal-content */
 }
 
 .whatsapp-modal-content .modal-title {
@@ -79,26 +96,15 @@
     align-items: center;
 }
 
-.whatsapp-qr-container {
-    text-align: center;
-}
-
 .whatsapp-qr-code {
     width: 180px; 
     height: 180px;
-    border: 1px solid var(--color-neutro, #ccc); /* Usar variable o un color sólido */
+    border: 1px solid var(--color-neutro, #ccc);
     border-radius: 5px;
     padding: 5px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.whatsapp-qr-container p {
-    margin-top: 10px;
-    font-size: 0.9em;
-    color: #777;
-}
-
-/* Botón de Enlace Directo */
 .whatsapp-link-btn {
     display: inline-block;
     padding: 12px 25px;
@@ -107,21 +113,10 @@
     text-decoration: none;
     border-radius: 30px;
     font-weight: 600;
-    font-size: 1.1em;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .whatsapp-link-btn:hover {
     background-color: #1DA851;
     transform: translateY(-2px);
-}
-
-/* Botón de Cerrar (X) */
-.whatsapp-modal-close-btn {
-    color: #888;
-    cursor: pointer;
-    /* Ajusta posición si es necesario, si hereda de .modal-close-btn */
-}
-.whatsapp-modal-close-btn:hover {
-    color: #333;
 }
