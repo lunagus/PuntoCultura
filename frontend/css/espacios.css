@@ -1,69 +1,82 @@
 /* frontend/css/espacios.css */
 
- * {
+:root {
+    --color-primario: #004AAD;         
+    --color-secundario: #E63946;      
+    --color-terciario: #F4A300;       
+    --color-complementario: #008B6F;   
+    --color-fondo-claro: #F7F9FB;
+    --color-fondo-oscuro: #1E1E2F;
+    --color-texto-principal: #212529;
+    --color-texto-oscuro: #FFFFFF;
+    --color-neutro: #E1E8ED;
+}
+
+
+* {
     margin: 0;
     box-sizing: border-box;
     font-family: "Montserrat", sans-serif;
     scroll-behavior: smooth;
-    }
+}
 
 .header {
-     display: flex;
-     width: 100%;
-     justify-content: center;
-     padding: 20px 0px;
-     position: fixed;
-     transition: background-color 0.3s ease;
-     z-index:10000;
- }
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 20px 0px;
+    position: fixed;
+    transition: background-color 0.3s ease;
+    z-index: 10000;
+}
 
 
- .header.scrolled {
-     background-color: rgba(0, 0, 0, 0.5);
-     backdrop-filter: blur(10px);
-     -webkit-backdrop-filter: blur(10px);
-     transition: background-color 0.3s ease;
- }
+.header.scrolled {
+    background-color: rgba(0, 0, 0, 0.5); /* Se mantiene la transparencia con negro */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: background-color 0.3s ease;
+}
 
- nav {
-     width: 80%;
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-     color: white;
- }
+nav {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-texto-oscuro);
+}
 
- nav .logo {
-     display: flex;
-     gap: 20px;
- }
+nav .logo {
+    display: flex;
+    gap: 20px;
+}
 
 
- nav ul {
-     display: flex;
-     list-style: none;
-     gap: 30px;
- }
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
 
- nav ul li a {
-     text-decoration: none;
-     color: white;
-     font-size: 12px;
-     transition: 0.1s;
- }
+nav ul li a {
+    text-decoration: none;
+    color: var(--color-texto-oscuro);
+    font-size: 12px;
+    transition: 0.1s;
+}
 
- nav ul li a:hover {
-     color: #12bcd3;
- }
+nav ul li a:hover {
+    color: var(--color-terciario); /* Amarillo cálido para hover */
+}
 
- #hero {
-    color: white;
+#hero {
+    color: var(--color-texto-oscuro);
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 50vh; /* Ajustado para que no sea tan alto en la página de espacios */
+    height: 50vh;
     overflow: hidden;
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)), url(../assets/img/museoo.jpg); /* Puedes cambiar esta imagen si tienes una específica para espacios */
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)), url(../assets/img/museoo.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -78,20 +91,20 @@
     justify-content: center;
     align-items: flex-start;
     gap: 20px;
-    text-align: center; /* Centrar el texto en el hero */
+    text-align: center;
 }
 
 .hero_content h1 {
-    color: white;
-    font-size: 3rem; /* Ajustado el tamaño de la fuente */
+    color: var(--color-texto-oscuro);
+    font-size: 3rem;
     text-shadow: 1px 1px 100px black;
-    width: 100%; /* Asegurar que ocupe todo el ancho */
+    width: 100%;
 }
 
 /* Barra de búsqueda en espacios culturales */
 .search-section {
     width: 100%;
-    margin: 20px auto; /* Centrar y añadir margen vertical */
+    margin: 20px auto;
     display: flex;
     justify-content: center;
     position: relative;
@@ -107,25 +120,26 @@
 
 .search-input {
     width: 100%;
-    padding: 18px 30px 18px 54px; /* Aumentado el padding para hacerla más grande */
-    font-size: 20px; /* Aumentado el tamaño de la fuente */
+    padding: 18px 30px 18px 54px;
+    font-size: 20px;
     border: none;
     border-radius: 50px;
-    background: rgba(230, 230, 230, 0.95);
-    color: #000;
+    background: var(--color-fondo-claro); /* Fondo claro con ligera transparencia */
+    color: var(--color-texto-principal);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     outline: none;
     transition: box-shadow 0.3s ease, background 0.3s ease;
 }
 
 .search-input::placeholder {
-    color: #444;
+    color: var(--color-texto-principal);
     opacity: 0.7;
 }
 
 .search-input:focus {
-    background: rgba(240, 240, 240, 1);
-    box-shadow: 0 0 0 3px rgba(113, 99, 240, 0.25);
+    background: var(--color-texto-oscuro); /* Fondo blanco en focus */
+    /* Sombra de focus sutil usando el color primario */
+    box-shadow: 0 0 0 3px rgba(0, 74, 173, 0.25);
 }
 
 .search-icon {
@@ -133,7 +147,7 @@
     top: 50%;
     left: 36px;
     transform: translateY(-50%);
-    color: #555;
+    color: #555; /* Se mantiene gris oscuro para el ícono */
     font-size: 18px;
     pointer-events: none;
     opacity: 0.8;
@@ -155,7 +169,7 @@
 }
 
 .punto-card {
-    background-color: #fff;
+    background-color: var(--color-texto-oscuro); /* Fondo blanco */
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -199,38 +213,52 @@
 .punto-titulo {
     font-size: 1.5em;
     margin-bottom: 10px;
-    color: #333;
+    color: var(--color-texto-principal); /* Color de texto principal */
     font-weight: 600;
 }
 
 .punto-descripcion {
     font-size: 0.95em;
-    color: #666;
+    color: #666; /* Se mantiene gris */
     line-height: 1.5;
-    flex-grow: 1; /* Permite que la descripción ocupe el espacio disponible */
+    flex-grow: 1;
 }
 
 /* Footer */
 #footer {
     display: flex;
     width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, #0461b8, #0da8e6);
-    color: white;
+    height: auto;
+   
+    background: linear-gradient(to right, 
+        var(--color-primario) 0%,        /* Azul Institucional */
+        var(--color-complementario) 30%, /* Verde Natural */
+        var(--color-terciario) 70%,      /* Amarillo Cálido */
+        var(--color-secundario) 100%     /* Rojo Cultural */
+    );
+    color: var(--color-texto-oscuro);
     justify-content: center;
     align-items: center;
+    
+    border-top: 5px solid;
+    border-image: linear-gradient(to left, 
+        var(--color-secundario) 0%,   /* Rojo Cultural */
+        var(--color-terciario) 30%,   /* Amarillo Cálido */
+        var(--color-complementario) 60%,  /* Verde Natural */
+        var(--color-primario) 100%    /* Azul Institucional */
+    ) 1;
 }
 
 .footer {
     margin: 50px 0;
     height: 100%;
     display: flex;
-    width: 100%; /* Ahora ocupa el 100% del ancho del #footer */
+    width: 100%;
     justify-content: space-between;
     align-items: center;
     font-size: 12px;
-    padding: 0 20px; /* Añadido padding para el espaciado interno */
-    box-sizing: border-box; /* Asegura que el padding no añada ancho extra */
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .footer-img {
@@ -270,7 +298,7 @@
 
 /* Modal de Espacios Culturales */
 .modal-overlay {
-    display: none; /* Oculto por defecto */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -279,11 +307,11 @@
     background-color: rgba(0, 0, 0, 0.7);
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Asegura que esté por encima de todo */
+    z-index: 1000;
 }
 
 .modal-content {
-    background-color: #fff;
+    background-color: var(--color-texto-oscuro); /* Fondo blanco */
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -309,7 +337,7 @@
     border: none;
     font-size: 24px;
     cursor: pointer;
-    color: #333;
+    color: var(--color-texto-principal);
 }
 
 .modal-img {
@@ -323,14 +351,14 @@
 .modal-title {
     font-size: 2em;
     margin-bottom: 10px;
-    color: #333;
+    color: var(--color-texto-principal);
 }
 
 .modal-horarios,
 .modal-direccion,
 .modal-description {
     font-size: 1.1em;
-    color: #555;
+    color: #555; /* Se mantiene gris */
     margin-bottom: 8px;
 }
 
@@ -338,13 +366,13 @@
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
+    background-color: var(--color-primario); /* Color primario para el botón principal */
+    color: var(--color-texto-oscuro);
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
 .modal-map-btn:hover {
-    background-color: #0056b3;
+    background-color: var(--color-complementario); /* Color complementario para hover */
 }
