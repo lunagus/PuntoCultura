@@ -1,6 +1,3 @@
-/* =======================================
-   🎨 PALETA INSTITUCIONAL UNIFICADA
-   ======================================= */
 
 :root {
     --color-primario: #004AAD;           /* Azul institucional */
@@ -70,9 +67,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    /* Usaremos el Amarillo Terciario para el hover del menú */
     color: var(--color-terciario); 
-    /* color: #12bcd3; <-- Valor anterior */
 }
 
 #hero {
@@ -132,9 +127,7 @@ nav ul li a:hover {
 
 
 .btn:hover {
-    /* Usaremos el color complementario (Verde) para un hover contrastante */
     background: var(--color-complementario); 
-    /* background: #12bcd3b6; <-- Valor anterior */
     transition: 0.1s;
 }
 #calendario-video {
@@ -161,7 +154,6 @@ nav ul li a:hover {
 
 .calendario-box, .video-box {
     background: var(--color-fondo-claro); /* Cambiado a variable */
-    /* background: #f9f9f9; <-- Valor anterior */
     padding: 20px;
     border-radius: 10px;
 }
@@ -171,7 +163,6 @@ nav ul li a:hover {
     height: 600px;
     margin: 40px auto;
     background-color: var(--color-texto-oscuro); /* Cambiado a variable (Blanco) */
-    /* background-color: #ffffff; <-- Valor anterior */
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -189,13 +180,11 @@ nav ul li a:hover {
     font-weight: 700;
     font-size: 1.5rem;
     color: var(--color-texto-principal); /* Cambiado a variable (Gris Oscuro) */
-    /* color: #222; <-- Valor anterior */
 }
 
 /* Botones del calendario */
 .fc-button {
     background-color: var(--color-primario); /* Cambiado a Azul Primario */
-    /* background-color: #444; <-- Valor anterior */
     border: none;
     color: var(--color-texto-oscuro); /* Cambiado a variable */
     border-radius: 100px;
@@ -208,21 +197,17 @@ nav ul li a:hover {
 .fc-button:hover,
 .fc-button:focus {
     background-color: var(--color-secundario); /* Cambiado a Rojo Cultural */
-    /* background-color: #666; <-- Valor anterior */
 }
 
 /* Día actual */
 .fc-daygrid-day.fc-day-today {
     background-color: var(--color-terciario); /* Cambiado a Amarillo Terciario */
-    /* background-color: #fcf700c4; <-- Valor anterior */
     border-radius: 4px;
 }
 
 /* Hover sobre días */
 .fc-daygrid-day:hover {
-    /* Usaremos el neutro para el hover de los días */
     background-color: var(--color-neutro); 
-    /* background-color: #ada0a0d0; <-- Valor anterior */
     cursor: pointer;
 }
 
@@ -455,9 +440,7 @@ nav ul li a:hover {
     display: flex;
     width: 100%;
     height: auto;
-    
-    /* 1. Gradiente con los 4 colores principales de tu paleta */
-    /* Este gradiente va de izquierda a derecha, mezclando los tonos de forma armónica. */
+   
     background: linear-gradient(to right, 
         var(--color-primario) 0%,        /* Azul Institucional */
         var(--color-complementario) 30%, /* Verde Natural */
@@ -467,8 +450,7 @@ nav ul li a:hover {
     color: var(--color-texto-oscuro);
     justify-content: center;
     align-items: center;
-
-    /* Línea de los 3 colores para unificar */
+    
     border-top: 5px solid;
     border-image: linear-gradient(to left, 
         var(--color-secundario) 0%,   /* Rojo Cultural */
