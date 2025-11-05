@@ -1,4 +1,3 @@
-
 :root {
     --color-primario: #004AAD;           /* Azul institucional */
     --color-secundario: #E63946;         /* Rojo cultural */
@@ -18,7 +17,6 @@
     box-sizing: border-box;
     font-family: "Montserrat", sans-serif;
     scroll-behavior: smooth;
-    /* overflow: auto;  Eliminar o ajustar esto si causa problemas de scroll */
 }
 
 .header {
@@ -44,7 +42,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
 }
 
 nav .logo {
@@ -61,7 +59,7 @@ nav ul {
 
 nav ul li a {
     text-decoration: none;
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
     font-size: 12px;
     transition: 0.1s;
 }
@@ -71,7 +69,7 @@ nav ul li a:hover {
 }
 
 #hero {
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -95,20 +93,20 @@ nav ul li a:hover {
 }
 
 .hero_content h1 {
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
     font-size: 4rem;
     text-shadow: 1px 1px 100px black;
 }
 
 .hero_content h2 {
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
     font-size: 1.5rem;
     width: 100%;
     text-shadow: 1px 1px 100px black;
 }
 
 .hero_content p {
-    color: lightgrey; /* Podríamos usar un tono de gris claro, pero lightgrey funciona */
+    color: lightgrey;
     margin: 0;
     text-shadow: 1px 1px 100px black;
     width: 70%;
@@ -117,7 +115,7 @@ nav ul li a:hover {
 
 .hero_content .btn {
     padding: 10px 30px;
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
     background: #6c6c6cb6;
     text-decoration: none;
     border-radius: 100px;
@@ -153,7 +151,7 @@ nav ul li a:hover {
 }
 
 .calendario-box, .video-box {
-    background: var(--color-fondo-claro); /* Cambiado a variable */
+    background: var(--color-fondo-claro);
     padding: 20px;
     border-radius: 10px;
 }
@@ -162,7 +160,7 @@ nav ul li a:hover {
     max-width: 900px;
     height: 600px;
     margin: 40px auto;
-    background-color: var(--color-texto-oscuro); /* Cambiado a variable (Blanco) */
+    background-color: var(--color-texto-oscuro);
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -179,14 +177,14 @@ nav ul li a:hover {
 .fc .fc-toolbar-title {
     font-weight: 700;
     font-size: 1.5rem;
-    color: var(--color-texto-principal); /* Cambiado a variable (Gris Oscuro) */
+    color: var(--color-texto-principal);
 }
 
 /* Botones del calendario */
 .fc-button {
-    background-color: var(--color-primario); /* Cambiado a Azul Primario */
+    background-color: var(--color-primario);
     border: none;
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
     border-radius: 100px;
     padding: 6px 14px;
     font-weight: 600;
@@ -196,12 +194,12 @@ nav ul li a:hover {
 
 .fc-button:hover,
 .fc-button:focus {
-    background-color: var(--color-secundario); /* Cambiado a Rojo Cultural */
+    background-color: var(--color-secundario);
 }
 
 /* Día actual */
 .fc-daygrid-day.fc-day-today {
-    background-color: var(--color-terciario); /* Cambiado a Amarillo Terciario */
+    background-color: var(--color-terciario);
     border-radius: 4px;
 }
 
@@ -211,31 +209,46 @@ nav ul li a:hover {
     cursor: pointer;
 }
 
+/* ==================================================== */
+/* INICIO: SECCIÓN CARRUSEL (FINAL)                   */
+/* ==================================================== */
+
 .carousel-section {
     display: flex;
+    flex-direction: column; 
     justify-content: center;
     align-items: center;
     margin-top: 40px;
     margin-bottom: 40px;
     height: auto;
+    position: relative;
+    
+    /* Importante para contener el contenido horizontalmente */
+    padding: 0 10px; 
+    /* CRUCIAL: Previene el scroll horizontal sin cortar las tarjetas visibles */
+    overflow-x: hidden; 
 }
 
 .carousel-3d-container {
     width: 100%;
-    max-width: 1200px; /* Increased width to accommodate buttons outside */
+    max-width: 1200px; 
     margin: 0 auto;
     position: relative;
-    /* overflow: hidden; /* Remove this to allow buttons to go outside */
-    padding: 0 70px; /* Add padding to make space for buttons */
-    box-sizing: border-box; /* Include padding in width */
+    padding: 0; 
+    box-sizing: border-box;
+    /* Aseguramos que el contenedor no corte el contenido */
+    overflow: visible; 
 }
 
 .carousel-3d {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start; 
     align-items: center;
     gap: 20px;
-    transition: transform 0.5s ease-in-out;
+    /* CRUCIAL: Aplica la traslación calculada por JS y la animación */
+    transition: transform 0.5s ease-in-out; 
+    transform: translateX(var(--current-x, 0)); 
+    will-change: transform; 
 }
 
 .carousel-3d .card {
@@ -245,50 +258,57 @@ nav ul li a:hover {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 0 12px rgba(0,0,0,0.2);
+    /* Estilo base (tarjetas lejanas/far) */
     transform: scale(0.8);
     opacity: 0.3;
-    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    /* CRUCIAL: Transición suave para el efecto 3D */
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out; 
     cursor: pointer;
-    position: relative; /* Añadido para el overlay */
+    position: relative;
 }
 
-/* Estilos para el overlay del título en las tarjetas del carrusel */
+/* Estilos para el overlay del título */
 .carousel-3d .card .card-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
     padding: 15px 10px 10px;
     text-align: center;
     font-size: 1.1em;
     font-weight: bold;
-    transform: translateY(100%); /* Oculto por defecto */
+    transform: translateY(100%);
     transition: transform 0.3s ease-out;
 }
 
-/* Mostrar el overlay cuando la tarjeta está activa */
-.carousel-3d .card.active .card-overlay {
-    transform: translateY(0%);
-}
-
-/* Mostrar el overlay al pasar el cursor sobre cualquier tarjeta */
+/* Mostrar el overlay cuando la tarjeta está activa o en hover */
+.carousel-3d .card.active .card-overlay,
 .carousel-3d .card:hover .card-overlay {
     transform: translateY(0%);
 }
 
+/* Clase para tarjetas justo antes y después del centro */
 .carousel-3d .card.prev,
 .carousel-3d .card.next {
     transform: scale(0.9);
     opacity: 0.6;
 }
 
+/* Clase para la tarjeta activa (centrada) */
 .carousel-3d .card.active {
     transform: scale(1);
     opacity: 1;
     box-shadow: 0 0 12px rgba(0,0,0,0.3);
 }
+
+/* Clase para tarjetas que están muy lejos, usan el estilo base */
+.carousel-3d .card.far {
+    transform: scale(0.8);
+    opacity: 0.3;
+}
+
 
 .carousel-3d .card img {
     width: 100%;
@@ -296,45 +316,47 @@ nav ul li a:hover {
     object-fit: cover;
 }
 
-.carousel-3d .card:not(.prev):not(.active):not(.next) {
-    display: none;
+/* Ocultamos los botones de flecha (si se mantienen en el HTML) */
+.carousel-btn {
+    display: none !important; 
 }
 
-
-.carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.4);
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 10;
+/* Estilos para la paginación de puntos */
+.carousel-pagination {
     display: flex;
     justify-content: center;
-    align-items: center;
-    transition: background 0.3s ease;
+    margin-top: 20px; 
+    width: 100%;
 }
 
-.carousel-btn:hover {
-    background: rgba(0, 0, 0, 0.6);
+.pagination-dot {
+    height: 10px;
+    width: 10px;
+    margin: 0 5px;
+    background-color: var(--color-neutro); 
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.carousel-btn.prev { left: -150px; }
-.carousel-btn.next { right: -150px; }
+.pagination-dot.active {
+    background-color: var(--color-primario); 
+    transform: scale(1.2); 
+}
+
+/* ==================================================== */
+/* FIN: SECCIÓN CARRUSEL                                */
+/* ==================================================== */
 
 
 .search-section {
     width: 100%;
-    margin: 0 auto 40px auto;
+    margin: 50px auto 40px auto;
     display: flex;
     justify-content: center;
-    position: relative; /* Cambiado de absolute a relative para que no se superponga con el header */
-    z-index: 1; /* Ajustado el z-index para que la barra de búsqueda sea interactuable */
+    position: relative;
+    z-index: 1;
 }
 
 .search-container {
@@ -350,27 +372,21 @@ nav ul li a:hover {
     font-size: 18px;
     border: none;
     border-radius: 50px;
-    /* Usaremos el fondo neutro para el input */
     background: var(--color-neutro); 
-    /* background: rgba(230, 230, 230, 0.95); <-- Valor anterior */
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: #000; <-- Valor anterior */
+    color: var(--color-texto-principal);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     outline: none;
     transition: box-shadow 0.3s ease, background 0.3s ease;
 }
 
 .search-input::placeholder {
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: #444; <-- Valor anterior */
+    color: var(--color-texto-principal);
     opacity: 0.7;
 }
 
 .search-input:focus {
-    /* Usaremos el primario con transparencia para el foco */
     background: rgba(240, 240, 240, 1);
-    box-shadow: 0 0 0 3px rgba(0, 74, 173, 0.25); /* #004AAD con opacidad */
-    /* box-shadow: 0 0 0 3px rgba(113, 99, 240, 0.25); <-- Valor anterior */
+    box-shadow: 0 0 0 3px rgba(0, 74, 173, 0.25);
 }
 
 .search-icon {
@@ -378,8 +394,7 @@ nav ul li a:hover {
     top: 50%;
     left: 36px;
     transform: translateY(-50%);
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: #555; <-- Valor anterior */
+    color: var(--color-texto-principal);
     font-size: 18px;
     pointer-events: none;
     opacity: 0.8;
@@ -387,8 +402,7 @@ nav ul li a:hover {
 
 #information {
     margin: 50px 0;
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: rgb(0, 0, 0); <-- Valor anterior */
+    color: var(--color-texto-principal);
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -414,19 +428,17 @@ nav ul li a:hover {
     justify-content: center;
     align-items: center;
     box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.2);
-    border-color: var(--color-texto-principal); /* Cambiado a variable */
-    /* border-color: #000000; <-- Valor anterior */
+    border-color: var(--color-texto-principal);
     font-size: 11px;
     border-radius: 10px;
     gap: 20px;
     padding: 10px;
     text-decoration: none;
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: rgb(42, 61, 71); <-- Valor anterior */
+    color: var(--color-texto-principal);
 }
 
 .card:hover {
-    background: none; /* Elimina el fondo azulado */
+    background: none;
     transition: 0.1s;
     scale: 1.05;
 }
@@ -442,10 +454,10 @@ nav ul li a:hover {
     height: auto;
    
     background: linear-gradient(to right, 
-        var(--color-primario) 0%,        /* Azul Institucional */
-        var(--color-complementario) 30%, /* Verde Natural */
-        var(--color-terciario) 70%,      /* Amarillo Cálido */
-        var(--color-secundario) 100%     /* Rojo Cultural */
+        var(--color-primario) 0%,        
+        var(--color-complementario) 30%,
+        var(--color-terciario) 70%,
+        var(--color-secundario) 100%
     );
     color: var(--color-texto-oscuro);
     justify-content: center;
@@ -453,10 +465,10 @@ nav ul li a:hover {
 
     border-top: 5px solid;
     border-image: linear-gradient(to left, 
-        var(--color-secundario) 0%,   /* Rojo Cultural */
-        var(--color-terciario) 30%,   /* Amarillo Cálido */
-        var(--color-complementario) 60%,  /* Verde Natural */
-        var(--color-primario) 100%    /* Azul Institucional */
+        var(--color-secundario) 0%,   
+        var(--color-terciario) 30%,
+        var(--color-complementario) 60%,
+        var(--color-primario) 100%
     ) 1;
 }
 
@@ -507,9 +519,9 @@ nav ul li a:hover {
     width: 20px;
 }
 
-/* Estilos para los modales (pueden ir en un archivo CSS común si aplica a más páginas) */
+/* Estilos para los modales */
 .modal-overlay {
-    display: none; /* Oculto por defecto */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -518,12 +530,11 @@ nav ul li a:hover {
     background-color: rgba(0, 0, 0, 0.7);
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Asegura que esté por encima de todo */
+    z-index: 1000;
 }
 
 .modal-content {
-    background-color: var(--color-texto-oscuro); /* Cambiado a variable */
-    /* background-color: #fff; <-- Valor anterior */
+    background-color: var(--color-texto-oscuro);
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -549,8 +560,7 @@ nav ul li a:hover {
     border: none;
     font-size: 24px;
     cursor: pointer;
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: #333; <-- Valor anterior */
+    color: var(--color-texto-principal);
 }
 
 .modal-img {
@@ -564,8 +574,7 @@ nav ul li a:hover {
 .modal-title {
     font-size: 2em;
     margin-bottom: 10px;
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: #333; <-- Valor anterior */
+    color: var(--color-texto-principal);
 }
 
 .modal-horarios,
@@ -580,16 +589,14 @@ nav ul li a:hover {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: var(--color-primario); /* Cambiado a Azul Primario */
-    /* background-color: #007bff; <-- Valor anterior */
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    background-color: var(--color-primario);
+    color: var(--color-texto-oscuro);
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
 .modal-map-btn:hover {
-    background-color: var(--color-secundario); /* Cambiado a Rojo Cultural */
-    /* background-color: #0056b3; <-- Valor anterior */
+    background-color: var(--color-secundario);
 }
 
 /* --- GLOBAL OVERFLOW PROTECTION --- */
