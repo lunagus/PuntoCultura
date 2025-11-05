@@ -46,9 +46,7 @@
 .whatsapp-float-btn img {
     width: 35px !important; 
     height: 35px !important;
-    filter: invert(1); /* Pone el icono blanco si la imagen original es verde/negra */
-    /* Asegúrate de que la ruta de la imagen en HTML sea correcta: 
-       <img src="assets/icons/whatsapp.png" alt="WhatsApp"> */
+    filter: invert(0); 
 }
 
 /* ========================================================= */
