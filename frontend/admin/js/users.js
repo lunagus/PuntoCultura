@@ -68,7 +68,7 @@ function renderUsers(users) {
 
 // Fetch and display users
 async function loadUsers() {
-    const res = await apiFetch(`${window.API_BASE_URL}/api/users/`);
+    const res = await apiFetch(`${window.API_BASE_URL}/users/`);
     if (!res) return;
     const users = await res.json();
     allUsers = users.map(u => ({
@@ -162,7 +162,7 @@ userForm.onsubmit = async function(e) {
             msg.classList.add('error');
             return;
         }
-        const res = await apiFetch(`${window.API_BASE_URL}/api/create-editor/`, {
+        const res = await apiFetch(`${window.API_BASE_URL}/create-editor/`, {
             method: 'POST',
             body: JSON.stringify({ username, email, password })
         });
@@ -187,7 +187,7 @@ userForm.onsubmit = async function(e) {
     if (newPassword) updateData.password = newPassword;
     updateData.role = role || '';
     updateData.admin_password = adminPassword;
-    const res = await apiFetch(`${window.API_BASE_URL}/api/users/${editingId}/`, {
+    const res = await apiFetch(`${window.API_BASE_URL}/users/${editingId}/`, {
         method: 'PUT',
         body: JSON.stringify(updateData)
     });
@@ -244,7 +244,7 @@ function showDeleteUserModal(userId) {
         }
         confirmBtn.disabled = true;
         cancelBtn.disabled = true;
-        const res = await apiFetch(`${window.API_BASE_URL}/api/users/${userId}/`, {
+        const res = await apiFetch(`${window.API_BASE_URL}/users/${userId}/`, {
             method: 'DELETE',
             body: JSON.stringify({ admin_password: adminPassword })
         });

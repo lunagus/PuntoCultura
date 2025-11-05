@@ -131,8 +131,10 @@ class EditorUserCreateSerializer(serializers.ModelSerializer):
             email=validated_data.get("email"),
             password=validated_data["password"],
         )
+        user.is_staff = True
         editor_group = Group.objects.get(name="Editor")
         user.groups.add(editor_group)
+        user.save()
         return user
 
 
