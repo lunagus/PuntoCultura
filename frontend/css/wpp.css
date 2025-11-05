@@ -1,7 +1,4 @@
-/* ========================================================= */
-/* ESTILOS BASE DEL MODAL (CRÍTICOS PARA MOSTRAR/OCULTAR) */
-/* (Asegúrate de que estas reglas se apliquen a todos tus modales) */
-/* ========================================================= */
+
 
 .modal-overlay {
     display: none; /* OCULTO por defecto */
