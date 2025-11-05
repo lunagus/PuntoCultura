@@ -1,34 +1,15 @@
-// Contenido de js/wpp.js
-(function() {
-    
-    // Solo comprobamos si el elemento existe inmediatamente.
-    const whatsappFloatBtn = document.getElementById('whatsappFloatBtn');
+// Contenido de js/wpp.js - Lógica completa de Modal y Pestañas
 
-    if (whatsappFloatBtn) {
-        console.log("✅ ÉXITO: El botón de WhatsApp fue ENCONTRADO.");
-        
-        // Si el botón existe, adjuntamos la función para abrir el modal (temporalmente simple).
-        whatsappFloatBtn.addEventListener('click', function() {
-            const modal = document.getElementById('whatsappModal');
-            if (modal) {
-                modal.classList.add('active');
-                console.log("✅ CLIC DETECTADO y clase 'active' aplicada.");
-            } else {
-                console.error("❌ ERROR: El modal 'whatsappModal' no fue encontrado.");
-            }
-        });
-
-    } else {
-        console.error("❌ ERROR CRÍTICO: El botón 'whatsappFloatBtn' NO EXISTE en el DOM.");
-    }
-
-})();// Contenido de js/wpp.js
 (function() {
     
     // 1. Obtener referencias
     const whatsappFloatBtn = document.getElementById('whatsappFloatBtn');
     const whatsappModal = document.getElementById('whatsappModal');
     const whatsappCloseBtn = document.querySelector('.whatsapp-modal-close-btn'); 
+    
+    // Nueva referencia para las pestañas
+    const tabButtons = document.querySelectorAll('.whatsapp-tabs-nav .tab-button');
+
 
     // Función para cerrar el modal
     const hideWhatsappModal = () => {
@@ -38,25 +19,32 @@
         }
     };
 
+    // Función para abrir el modal (solo se usa en el listener)
+    const showWhatsappModal = () => {
+        if (!whatsappModal) {
+            console.error("❌ ERROR JS: Elemento 'whatsappModal' no encontrado.");
+            return;
+        }
+        whatsappModal.classList.add('active');
+        console.log("✅ CLIC DETECTADO y clase 'active' aplicada.");
+    };
+
+
+    // =========================================================
+    // LÓGICA DE APERTURA Y CIERRE
+    // =========================================================
+
     if (whatsappFloatBtn) {
         console.log("✅ ÉXITO: El botón de WhatsApp fue ENCONTRADO.");
-        
         // 2. Adjuntar el evento de APERTURA (al hacer clic en el botón flotante)
-        whatsappFloatBtn.addEventListener('click', function() {
-            if (whatsappModal) {
-                whatsappModal.classList.add('active');
-                console.log("✅ CLIC DETECTADO y clase 'active' aplicada.");
-            } else {
-                console.error("❌ ERROR: El modal 'whatsappModal' no fue encontrado.");
-            }
-        });
-
+        whatsappFloatBtn.addEventListener('click', showWhatsappModal);
     } else {
         console.error("❌ ERROR CRÍTICO: El botón 'whatsappFloatBtn' NO EXISTE en el DOM.");
     }
 
-    // 3. Adjuntar eventos de CIERRE (solo si el modal existe)
     if (whatsappModal) {
+        // 3. Adjuntar eventos de CIERRE
+        
         // Cierre al hacer clic en la 'X'
         if (whatsappCloseBtn) {
             whatsappCloseBtn.addEventListener('click', hideWhatsappModal);
@@ -67,6 +55,31 @@
             if (e.target === whatsappModal) {
                 hideWhatsappModal();
             }
+        });
+    }
+
+    // =========================================================
+    // LÓGICA DE PESTAÑAS (TABS)
+    // =========================================================
+    
+    if (tabButtons.length > 0) {
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.dataset.tab;
+
+                // 1. Desactivar todos los botones y contenidos
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+                // 2. Activar el botón clicado
+                button.classList.add('active');
+
+                // 3. Activar el contenido asociado (usando el ID que coincide con data-tab)
+                const contentToActivate = document.getElementById(targetTab);
+                if (contentToActivate) {
+                    contentToActivate.classList.add('active');
+                }
+            });
         });
     }
 

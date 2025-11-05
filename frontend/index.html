@@ -12,9 +12,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/menu.css"> <!-- Nuevo archivo CSS para el menú hamburguesa -->
-    <link rel="stylesheet" href="css/wpp.css">
-    <link rel="shortcut icon" href="assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon" sizes="32x10">
+    <link rel="stylesheet" href="css/menu.css"> <link rel="stylesheet" href="css/wpp.css"> <link rel="shortcut icon" href="assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon" sizes="32x10">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.min.js"></script>
 </head>
@@ -29,9 +27,6 @@
             <ul class="nav-links"> 
                 <li><a href="eventos.html">EVENTOS</a></li>
                 <li><a href="espacios.html">ESPACIOS CULTURALES</a></li>
-               <!-- <li><a href="https://www.google.com/?hl=es">DNI CULTURAL</a></li>
-                <li><a href="https://www.google.com/?hl=es">PATRIMONIO CULTURAL</a></li>
-                <li><a href="https://www.santiagocultura.gob.ar/biblioteca-digital-2.php">BIBLIOTECA DIGITAL</a></li> -->
                 <li><a href="contacto.html">CONTACTO</a></li>
             </ul>
             <div class="burger"> 
@@ -55,9 +50,7 @@
         <section class="carousel-section">
             <div class="carousel-3d-container">
                 <div class="carousel-3d" id="carousel">
-                    <!-- Las cards se cargarán dinámicamente con JavaScript -->
-                </div>
-                <!-- Botones del carrusel sin atributos onclick -->
+                    </div>
                 <button class="carousel-btn prev">‹</button>
                 <button class="carousel-btn next">›</button>
             </div>
@@ -70,13 +63,11 @@
         </section>
         <section id="iframe">
             <div class="calendario-video-grid">
-                <!-- Calendario -->
                 <div class="calendario-box">
                     <h2>Calendario de eventos</h2>
                     <div id="calendar"></div>
                 </div>
 
-                <!-- Video de Facebook -->
                 <div class="video-box">
                     <h2>Última publicación</h2>
                     <iframe
@@ -104,9 +95,9 @@
                 <div class="footer-social">
                     <h3>¡Seguinos en nuestras redes sociales!</h3>
                         <a target="_blank" href="https://www.instagram.com/santiago.cultura?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img src="assets/icons/instagram.svg"
-                            alt="instagram"></a>
+                                alt="instagram"></a>
                         <a target="_blank" href="https://www.facebook.com/subsecretariadeculturadesantiagodelestero"><img src="assets/icons/facebook.svg"
-                            alt="facebook"></a>
+                                alt="facebook"></a>
                 </div>
                 <p>Subsecretaría de Cultura Casa Castro, Av Belgrano Sur 555<img width="12px" src="assets/icons/location.svg" alt=""></p>
                 <a href="tel:(0385) 4225385">(0385) 4225385<img width="12px" src="assets/icons/phone.svg" alt=""></p>
@@ -115,7 +106,6 @@
         </div>
     </footer>
 
-    <!-- Modal de Eventos -->
     <div id="eventoModal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn">&times;</button>
@@ -128,7 +118,6 @@
         </div>
     </div>
 
-    <!-- Modal de Centros Culturales -->
     <div id="centroModal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn">&times;</button>
@@ -148,17 +137,35 @@
     <div id="whatsappModal" class="modal-overlay">
         <div class="modal-content whatsapp-modal-content">
             <span class="modal-close-btn whatsapp-modal-close-btn">&times;</span>
-                <h2 class="modal-title">Mantente siempre informado</h2>
-                <p>Escanea el código QR o haz clic en el enlace para visitar nuestro canal de difusion.</p>
-        
-                <div class="whatsapp-options">
-                    <div class="whatsapp-qr-container">
-                        <img src="assets/img/qr-wpp.jpeg" alt="Código QR de WhatsApp" class="whatsapp-qr-code">
-                        <p>Escanea este QR</p>
-                    </div>
-                    <a href="https://whatsapp.com/channel/0029VbBaOBs4o7qKVzxE4W16" target="_blank" class="whatsapp-link-btn">Abrir WhatsApp</a>
+            
+            <h2 class="modal-title">Mantente siempre informado</h2>
+            
+            <div class="whatsapp-tabs-nav">
+                <button class="tab-button active" data-tab="qr">Escanear QR</button>
+                <button class="tab-button" data-tab="link">Abrir Enlace</button>
+            </div>
+
+            <div id="qr" class="tab-content active">
+                <p>Escanea el código QR para unirte a nuestro canal de difusión.</p>
+                <div class="whatsapp-qr-container">
+                    <img src="assets/img/qr-wpp.jpeg" alt="Código QR de WhatsApp" class="whatsapp-qr-code">
                 </div>
-        
+            </div>
+
+            <div id="link" class="tab-content">
+                <p>Si estás en móvil, haz clic para acceder directamente al canal.</p>
+                
+                <div class="whatsapp-link-preview">
+                    <div class="preview-header">Punto Cultura Canal</div>
+                    <div class="preview-text">Únete al canal para recibir noticias y eventos.</div>
+                    <a href="https://whatsapp.com/channel/0029VbBaOBs4o7qKVzxE4W16" 
+                       target="_blank" 
+                       class="whatsapp-link-btn">
+                        Abrir WhatsApp
+                    </a>
+                </div>
+            </div>
+            
         </div>
     </div>
 

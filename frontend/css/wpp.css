@@ -21,8 +21,7 @@
 }
 
 /* ========================================================= */
-/* ESTILOS DEL CONTENIDO DEL MODAL (.modal-content) */
-/* ESTAS SON LAS REGLAS CRÍTICAS QUE SE ESTÁN ANULANDO */
+/* ESTILOS DEL CONTENIDO DEL MODAL (.modal-content) - CRÍTICO */
 /* ========================================================= */
 
 .modal-content {
@@ -42,7 +41,6 @@
     padding: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
-
 
 /* ========================================================= */
 /* ESTILOS DEL BOTÓN FLOTANTE (whatsapp-float-btn) */
@@ -70,11 +68,12 @@
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Regla para evitar el desbordamiento de la imagen */
+/* Regla para el LOGO: Lo convierte a BLANCO (asumiendo que el fondo del botón es VERDE) */
 .whatsapp-float-btn img {
     width: 35px !important; 
     height: 35px !important;
-    filter: hue-rotate(); 
+    /* Filtro para hacer el logo blanco */
+    filter: brightness(0) invert(1) !important; 
 }
 
 /* ========================================================= */
@@ -85,7 +84,6 @@
     max-width: 450px; 
     width: 90%;
     padding: 25px;
-    /* El fondo ya es blanco gracias a .modal-content */
 }
 
 .whatsapp-modal-content .modal-title {
@@ -99,6 +97,66 @@
     margin-bottom: 20px;
     line-height: 1.5;
 }
+
+/* --- NUEVOS ESTILOS PARA LAS PESTAÑAS (TABS) --- */
+
+.whatsapp-tabs-nav {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    color: #888;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab-button.active {
+    color: #25D366;
+    border-bottom: 3px solid #25D366;
+}
+
+.tab-content {
+    display: none; /* OCULTA por defecto */
+    padding-top: 15px;
+    text-align: center;
+}
+
+.tab-content.active {
+    display: block; /* MUESTRA la pestaña activa */
+}
+
+/* --- ESTILOS DE VISTA PREVIA DEL ENLACE --- */
+.whatsapp-link-preview {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px auto;
+    max-width: 300px;
+    text-align: left;
+    background-color: #f9f9f9;
+}
+
+.preview-header {
+    font-weight: bold;
+    color: #1f7a0c;
+    margin-bottom: 5px;
+}
+
+.preview-text {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* --- ESTILOS DE QR y BOTONES (existentes) --- */
 
 .whatsapp-options {
     display: flex;
