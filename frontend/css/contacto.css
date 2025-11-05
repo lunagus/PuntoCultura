@@ -1,5 +1,17 @@
 /* frontend/css/contacto.css */
 
+
+:root {
+    --color-primario: #004AAD;         
+    --color-secundario: #E63946;      
+    --color-terciario: #F4A300;       
+    --color-complementario: #008B6F;   
+    --color-fondo-claro: #F7F9FB;
+    --color-fondo-oscuro: #1E1E2F;
+    --color-texto-principal: #212529;
+    --color-texto-oscuro: #FFFFFF;
+    --color-neutro: #E1E8ED;
+}
 * {
     margin: 0;
     box-sizing: border-box;
@@ -18,7 +30,7 @@
 }
 
 .header.scrolled {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5); /* Se mantiene la transparencia con negro */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     transition: background-color 0.3s ease;
@@ -29,7 +41,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: white;
+    color: var(--color-texto-oscuro);
 }
 
 nav .logo {
@@ -45,17 +57,17 @@ nav ul {
 
 nav ul li a {
     text-decoration: none;
-    color: white;
+    color: var(--color-texto-oscuro);
     font-size: 12px;
     transition: 0.1s;
 }
 
 nav ul li a:hover {
-    color: #12bcd3;
+    color: var(--color-terciario); /* Amarillo cálido para hover del menú */
 }
 
 #hero {
-    color: white;
+    color: var(--color-texto-oscuro);
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -80,7 +92,7 @@ nav ul li a:hover {
 
 .hero_content h1 {
     margin-bottom: 20px;
-    color: white;
+    color: var(--color-texto-oscuro);
     font-size: 3rem;
     text-shadow: 1px 1px 100px black;
 }
@@ -92,7 +104,7 @@ nav ul li a:hover {
     justify-content: center;
     align-items: center;
     padding: 60px 0;
-    margin: 0 auto; /* Centrar la sección de contacto */
+    margin: 0 auto;
 }
 
 .contacto {
@@ -101,7 +113,7 @@ nav ul li a:hover {
     display: flex;
     flex-direction: column;
     gap: 50px;
-    border-bottom: black 1px solid;
+    border-bottom: var(--color-texto-principal) 1px solid; /* Borde con color de texto principal */
     flex-wrap: wrap;
     align-items: center;
 }
@@ -111,10 +123,12 @@ nav ul li a:hover {
     max-width: 700px;
 }
 
+/* El estilo .formulario-contacto se redefine más abajo para las columnas, pero se mantiene aquí
+   para las propiedades específicas del formulario que no dependen del layout */
 .formulario-contacto {
     width: 100%;
     max-width: 700px;
-    background-color: #f5f5f5;
+    background-color: var(--color-fondo-claro); /* Fondo claro para el formulario */
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
@@ -125,7 +139,7 @@ nav ul li a:hover {
 .formulario-contacto label {
     font-size: 16px;
     font-weight: 600;
-    color: #222;
+    color: var(--color-texto-principal); /* Color de texto principal para las etiquetas */
     margin-bottom: 5px;
 }
 
@@ -133,20 +147,20 @@ nav ul li a:hover {
 .formulario-contacto textarea {
     width: 100%;
     padding: 14px;
-    border: 1px solid #aaa;
+    border: 1px solid var(--color-neutro); /* Borde con color neutro */
     border-radius: 6px;
     font-size: 15px;
     font-family: "Montserrat", sans-serif;
     outline: none;
     margin-bottom: 20px;
-    background-color: white;
-    color: #333;
+    background-color: var(--color-texto-oscuro); /* Fondo blanco (texto-oscuro) para inputs */
+    color: var(--color-texto-principal);
     transition: border-color 0.3s ease;
 }
 
 .formulario-contacto input:focus,
 .formulario-contacto textarea:focus {
-    border-color: rgb(42, 61, 71);
+    border-color: var(--color-primario); /* Color primario al enfocar */
 }
 
 .formulario-contacto textarea {
@@ -156,8 +170,8 @@ nav ul li a:hover {
 
 .formulario-contacto button {
     padding: 14px;
-    background-color: rgb(42, 61, 71);
-    color: white;
+    background-color: var(--color-primario); /* Color primario para el botón */
+    color: var(--color-texto-oscuro);
     border: none;
     border-radius: 6px;
     font-size: 15px;
@@ -168,12 +182,12 @@ nav ul li a:hover {
 }
 
 .formulario-contacto button:hover {
-    background-color: #0fa1b8;
+    background-color: var(--color-complementario); /* Color complementario para hover */
 }
 
 #information {
     margin: 50px 0;
-    color: rgb(0, 0, 0);
+    color: var(--color-texto-principal);
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -199,17 +213,17 @@ nav ul li a:hover {
     justify-content: center;
     align-items: center;
     box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.2);
-    border-color: #000000;
+    border-color: var(--color-texto-principal); /* Borde con color de texto principal */
     font-size: 11px;
     border-radius: 10px;
     gap: 20px;
     padding: 10px;
     text-decoration: none;
-    color: rgb(42, 61, 71);
+    color: var(--color-texto-principal);
 }
 
 .card:hover {
-    background: #12bcd3b6;
+    background: var(--color-primario); /* Color primario para el hover de la card */
     transition: 0.1s;
     scale: 1.05;
 }
@@ -218,26 +232,41 @@ nav ul li a:hover {
     width: 30px;
 }
 
+/* Footer con degradado de todos los colores */
 #footer {
     display: flex;
     width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, #0461b8, #0da8e6);
-    color: white;
+    height: auto;
+
+    background: linear-gradient(to right, 
+        var(--color-primario) 0%,
+        var(--color-complementario) 30%,
+        var(--color-terciario) 70%,
+        var(--color-secundario) 100%
+    );
+    color: var(--color-texto-oscuro);
     justify-content: center;
     align-items: center;
+
+    border-top: 5px solid;
+    border-image: linear-gradient(to left, 
+        var(--color-secundario) 0%,
+        var(--color-terciario) 30%,
+        var(--color-complementario) 60%,
+        var(--color-primario) 100%
+    ) 1;
 }
 
 .footer {
     margin: 50px 0;
     height: 100%;
     display: flex;
-    width: 100%; /* CAMBIO: Ahora ocupa el 100% del ancho del #footer */
+    width: 100%;
     justify-content: space-between;
     align-items: center;
     font-size: 12px;
-    padding: 0 20px; /* Añadido padding para el espaciado interno */
-    box-sizing: border-box; /* Asegura que el padding no añada ancho extra */
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .footer-img {
@@ -292,6 +321,7 @@ nav ul li a:hover {
     min-width: 280px;
     max-width: 400px;
     font-size: 16px;
+    color: var(--color-texto-principal);
 }
 
 /* Formulario de la derecha */
@@ -299,7 +329,7 @@ nav ul li a:hover {
     flex: 1;
     min-width: 300px;
     max-width: 600px;
-    background-color: #f5f5f5;
+    background-color: var(--color-fondo-claro);
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
