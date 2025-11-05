@@ -17,6 +17,139 @@
     <link rel="shortcut icon" href="assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon" sizes="32x10">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.min.js"></script>
+
+
+    <style>
+        
+
+.modal-overlay {
+    display: none; /* OCULTO por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; /* Máximo z-index para cubrir todo */
+    overflow: auto; /* Permite scroll si el contenido es largo */
+}
+
+.modal-overlay.active {
+    display: flex; /* Muestra el modal */
+}
+
+
+.whatsapp-float-btn {
+    position: fixed;
+    bottom: 25px; 
+    right: 25px; 
+    width: 60px;
+    height: 60px;
+    background-color: #25D366; /* Color de WhatsApp */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 10000; /* Alto z-index para estar sobre el contenido */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-float-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Regla CRÍTICA para evitar el desbordamiento de la imagen */
+/* Usamos !important para anular cualquier estilo global que cause la imagen gigante */
+.whatsapp-float-btn img {
+    width: 35px !important; 
+    height: 35px !important;
+    filter: invert(1); /* Pone el icono blanco si la imagen original es verde/negra */
+    /* Asegúrate de que la ruta de la imagen en HTML sea correcta: 
+       <img src="assets/icons/whatsapp.png" alt="WhatsApp"> */
+}
+
+/* ========================================================= */
+/* ESTILOS DEL CONTENIDO DEL MODAL (whatsapp-modal-content) */
+/* ========================================================= */
+
+.whatsapp-modal-content {
+    max-width: 450px; 
+    width: 90%; /* Asegura que se vea bien en móvil */
+    padding: 25px;
+    /* Asegúrate de tener estilos para .modal-content general, como background-color */
+}
+
+.whatsapp-modal-content .modal-title {
+    color: var(--color-texto-principal);
+    margin-bottom: 15px;
+    font-size: 1.8em;
+}
+
+.whatsapp-modal-content p {
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.whatsapp-options {
+    display: flex;
+    flex-direction: column; 
+    gap: 25px;
+    align-items: center;
+}
+
+.whatsapp-qr-container {
+    text-align: center;
+}
+
+.whatsapp-qr-code {
+    width: 180px; 
+    height: 180px;
+    border: 1px solid var(--color-neutro, #ccc); /* Usar variable o un color sólido */
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.whatsapp-qr-container p {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #777;
+}
+
+/* Botón de Enlace Directo */
+.whatsapp-link-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #25D366; 
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.whatsapp-link-btn:hover {
+    background-color: #1DA851;
+    transform: translateY(-2px);
+}
+
+/* Botón de Cerrar (X) */
+.whatsapp-modal-close-btn {
+    color: #888;
+    cursor: pointer;
+    /* Ajusta posición si es necesario, si hereda de .modal-close-btn */
+}
+.whatsapp-modal-close-btn:hover {
+    color: #333;
+}
+    </style>
 </head>
 
 <body>
