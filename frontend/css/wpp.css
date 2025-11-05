@@ -3,13 +3,13 @@
 /* ========================================================= */
 
 .modal-overlay {
-    display: none; /* OCULTO por defecto */
+    display: none; 
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente */
+    background-color: rgba(0, 0, 0, 0.7); 
     justify-content: center;
     align-items: center;
     z-index: 99999; /* Alto z-index para cubrir toda la pantalla */
@@ -17,19 +17,30 @@
 }
 
 .modal-overlay.active {
-    display: flex; /* Muestra el modal al añadir la clase con JS */
+    display: flex !important; /* Forzar la visualización */
 }
 
-/* ESTILOS CRÍTICOS DEL CONTENIDO DEL MODAL */
-/* Esto define el tamaño y el fondo BLANCO para que el contenido sea visible */
+/* ========================================================= */
+/* ESTILOS DEL CONTENIDO DEL MODAL (.modal-content) */
+/* ESTAS SON LAS REGLAS CRÍTICAS QUE SE ESTÁN ANULANDO */
+/* ========================================================= */
+
 .modal-content {
-    background-color: white; /* <--- CORRECCIÓN CLAVE: AÑADIR FONDO BLANCO */
+    /* CRÍTICO 1: Fondo para que el contenido no sea transparente */
+    background-color: white !important; 
+    
+    /* CRÍTICO 2: Para que esté por encima del overlay */
+    position: relative !important; 
+    z-index: 100000 !important; /* Mayor que el z-index del overlay (99999) */
+    
+    /* CRÍTICO 3: Asegurar que no está oculto o transparente por otra regla */
+    opacity: 1 !important;
+    visibility: visible !important;
+    
+    /* Propiedades de diseño */
     border-radius: 10px;
     padding: 20px;
-    position: relative; 
-    z-index: 99999; /* Debe ser más alto que el overlay (99999) */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    max-width: 90%; /* Ajuste para móviles */
 }
 
 
@@ -59,11 +70,11 @@
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Regla CRÍTICA para evitar el desbordamiento de la imagen */
+/* Regla para evitar el desbordamiento de la imagen */
 .whatsapp-float-btn img {
     width: 35px !important; 
     height: 35px !important;
-    filter: invert(-1); /* Lo hice blanco (invert(1)) para el fondo verde */
+    filter: hue-rotate(); 
 }
 
 /* ========================================================= */
@@ -74,7 +85,7 @@
     max-width: 450px; 
     width: 90%;
     padding: 25px;
-    /* Ya hereda el background: white de .modal-content */
+    /* El fondo ya es blanco gracias a .modal-content */
 }
 
 .whatsapp-modal-content .modal-title {
