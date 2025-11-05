@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/eventos.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/wpp.css">
     <link rel="shortcut icon" href="assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
@@ -92,12 +93,52 @@
         </div>
     </div>
 
+    <div class="whatsapp-float-btn" id="whatsappFloatBtn">
+        <img src="assets/icons/whatsapp.png" alt="WhatsApp">
+    </div>
+
+    <div id="whatsappModal" class="modal-overlay">
+        <div class="modal-content whatsapp-modal-content">
+            <span class="modal-close-btn whatsapp-modal-close-btn">&times;</span>
+            
+            <h2 class="modal-title">Mantente siempre informado</h2>
+            
+            <div class="whatsapp-tabs-nav">
+                <button class="tab-button active" data-tab="qr">Escanear QR</button>
+                <button class="tab-button" data-tab="link">Abrir Enlace</button>
+            </div>
+
+            <div id="qr" class="tab-content active">
+                <p>Escanea el código QR para unirte a nuestro canal de difusión.</p>
+                <div class="whatsapp-qr-container">
+                    <img src="assets/img/qr-wpp.jpeg" alt="Código QR de WhatsApp" class="whatsapp-qr-code">
+                </div>
+            </div>
+
+            <div id="link" class="tab-content">
+                <p>Si estás en móvil, haz clic para acceder directamente al canal.</p>
+                
+                <div class="whatsapp-link-preview">
+                    <div class="preview-header">Punto Cultura Canal</div>
+                    <div class="preview-text">Únete al canal para recibir noticias y eventos.</div>
+                    <a href="https://whatsapp.com/channel/0029VbBaOBs4o7qKVzxE4W16" 
+                       target="_blank" 
+                       class="whatsapp-link-btn">
+                        Abrir WhatsApp
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
     <script src="js/config.js"></script>
     <script src="js/blurryNav.js"></script>
     <script src="js/eventos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
     <script src="js/menu.js"></script> 
+    <script src="js/wpp.js"></script>
 </body>
 
 </html>
