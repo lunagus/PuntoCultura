@@ -1,18 +1,16 @@
 /* frontend/css/eventos.css */
 
- Variables de color ya definidas:
 :root {
-    --color-primario: #004AAD;         // Azul institucional
-    --color-secundario: #E63946;       // Rojo cultural
-    --color-terciario: #F4A300;        // Amarillo cálido
-    --color-complementario: #008B6F;   // Verde natural
+    --color-primario: #004AAD;         
+    --color-secundario: #E63946;       
+    --color-terciario: #F4A300;      
+    --color-complementario: #008B6F;   
     --color-fondo-claro: #F7F9FB;
     --color-fondo-oscuro: #1E1E2F;
     --color-texto-principal: #212529;
     --color-texto-oscuro: #FFFFFF;
     --color-neutro: #E1E8ED;
-}
-
+} 
 
 * {
     margin: 0;
