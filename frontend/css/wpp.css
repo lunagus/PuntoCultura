@@ -27,7 +27,7 @@
     border-radius: 10px;
     padding: 20px;
     position: relative; 
-    z-index: 1; /* Debe ser más alto que el overlay (99999) */
+    z-index: 99999; /* Debe ser más alto que el overlay (99999) */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     max-width: 90%; /* Ajuste para móviles */
 }
