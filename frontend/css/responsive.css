@@ -8,12 +8,16 @@ body {
     line-height: 1.5;
 }
 
+/* LIMPIEZA: Ocultar o resetear estilos del carrusel 3D anterior */
 .carousel-3d-container {
-    max-width: 900px;
-    margin: 0 auto;
-    /* Añadido: Asegurar que la traslación y las tarjetas no se corten */
+    display: none !important;
+}
+
+.stack-slider-container {
+    max-width: 100%;
     overflow: visible; 
 }
+
 
 /* ------------------------------------------------------------------ */
 /* 2. Tablets (≤ 1024px) */
@@ -23,19 +27,22 @@ body {
         width: 95%; 
     }
     
-    /* 🚨 Ajuste del carrusel en tablets */
-    .carousel-3d-container {
-        max-width: 100%; 
-        /* Es crucial que el contenedor principal del carrusel no tenga overflow hidden */
-        overflow: visible; 
-        padding: 0 10px;
+    /* Ajuste del carrusel Stack Slider */
+    .stack-slider-section {
+        min-height: 350px; /* Reducción de altura */
     }
-    
-    .carousel-3d .card {
-        width: 280px; /* Tamaño ajustado para tabletas */
-        height: 240px;
+    .stack-slider-container {
+        max-width: 500px;
+        max-height: 350px;
+    }
+    .cards .card {
+        width: 70%; /* Mayor ancho para tarjetas */
+    }
+    .events-player {
+        max-width: 95%;
     }
 
+    /* Sección Calendario/Videos */
     .calendario-video-grid {
         grid-template-columns: 1fr; 
         gap: 32px;
@@ -43,6 +50,8 @@ body {
     .video-box {
         height: 400px; 
     }
+    
+    /* Sección Hero */
     .hero_content h1 {
         font-size: 2.5rem; 
     }
@@ -50,9 +59,34 @@ body {
         font-size: 1.3rem; 
     }
     .hero_content p {
-        width: 90%; 
+        width: 95%;
     }
-    .card {
+
+    /* Footer */
+    .footer {
+        height: auto;
+        padding: 20px 0;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .footer-img, .footer-datos, .footer-social {
+        width: 90%;
+        text-align: center;
+        align-items: center;
+    }
+
+    .footer-img {
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .footer-img img {
+        height: 50px;
+    }
+
+    /* information cards */
+    .card { /* Tarjetas de information-cards */
         width: 45%; 
     }
 }
@@ -62,15 +96,25 @@ body {
 /* ------------------------------------------------------------------ */
 @media (max-width: 768px) {
     
-    /* 🚨 Ajuste crucial del carrusel en móviles */
-    .carousel-3d-container {
-        padding: 0;
-        overflow: visible; /* Mantener visible para que el centrado funcione */
+    /* Menú Hamburguesa */
+    .nav-links {
+        display: none; 
     }
-    
-    .carousel-3d .card {
-        width: 250px; 
-        height: 200px;
+
+    /* Ajuste crucial del carrusel en móviles */
+    .stack-slider-section {
+        min-height: 300px; 
+    }
+    .stack-slider-container {
+        max-width: 350px;
+        max-height: 300px;
+    }
+    .cards .card {
+        width: 80%; /* Más ancho para tarjetas */
+    }
+    .events-player {
+        min-width: 100%;
+        max-width: 95%;
     }
     
     /* Centrado de elementos */
@@ -88,7 +132,7 @@ body {
     .hero_content p {
         width: 100%;
     }
-
+    
     /* Footer */
     .footer {
         flex-direction: column; 
@@ -117,25 +161,70 @@ body {
     .footer-social h3 { 
         font-size: 1rem;
     }
+
+    /* information cards */
+    .card { /* Tarjetas de information-cards */
+        width: 100%; 
+    }
+
+    /* Calendario/Videos */
+    .video-box {
+        height: 300px; 
+    }
 }
 
 /* ------------------------------------------------------------------ */
 /* 4. Pantallas pequeñas (≤ 480px) */
 /* ------------------------------------------------------------------ */
 @media (max-width: 480px) {
+    .header nav {
+        width: 98%;
+        padding: 0 5px;
+    }
+    .logo img {
+        height: 35px;
+    }
+
     .hero_content h1 {
         font-size: 1.8rem;
     }
     .hero_content h2 {
         font-size: 1rem;
     }
-    .card {
-        width: 100%; 
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
     }
+
+    /* Carrusel muy pequeño */
+    .stack-slider-section {
+        min-height: 250px; 
+    }
+    .stack-slider-container {
+        max-height: 250px;
+    }
+    .cards .card {
+        width: 90%; 
+    }
+
+    .events-player {
+        min-width: 95%;
+        padding: 12px 8px;
+    }
+    .event-info-item .title {
+        font-size: 13px;
+        line-height: 18px;
+    }
+    .subtitle, .time {
+        font-size: 11px;
+    }
+    
+    /* information cards */
     .information-cards {
         flex-direction: column;
         gap: 15px;
     }
+    
     .footer-img img {
         width: 35px; 
     }

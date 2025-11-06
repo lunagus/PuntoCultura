@@ -128,7 +128,9 @@ nav ul li a:hover {
     background: var(--color-complementario); 
     transition: 0.1s;
 }
-#calendario-video {
+
+/* Nota: La sección #calendario-video fue renombrada a #iframe en el HTML del usuario */
+#iframe {
     padding: 40px 20px;
 }
 
@@ -210,7 +212,7 @@ nav ul li a:hover {
 }
 
 /* ==================================================== */
-/* INICIO: SECCIÓN CARRUSEL (FINAL)                   */
+/* INICIO: SECCIÓN CARRUSEL (STACK SLIDER) */
 /* ==================================================== */
 
 .carousel-section {
@@ -220,133 +222,208 @@ nav ul li a:hover {
     align-items: center;
     margin-top: 40px;
     margin-bottom: 40px;
-    height: auto;
+    height: 400px; 
     position: relative;
-    
-    /* Importante para contener el contenido horizontalmente */
     padding: 0 10px; 
-    /* CRUCIAL: Previene el scroll horizontal sin cortar las tarjetas visibles */
-    overflow-x: hidden; 
+    overflow-x: hidden; /* Oculta el scroll horizontal */
 }
 
-.carousel-3d-container {
-    width: 100%;
-    max-width: 1200px; 
-    margin: 0 auto;
-    position: relative;
-    padding: 0; 
-    box-sizing: border-box;
-    /* Aseguramos que el contenedor no corte el contenido */
-    overflow: visible; 
-}
-
-.carousel-3d {
+/* Base del contenedor (simula el 'body' del ejemplo para centrado) */
+.stack-slider-section {
     display: flex;
-    justify-content: flex-start; 
     align-items: center;
-    gap: 20px;
-    /* CRUCIAL: Aplica la traslación calculada por JS y la animación */
-    transition: transform 0.5s ease-in-out; 
-    transform: translateX(var(--current-x, 0)); 
-    will-change: transform; 
+    justify-content: center;
+    min-height: 400px; 
+    padding: 30px 10px;
+    background-color: var(white); 
+    transition: background .4s ease-in;
 }
 
-.carousel-3d .card {
-    width: 300px;
-    height: 260px;
-    flex-shrink: 0;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 0 12px rgba(0,0,0,0.2);
-    /* Estilo base (tarjetas lejanas/far) */
-    transform: scale(0.8);
-    opacity: 0.3;
-    /* CRUCIAL: Transición suave para el efecto 3D */
-    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out; 
-    cursor: pointer;
+/* Contenedor principal del carrusel */
+.stack-slider-container {
+    width: 100%;
+    max-width: 600px; 
+    max-height: 400px;
+    height: 100%;
+    transform-style: preserve-3d;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Contenedor de las tarjetas */
+.events-cards {
     position: relative;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 20px;
 }
 
-/* Estilos para el overlay del título */
-.carousel-3d .card .card-overlay {
+/* Ocultar los radio inputs (que se inyectan en el .stack-slider-container) */
+.stack-slider-container input[type=radio] {
+    display: none;
+}
+
+/* Estilo base de la tarjeta (label) */
+.cards .card { 
+    position: absolute;
+    width: 55%; /* Ancho de la tarjeta */
+    height: 110%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transition: transform .4s ease, opacity .4s ease;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.cards .card img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+    transition: box-shadow .4s ease;
+}
+
+/* Lógica de Transformación CSS (¡CRUCIAL para hasta 5 elementos!) */
+
+/* Tarjeta en posición izquierda (anterior) */
+#item-1:checked ~ .cards #event-card-3, 
+#item-2:checked ~ .cards #event-card-1, 
+#item-3:checked ~ .cards #event-card-2,
+#item-4:checked ~ .cards #event-card-3, 
+#item-5:checked ~ .cards #event-card-4,
+#item-1:checked ~ .cards #event-card-5,
+#item-2:checked ~ .cards #event-card-5,
+#item-3:checked ~ .cards #event-card-5 {
+    transform: translatex(-40%) scale(.8);
+    opacity: .8; /* AUMENTADO para ser más sólida */
+    z-index: 0;
+}
+
+/* Tarjeta en posición derecha (siguiente) */
+#item-1:checked ~ .cards #event-card-2, 
+#item-2:checked ~ .cards #event-card-3, 
+#item-3:checked ~ .cards #event-card-4,
+#item-4:checked ~ .cards #event-card-5, 
+#item-5:checked ~ .cards #event-card-1,
+#item-4:checked ~ .cards #event-card-1,
+#item-5:checked ~ .cards #event-card-2 {
+    transform: translatex(40%) scale(.8);
+    opacity: .8; /* AUMENTADO para ser más sólida */
+    z-index: 0;
+}
+
+
+/* Tarjeta Central (Activa) */
+#item-1:checked ~ .cards #event-card-1, 
+#item-2:checked ~ .cards #event-card-2, 
+#item-3:checked ~ .cards #event-card-3,
+#item-4:checked ~ .cards #event-card-4, 
+#item-5:checked ~ .cards #event-card-5 {
+    transform: translatex(0) scale(1);
+    opacity: 1;
+    z-index: 10; /* CORREGIDO: Valor alto para que se vea siempre por encima. */
+}
+
+/* Estilo para la tarjeta activa (sombra) */
+#item-1:checked ~ .cards #event-card-1 img, 
+#item-2:checked ~ .cards #event-card-2 img, 
+#item-3:checked ~ .cards #event-card-3 img,
+#item-4:checked ~ .cards #event-card-4 img, 
+#item-5:checked ~ .cards #event-card-5 img {
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.4);
+}
+
+/* INICIO: Nuevos estilos para el Overlay de texto */
+.card-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
-    color: var(--color-texto-oscuro);
-    padding: 15px 10px 10px;
+    /* Altura completa con degradado en el fondo */
+    height: 100%; 
+    display: flex; /* Habilita Flexbox para centrar */
+    flex-direction: column;
+    justify-content: flex-end; /* Alinea el texto en la parte inferior */
+    align-items: center;
     text-align: center;
-    font-size: 1.1em;
-    font-weight: bold;
-    transform: translateY(100%);
-    transition: transform 0.3s ease-out;
+    padding: 15px;
+    
+    /* Degradado oscuro en la parte inferior para mejorar la lectura del texto */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 60%);
+    border-radius: 10px; /* Coincide con el borde de la tarjeta */
+    z-index: 5; /* Asegura que esté sobre la imagen */
+    transition: opacity 0.4s ease; /* Permite la transición de visibilidad del texto */
 }
 
-/* Mostrar el overlay cuando la tarjeta está activa o en hover */
-.carousel-3d .card.active .card-overlay,
-.carousel-3d .card:hover .card-overlay {
-    transform: translateY(0%);
+.card-overlay h3 {
+    color: var(--color-texto-oscuro); /* Blanco */
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); /* Sombra para mejor lectura */
 }
 
-/* Clase para tarjetas justo antes y después del centro */
-.carousel-3d .card.prev,
-.carousel-3d .card.next {
-    transform: scale(0.9);
-    opacity: 0.6;
+.card-overlay p {
+    color: lightgray;
+    font-size: 0.85rem;
+    margin-bottom: 0;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+/* FIN: Nuevos estilos para el Overlay de texto */
+
+/* INICIO: Solución para ocultar el texto en tarjetas no activas */
+#item-1:checked ~ .cards #event-card-2 .card-overlay,
+#item-1:checked ~ .cards #event-card-3 .card-overlay,
+#item-1:checked ~ .cards #event-card-4 .card-overlay,
+#item-1:checked ~ .cards #event-card-5 .card-overlay,
+
+#item-2:checked ~ .cards #event-card-1 .card-overlay,
+#item-2:checked ~ .cards #event-card-3 .card-overlay,
+#item-2:checked ~ .cards #event-card-4 .card-overlay,
+#item-2:checked ~ .cards #event-card-5 .card-overlay,
+
+#item-3:checked ~ .cards #event-card-1 .card-overlay,
+#item-3:checked ~ .cards #event-card-2 .card-overlay,
+#item-3:checked ~ .cards #event-card-4 .card-overlay,
+#item-3:checked ~ .cards #event-card-5 .card-overlay,
+
+#item-4:checked ~ .cards #event-card-1 .card-overlay,
+#item-4:checked ~ .cards #event-card-2 .card-overlay,
+#item-4:checked ~ .cards #event-card-3 .card-overlay,
+#item-4:checked ~ .cards #event-card-5 .card-overlay,
+
+#item-5:checked ~ .cards #event-card-1 .card-overlay,
+#item-5:checked ~ .cards #event-card-2 .card-overlay,
+#item-5:checked ~ .cards #event-card-3 .card-overlay,
+#item-5:checked ~ .cards #event-card-4 .card-overlay {
+    opacity: 0; /* Oculta el texto de la tarjeta no activa, previniendo el filtrado */
+}
+/* FIN: Solución para ocultar el texto en tarjetas no activas */
+
+
+/* Estilos de limpieza: Desaparición del cuadro inferior de información */
+.events-player, .upper-part, .play-icon, .events-info-area, .event-info-item {
+    display: none !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
-/* Clase para la tarjeta activa (centrada) */
-.carousel-3d .card.active {
-    transform: scale(1);
-    opacity: 1;
-    box-shadow: 0 0 12px rgba(0,0,0,0.3);
-}
-
-/* Clase para tarjetas que están muy lejos, usan el estilo base */
-.carousel-3d .card.far {
-    transform: scale(0.8);
-    opacity: 0.3;
-}
-
-
-.carousel-3d .card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Ocultamos los botones de flecha (si se mantienen en el HTML) */
-.carousel-btn {
-    display: none !important; 
-}
-
-/* Estilos para la paginación de puntos */
-.carousel-pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px; 
-    width: 100%;
-}
-
-.pagination-dot {
-    height: 10px;
-    width: 10px;
-    margin: 0 5px;
-    background-color: var(--color-neutro); 
-    border-radius: 50%;
-    display: inline-block;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.pagination-dot.active {
-    background-color: var(--color-primario); 
-    transform: scale(1.2); 
+/* Estilos de limpieza del carrusel 3D anterior (ocultar) */
+.carousel-3d-container, .carousel-3d, .carousel-pagination {
+    display: none !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 /* ==================================================== */
-/* FIN: SECCIÓN CARRUSEL                                */
+/* FIN: SECCIÓN CARRUSEL */
 /* ==================================================== */
 
 
@@ -421,7 +498,7 @@ nav ul li a:hover {
     gap: 20px;
 }
 
-.card {
+.card { /* Este es el estilo de la tarjeta de information, NO del carrusel Stack */
     display: flex;
     width: 30%;
     height: 80px;

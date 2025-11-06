@@ -1,16 +1,13 @@
 // frontend/js/carrusel.js
-// Este script gestiona un carrusel 3D de bucle infinito (circular),
-// con centrado dinámico de la tarjeta activa y paginación de puntos.
+// Script de Carrusel Stack Slider (Basado en Radio Inputs y CSS).
 
-const carousel = document.querySelector(".carousel-3d"); 
-const paginationContainer = document.querySelector(".carousel-pagination"); 
-let cards = []; 
+const carouselSection = document.querySelector(".stack-slider-section");
+const carouselContainer = document.querySelector(".stack-slider-container");
+const cardsContainer = document.querySelector(".events-cards"); 
+let eventsData = []; 
 let currentIndex = 0; 
 let interval; 
 
-/**
- * Muestra el modal del evento al hacer clic en la tarjeta activa.
- */
 function showEventModal(evento) {
     if (typeof window.showEventModal === 'function') {
         window.showEventModal(evento);
@@ -19,216 +16,136 @@ function showEventModal(evento) {
     }
 }
 
-/**
- * Carga eventos desde la API, los filtra y los renderiza en el carrusel,
- * creando también los puntos de paginación.
- */
+function nextSlide() {
+    if (eventsData.length === 0) return;
+    currentIndex = (currentIndex + 1) % eventsData.length;
+    updateInputs();
+}
+
+function updateInputs() {
+    if (eventsData.length === 0) return;
+    
+    // Deschequea y chequea el input correcto para activar la transición CSS
+    const targetId = `item-${currentIndex + 1}`;
+    const targetInput = document.getElementById(targetId);
+    
+    if (targetInput) {
+        targetInput.checked = true;
+    }
+}
+
+
+function startAutoSlide() {
+    stopAutoSlide(); 
+    // Intervalo de 3 segundos para la transición
+    interval = setInterval(nextSlide, 3000); 
+}
+
+function stopAutoSlide() {
+    clearInterval(interval); 
+}
+
 async function loadEventsForCarousel() {
-    if (!carousel) {
-        console.warn("Elemento del carrusel no encontrado.");
+    if (!carouselContainer || !cardsContainer) {
+        console.warn("Contenedores del carrusel no encontrados.");
         return;
     }
-
+    cardsContainer.innerHTML = ''; // Limpiar tarjetas
+    // Limpiar radio inputs antiguos
+    carouselContainer.querySelectorAll('input[type="radio"]').forEach(input => input.remove()); 
+    
     try {
-        // Asume que window.API_BASE_URL está definido en config.js
-        const response = await fetch(`${window.API_BASE_URL}/api/eventos/`);
+        // Asumiendo que window.API_BASE_URL está definido globalmente (e.g., en config.js)
+        const response = await fetch(`${window.API_BASE_URL}/api/eventos/`); 
         if (!response.ok) {
             throw new Error(`Error HTTP! estado: ${response.status}`);
         }
         const data = await response.json();
 
         const now = new Date(); 
-        // Filtra los eventos vigentes y selecciona los 5 más recientes.
         const recentEvents = data
+            // Filtra eventos que terminan o empiezan hoy/futuro y están publicados
             .filter(evento => new Date(evento.fecha_fin || evento.fecha_inicio) >= now && evento.publicado)
-            .sort((a, b) => new Date(b.fecha_inicio) - new Date(a.fecha_inicio))
+            // Ordena por fecha de inicio (más próximo primero)
+            .sort((a, b) => new Date(a.fecha_inicio) - new Date(b.fecha_inicio))
+            // Limita a los 5 eventos más próximos
             .slice(0, 5); 
-
-        carousel.innerHTML = ''; 
-        if (paginationContainer) paginationContainer.innerHTML = '';
         
-        if (recentEvents.length === 0) {
-            carousel.innerHTML = '<p style="color:white; text-align:center; padding: 20px;">No hay eventos recientes para mostrar en el carrusel.</p>';
+        eventsData = recentEvents; // Almacenar los datos filtrados
+
+        if (eventsData.length === 0) {
+            carouselContainer.innerHTML = '<p style="text-align:center; padding: 20px; color: black;">No hay eventos próximos.</p>';
             return;
         }
 
-        // 1. Renderizado de las tarjetas y creación de puntos
-        recentEvents.forEach((evento, index) => {
-            const card = document.createElement('div');
-            card.className = 'card';
+        eventsData.forEach((evento, index) => {
+            const id = index + 1;
             
+            // 1. Crear el Input Radio (Controlador del carrusel)
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = 'slider';
+            input.id = `item-${id}`;
+            if (index === 0) input.checked = true;
+
+            input.addEventListener('change', () => {
+                if (input.checked) {
+                    currentIndex = index;
+                }
+                startAutoSlide(); // Reinicia el autoslide al cambiar manualmente
+            });
+            // Inserta el input antes del contenedor de tarjetas
+            carouselContainer.insertBefore(input, cardsContainer);
+
+
+            // 2. Crear la Tarjeta (Label)
+            const card = document.createElement('label');
+            card.className = 'card';
+            card.htmlFor = `item-${id}`;
+            card.id = `event-card-${id}`;
+            
+            // Formatear la fecha
+            const fechaInicio = new Date(evento.fecha_inicio).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' });
+            const fechaFin = evento.fecha_fin ? new Date(evento.fecha_fin).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' }) : null;
+            const fecha = fechaFin && fechaFin !== fechaInicio ? `${fechaInicio} - ${fechaFin}` : fechaInicio;
+            
+            // 3. INYECTAR EL HTML CON EL OVERLAY (Título Centrado)
+            // *** CORRECCIÓN CLAVE: Usamos evento.imagen para la URL ***
             card.innerHTML = `
-                <img src="${evento.imagen || 'assets/img/feria-del-libro.jpg'}" alt="${evento.titulo}" />
+                <img src="${evento.imagen || 'assets/img/default.jpg'}" alt="${evento.titulo}">
                 <div class="card-overlay">
                     <h3>${evento.titulo}</h3>
+                    <p>${evento.centro_cultural ? evento.centro_cultural.nombre : 'Sin lugar'} - ${fecha}</p>
                 </div>
             `;
             
-            card.dataset.evento = JSON.stringify(evento); 
-            
-            // Permite abrir el modal solo si la tarjeta es la activa, si no, la centra
-            card.addEventListener('click', () => {
-                if (card.classList.contains('active')) {
-                    showEventModal(evento);
-                } else {
-                    // Navega a la tarjeta si se hace clic en una no activa
-                    currentIndex = index;
-                    updateCarousel();
-                    startAutoSlide(); // Reinicia el auto-slide
-                }
+            // Agregar listener para mostrar modal al hacer clic en el overlay de texto
+            card.addEventListener('click', (e) => {
+                 // Usamos un pequeño delay para que la transición de radio input se complete si no estaba activa.
+                 setTimeout(() => {
+                    // Solo abre el modal si es la tarjeta activa
+                    if (document.getElementById(`item-${id}`).checked) {
+                        showEventModal(evento);
+                    }
+                 }, 50);
             });
 
-            carousel.appendChild(card); 
-
-            // Creación del punto de paginación
-            const dot = document.createElement('span');
-            dot.className = 'pagination-dot';
-            dot.dataset.index = index; 
-            
-            // Asigna la navegación al hacer clic en el punto
-            dot.addEventListener('click', () => {
-                currentIndex = index; 
-                updateCarousel(); 
-                startAutoSlide(); 
-            });
-            
-            if (paginationContainer) paginationContainer.appendChild(dot);
+            cardsContainer.appendChild(card);
         });
 
-        cards = carousel.querySelectorAll(".card");
-        if (cards.length > 0) {
-            currentIndex = 0; 
-            updateCarousel(); // <-- CRUCIAL: Centrado y activación inicial
-            startAutoSlide(); 
-        }
-
+        // Eventos para pausar/reanudar el slide en hover
+        carouselContainer.addEventListener("mouseenter", stopAutoSlide);
+        carouselContainer.addEventListener("mouseleave", startAutoSlide);
+        
+        currentIndex = 0; 
+        startAutoSlide(); // Inicia el auto-slide
+        
     } catch (error) {
         console.error('Error al cargar eventos para el carrusel:', error);
-        if (carousel) {
-            carousel.innerHTML = '<p style="color:red; text-align:center; padding: 20px;">Error al cargar eventos del carrusel.</p>';
+        if (carouselContainer) {
+            carouselContainer.innerHTML = '<p style="color:red; text-align:center; padding: 20px;">Error al cargar eventos del carrusel.</p>';
         }
     }
 }
-
-/**
- * Actualiza las clases CSS (para el efecto 3D), y calcula el centrado horizontal.
- */
-function updateCarousel() {
-    if (cards.length === 0) return; 
-    
-    const totalCards = cards.length;
-
-    // 1. Aplicar clases de efecto (active, prev, next, far)
-    cards.forEach((card, index) => {
-        card.classList.remove("prev", "active", "next", "far"); 
-        
-        // Lógica de índices circulares
-        const prevIndex = (currentIndex - 1 + totalCards) % totalCards;
-        const nextIndex = (currentIndex + 1) % totalCards;
-
-        if (index === currentIndex) {
-            card.classList.add("active");
-        } else if (index === prevIndex) {
-            card.classList.add("prev");
-        } else if (index === nextIndex) {
-            card.classList.add("next");
-        } else {
-            // El resto de tarjetas lejanas
-            card.classList.add("far");
-        }
-    });
-
-    // 2. LÓGICA DE CENTRADO DINÁMICO (Traslación horizontal)
-    if (cards[currentIndex]) {
-        const activeCard = cards[currentIndex];
-        
-        // Usamos un valor de respaldo (300) si offsetWidth no está listo (que suele ser el problema)
-        const cardWidth = activeCard.offsetWidth || 300; 
-        const gap = 20; // Debe coincidir con el gap en index.css
-        
-        // Posición del borde izquierdo de la tarjeta activa: Índice * (Ancho + Gap)
-        const activeCardOffsetLeft = currentIndex * (cardWidth + gap);
-
-        // Centro de la tarjeta activa
-        const centerPositionOfActiveCard = activeCardOffsetLeft + (cardWidth / 2);
-        
-        // Centro visual del contenedor visible (carousel-3d-container)
-        const containerCenter = carousel.parentElement.offsetWidth / 2;
-
-        // Traslación requerida: Centro del contenedor - Centro de la tarjeta
-        const requiredTranslation = containerCenter - centerPositionOfActiveCard;
-
-        // Aplica la traslación al carrusel usando la variable CSS --current-x
-        carousel.style.setProperty('--current-x', `${requiredTranslation}px`);
-    }
-
-    // 3. Actualiza los puntos de paginación
-    const dots = document.querySelectorAll(".pagination-dot");
-    dots.forEach((dot, index) => {
-        dot.classList.remove("active");
-        if (index === currentIndex) {
-            dot.classList.add("active");
-        }
-    });
-}
-
-/**
- * Avanza el carrusel a la siguiente tarjeta (movimiento circular).
- */
-function nextSlide() {
-    if (cards.length === 0) return;
-    // El módulo (%) garantiza el loop infinito
-    currentIndex = (currentIndex + 1) % cards.length; 
-    updateCarousel(); 
-}
-
-/**
- * Retrocede el carrusel a la tarjeta anterior (movimiento circular).
- */
-function prevSlide() {
-    if (cards.length === 0) return;
-    // Lógica para retroceder con módulo circular
-    currentIndex = (currentIndex - 1 + cards.length) % cards.length; 
-    updateCarousel(); 
-}
-
-/**
- * Inicia el auto-slide.
- */
-function startAutoSlide() {
-    stopAutoSlide(); 
-    interval = setInterval(nextSlide, 3000); // Mueve cada 3 segundos
-}
-
-/**
- * Detiene el auto-slide.
- */
-function stopAutoSlide() {
-    clearInterval(interval); 
-}
-
-// Event listeners para detener/reanudar el auto-slide y navegación con botones (si existen)
-if (carousel) {
-    carousel.addEventListener("mouseenter", stopAutoSlide);
-    carousel.addEventListener("mouseleave", startAutoSlide);
-
-    const prevBtn = document.querySelector('.carousel-btn.prev');
-    const nextBtn = document.querySelector('.carousel-btn.next');
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            prevSlide();
-            startAutoSlide();
-        });
-    }
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            nextSlide();
-            startAutoSlide();
-        });
-    }
-}
-
-// Maneja el centrado cuando se redimensiona la ventana (esencial para responsive)
-window.addEventListener('resize', updateCarousel);
 
 document.addEventListener('DOMContentLoaded', loadEventsForCarousel);
