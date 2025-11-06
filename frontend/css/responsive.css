@@ -1,6 +1,6 @@
 /* =======================
-   Responsive Styles
-   ======================= */
+    Responsive Styles
+    ======================= */
 
 /* 1. Ajustes generales */
 body {
@@ -8,7 +8,7 @@ body {
     line-height: 1.5;
 }
 
-/* LIMPIEZA: Ocultar o resetear estilos del carrusel 3D anterior */
+/* LIMPIEZA: Ocultar o resetear estilos del carrusel 3D anterior si existen */
 .carousel-3d-container {
     display: none !important;
 }
@@ -29,14 +29,14 @@ body {
     
     /* Ajuste del carrusel Stack Slider */
     .stack-slider-section {
-        min-height: 350px; /* Reducción de altura */
+        min-height: 350px; 
     }
     .stack-slider-container {
         max-width: 500px;
         max-height: 350px;
     }
     .cards .card {
-        width: 70%; /* Mayor ancho para tarjetas */
+        width: 70%; 
     }
     .events-player {
         max-width: 95%;
@@ -86,7 +86,7 @@ body {
     }
 
     /* information cards */
-    .card { /* Tarjetas de information-cards */
+    .card { 
         width: 45%; 
     }
 }
@@ -101,36 +101,46 @@ body {
         display: none; 
     }
 
-    /* Ajuste crucial del carrusel en móviles */
-    .stack-slider-section {
-        min-height: 300px; 
-    }
-    .stack-slider-container {
-        max-width: 350px;
-        max-height: 300px;
-    }
-    .cards .card {
-        width: 90%; /* Más ancho para tarjetas */
-    }
-    .events-player {
-        min-width: 100%;
-        max-width: 95%;
-    }
-    
-    /* Centrado de elementos */
-    .hero_content {
-        align-items: center;
-        text-align: center;
+    /* === ARREGLO CRÍTICO DE COLUMNAS (Facebook/Promociones) === */
+    #facebook-promo-grid {
+        display: flex;
+        flex-direction: column; /* Apila las columnas (Facebook y Promociones) */
+        padding: 0 15px; 
+        gap: 30px; 
     }
 
-    .hero_content h1 {
-        font-size: 2rem;
-    }
-    .hero_content h2 {
-        font-size: 1.1rem;
-    }
-    .hero_content p {
+    /* Asegura que las columnas ocupen todo el ancho y CORRIGE SUPERPOSICIÓN */
+    #facebook-col,
+    #promociones-col {
         width: 100%;
+        margin-bottom: 30px; 
+        /* CRÍTICO: Estas reglas aseguran que las columnas sigan el flujo normal del documento. */
+        position: static !important; 
+        float: none !important;
+    }
+    .video-box, #facebook-col > div { 
+    /* El contenedor del iframe debe tener una altura y desbordamiento definidos */
+    height: auto !important;
+    min-height: 350px; /* Asegura un tamaño mínimo visible para el iframe */
+    overflow: hidden !important; /* Evita que el iframe se "salga" de su contenedor */
+    width: 100% !important;
+}
+    
+    /* Ajustar el contenedor de las tarjetas */
+    .cards-wrapper {
+        display: flex; /* Cambiamos de grid a flex para apilar (1 columna) */
+        flex-direction: column; 
+        align-items: center;
+        gap: 20px; 
+    }
+
+    /* Ajuste del tamaño y comportamiento de las tarjetas */
+    .card.card-promo {
+        width: 90% !important; 
+        max-width: 400px;
+        height: auto !important; 
+        min-height: 200px;
+        transform: none !important; 
     }
     
     /* Footer */
@@ -141,91 +151,41 @@ body {
         height: auto; 
         padding: 20px 0;
     }
-    .footer-img {
-        width: 100%; 
-        justify-content: center; 
-        gap: 20px;
-    }
-    .footer-img img {
-        width: 50px; 
-        margin-bottom: 10px;
-    }
-    .footer-datos {
-        width: 100%; 
-        text-align: center; 
-        align-items: center; 
-    }
-    .footer-social {
-        justify-content: center; 
-    }
-    .footer-social h3 { 
-        font-size: 1rem;
-    }
-
-    /* information cards */
-    .card { /* Tarjetas de information-cards */
-        width: 100%; 
-    }
-
-    /* Calendario/Videos */
-    .video-box {
-        height: 300px; 
-    }
+    
 }
 
 /* ------------------------------------------------------------------ */
-/* 4. Pantallas pequeñas (≤ 480px) */
+/* 4. Pantallas muy pequeñas (≤ 480px) */
 /* ------------------------------------------------------------------ */
 @media (max-width: 480px) {
-    .header nav {
-        width: 98%;
-        padding: 0 5px;
-    }
-    .logo img {
-        height: 35px;
+    
+    /* Tarjetas promocionales (Ocupan todo el ancho disponible) */
+    .card.card-promo {
+        width: 100% !important; 
+        max-width: none !important;
     }
 
+    /* Ajuste de título */
+    .promocion-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+    
+    /* Altura del reproductor de video/Facebook */
+    .video-box {
+        height: 300px;
+    }
+    
+    /* Hero Section */
     .hero_content h1 {
-        font-size: 1.8rem;
+        font-size: 2rem; 
     }
     .hero_content h2 {
-        font-size: 1rem;
-    }
-    .btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-
-    /* Carrusel muy pequeño */
-    .stack-slider-section {
-        min-height: 250px; 
-    }
-    .stack-slider-container {
-        max-height: 250px;
-    }
-    .cards .card {
-        width: 90%; 
-    }
-
-    .events-player {
-        min-width: 95%;
-        padding: 12px 8px;
-    }
-    .event-info-item .title {
-        font-size: 13px;
-        line-height: 18px;
-    }
-    .subtitle, .time {
-        font-size: 11px;
+        font-size: 1.1rem; 
     }
     
-    /* information cards */
-    .information-cards {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
+    /* Footer: ajustar imágenes si es necesario */
     .footer-img img {
-        width: 35px; 
+        height: 40px;
     }
 }

@@ -3,7 +3,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const iframe = document.getElementById('facebook-iframe');
     
-    // ⚠️ Importante: Verifica si el iframe existe antes de intentar recargar.
     if (!iframe) {
         console.warn("No se encontró el iframe con ID 'facebook-iframe'. La recarga automática está desactivada.");
         return;

@@ -1,10 +1,8 @@
-/* promocionales.css */
-
 :root {
-    --color-primario: #004AAD;           /* Azul institucional */
-    --color-secundario: #E63946;         /* Rojo cultural */
-    --color-terciario: #F4A300;          /* Amarillo cálido */
-    --color-complementario: #008B6F;     /* Verde natural */
+    --color-primario: #004AAD;
+    --color-secundario: #E63946;
+    --color-terciario: #F4A300;
+    --color-complementario: #008B6F;
     --color-fondo-claro: #F7F9FB;
     --color-fondo-oscuro: #1E1E2F;
     --color-texto-principal: #212529;
@@ -16,7 +14,6 @@
 /* ESTILOS PARA LA SECCIÓN DE TARJETAS PROMOCIONALES */
 /* ==================================================== */
 
-/* Estilo para el título de la sección de promociones */
 .promocion-title {
     color: var(--color-fondo-oscuro);
     margin-bottom: 40px;
@@ -24,16 +21,16 @@
     text-align: center;
 }
 
-/* Contenedor principal para centrar las 3 tarjetas */
 .cards-wrapper {
     display: grid; 
     grid-template-columns: repeat(2, 1fr); 
     gap: 20px;
     width: 100%;
+    max-width: 900px; 
     margin: 0 auto;
+    padding: 0 10px;
 }
 
-/* Clase de utilidad para centrar elementos internos en la tarjeta */
 .center-card-element {
     position: absolute;
     top: 50%;
@@ -43,7 +40,8 @@
 
 .card.card-promo {
     width: 100%; 
-    height: 300px; 
+    height: auto; /* <--- CAMBIO: Altura flexible */
+    min-height: 300px; /* <--- AÑADIDO: Altura mínima para evitar que se vea alargada */
     position: relative;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -51,22 +49,34 @@
     margin: 0; 
     overflow: hidden; 
     margin: 0 auto; 
+    cursor: pointer;
 }
 
-
+/* Estilo específico para la tercera tarjeta, que ocupa el ancho completo en el grid */
 .card.card-promo:nth-child(3) {
     grid-column: 1 / -1; 
     max-width: calc(50% - 10px); 
     justify-self: center; 
 }
 
-
 .card.card-promo:hover {
     transform: scale(1.03);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
 }
 
-/* General Content */
+/* --- ESTILO PARA ACTIVAR EL HOVER CON CLIC EN DISPOSITIVOS TÁCTILES --- */
+/* Estas reglas se aplican cuando JS añade la clase .flipped */
+.card.card-promo.flipped .general {
+    opacity: 0;
+    transform: scale(0.9);
+    pointer-events: none;
+}
+
+.card.card-promo.flipped .additional {
+    opacity: 1;
+}
+
+/* --- ESTILO DE LA VISTA GENERAL (FRONTAL) --- */
 .card.card-promo .general {
     position: absolute;
     top: 0;
@@ -81,17 +91,18 @@
     text-align: center;
     background: var(--color-fondo-claro);
     transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    box-sizing: border-box;
 }
 
 .card.card-promo:hover .general {
     opacity: 0;
     transform: scale(0.9);
+    pointer-events: none;
 }
 
 .card.card-promo .general h1 {
     font-size: 1.5rem;
     color: var(--color-primario);
-    margin-bottom: 0.5rem;
 }
 
 .card.card-promo .general p {
@@ -108,7 +119,7 @@
     bottom: 15px;
 }
 
-/* Additional Content (Hover) */
+/* --- ESTILO DE LA VISTA AL HACER HOVER (REVERSO) --- */
 .card.card-promo .additional {
     position: absolute;
     top: 0;
@@ -119,40 +130,39 @@
     transition: opacity 0.4s ease-out;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Alinea el contenido verticalmente al centro */
-    align-items: center;     /* Alinea el contenido horizontalmente al centro */
+    justify-content: center; 
+    align-items: center; 
     text-align: center;
     padding: 1.5rem;
-    color: var(--color-texto-oscuro); /* Color de texto general para el hover */
+    color: var(--color-texto-oscuro); 
+    box-sizing: border-box;
 }
 
 .card.card-promo:hover .additional {
     opacity: 1;
 }
 
-/* Default Theme: Red */
+/* Temas de Fondo (Colores) */
 .card.card-promo .additional {
-    background: linear-gradient(135deg, var(--color-secundario) 0%, #D4303B 100%);
+    background: linear-gradient(135deg, var(--color-complementario) 0%, var(--color-complementario) 100%);
 }
 
-/* Green Theme */
 .card.card-promo.green .additional {
-    background: linear-gradient(135deg, var(--color-complementario) 0%, #006450 100%);
+    background: linear-gradient(135deg, var(--color-secundario) 0%, var(--color-secundario) 100%);
 }
 
-/* Blue Theme */
 .card.card-promo.blue .additional {
-    background: linear-gradient(135deg, var(--color-primario) 0%, #003780 100%);
+    background: linear-gradient(135deg, var(--color-terciario) 0%, var(--color-terciario) 100%);
 }
 
 /* ======================================= */
-/* NUEVOS ESTILOS PARA CONTENIDO EN HOVER */
+/* ESTILOS DE LOS ELEMENTOS EN HOVER */
 /* ======================================= */
 
 .card.card-promo .additional .logo-placeholder {
-    width: 80px; /* Aumentado para mayor visibilidad */
-    height: 80px;
-    background-color: rgba(255, 255, 255, 0.2);
+    width: 120px; 
+    height: 120px;
+    background-color: rgba(255, 255, 255, 0.5); 
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -160,70 +170,148 @@
     color: white;
     font-weight: bold;
     font-size: 1rem;
-    margin-bottom: 15px; /* Espacio debajo del logo */
-    position: relative; /* Ajuste para que 'center-card-element' no lo desplace */
+    margin-bottom: 15px; 
+    border: 3px solid rgba(255, 255, 255, 0.7); 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); 
+    position: relative; 
     top: unset;
     left: unset;
     transform: none;
 }
 
+.card.card-promo .additional .logo-placeholder img {
+    max-width: 80%; 
+    max-height: 80%;
+    width: auto;
+    height: auto;
+    object-fit: contain; 
+}
+
+
 .card.card-promo .additional h1 {
-    font-size: 1.8rem; /* Tamaño de título aumentado */
-    margin-bottom: 25px; /* Espacio antes del botón */
+    font-size: 1.8rem; 
+    margin-bottom: 25px; 
     color: var(--color-texto-oscuro);
 }
 
-/* Ocultar elementos que no queremos en el hover */
-.card.card-promo .additional .user-card .level,
-.card.card-promo .additional .user-card .points,
+.card.card-promo .additional .user-card,
 .card.card-promo .additional .more-info,
 .card.card-promo .additional .stats {
     display: none;
 }
 
-/* Estilos para el nuevo botón "Visitar Página" */
 .card.card-promo .additional .visit-button {
     display: inline-block;
     padding: 10px 25px;
-    background-color: rgba(255, 255, 255, 0.3); /* Fondo semitransparente */
+    background-color: rgba(255, 255, 255, 0.3); 
     color: var(--color-texto-oscuro);
     text-decoration: none;
     border-radius: 25px;
     font-size: 0.9rem;
     font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    border: 2px solid rgba(255, 255, 255, 0.5); /* Borde sutil */
+    border: 2px solid rgba(255, 255, 255, 0.5); 
+    cursor: pointer;
 }
 
 .card.card-promo .additional .visit-button:hover {
-    background-color: var(--color-texto-oscuro); /* Fondo blanco en hover */
-    color: var(--color-secundario); /* Texto rojo para la tarjeta principal */
+    background-color: var(--color-texto-oscuro); 
+    color: var(--color-complementario);
     transform: translateY(-2px);
-    border-color: var(--color-texto-oscuro); /* Borde blanco en hover */
+    border-color: var(--color-texto-oscuro); 
 }
 
-/* Adaptar el color del texto del botón en hover para cada tema */
 .card.card-promo.green .additional .visit-button:hover {
-    color: var(--color-complementario); /* Texto verde para la tarjeta verde */
+    color: var(--color-secundario);
 }
 
 .card.card-promo.blue .additional .visit-button:hover {
-    color: var(--color-primario); /* Texto azul para la tarjeta azul */
+    color: var(--color-terciario);
 }
 
 
-/* Media Query para responsividad */
+/* ==================================================== */
+/* MEDIA QUERY para responsividad (max-width: 768px) */
+/* (Mobile: 1 Columna y Click-to-Hover Habilitado) */
+/* ==================================================== */
+
 @media (max-width: 768px) {
+
+    /* FUERZA 1 COLUMNA EN MÓVILES */
     .cards-wrapper {
-        grid-template-columns: 1fr; 
-        gap: 30px;
+        display: flex; /* Cambiamos de grid a flex para apilar */
+        flex-direction: column; 
+        align-items: center; 
+        gap: 30px; 
+        perspective: none; 
+        max-width: 100%;
     }
-    .card.card-promo {
-        height: 350px;
-    }
+
+    /* Anular el estilo de grid de la tercera tarjeta en móvil */
     .card.card-promo:nth-child(3) {
         grid-column: auto; 
-        max-width: 100%;
-        justify-self: unset;
+        max-width: 90%; 
+        justify-self: auto;
+    }
+
+    /* Contenedor principal de la tarjeta */
+    .card.card-promo {
+        width: 90% !important; 
+        max-width: 450px; 
+        height: auto !important; 
+        min-height: 250px; /* Asegura una altura mínima legible */
+        margin: 0; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: none; 
+        overflow: hidden; /* CRÍTICO: Necesario para el efecto overlay/flip */
+    }
+
+    /* Desactivar el efecto de hover de escritorio */
+    .card.card-promo:hover {
+        transform: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* 1. HABILITAR EL FLIP/OVERLAY EN .general */
+    .card.card-promo .general {
+        opacity: 1; 
+        transform: none;
+        /* CRÍTICO: Debe ser ABSOLUTE para que .additional pueda superponerse */
+        position: absolute; 
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden; 
+        pointer-events: auto; 
+        box-sizing: border-box;
+    }
+    
+    /* 2. HABILITAR EL FLIP/OVERLAY EN .additional */
+    .card.card-promo .additional {
+        /* CRÍTICO: NO USAR display: none; y debe ser ABSOLUTE */
+        display: flex; 
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        opacity: 0; /* Oculto por defecto, se revela con la clase .flipped */
+        box-sizing: border-box;
+    }
+
+    /* Ocultar la leyenda de hover */
+    .card.card-promo .general .more {
+        display: none; 
+    }
+}
+
+/* @media (max-width: 480px) - Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .card.card-promo {
+        width: 100%; 
+        max-width: none;
+    }
+    #facebook-iframe {
+        height: 250px !important;
     }
 }
