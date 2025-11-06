@@ -273,7 +273,8 @@ nav ul li a:hover {
     left: 0;
     right: 0;
     margin: auto;
-    transition: transform .4s ease, opacity .4s ease;
+    /* MEJORA DE FLUIDEZ: Aumento de tiempo y curva personalizada */
+    transition: transform .6s cubic-bezier(0.19, 1, 0.22, 1), opacity .6s cubic-bezier(0.19, 1, 0.22, 1);
     cursor: pointer;
     border-radius: 10px;
     overflow: hidden;
@@ -300,7 +301,7 @@ nav ul li a:hover {
 #item-2:checked ~ .cards #event-card-5,
 #item-3:checked ~ .cards #event-card-5 {
     transform: translatex(-40%) scale(.8);
-    opacity: .8; /* AUMENTADO para ser más sólida */
+    opacity: 1; /* AHORA SÓLIDA: Opacidad total para eliminar el borde transparente */
     z-index: 0;
 }
 
@@ -313,7 +314,7 @@ nav ul li a:hover {
 #item-4:checked ~ .cards #event-card-1,
 #item-5:checked ~ .cards #event-card-2 {
     transform: translatex(40%) scale(.8);
-    opacity: .8; /* AUMENTADO para ser más sólida */
+    opacity: 1; /* AHORA SÓLIDA: Opacidad total para eliminar el borde transparente */
     z-index: 0;
 }
 
