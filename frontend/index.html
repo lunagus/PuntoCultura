@@ -12,10 +12,12 @@
         rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/menu.css"> <link rel="stylesheet" href="css/wpp.css"> <link rel="shortcut icon" href="assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon" sizes="32x10">
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.min.js"></script>
-</head>
+    <link rel="stylesheet" href="css/menu.css"> 
+    <link rel="stylesheet" href="css/wpp.css"> 
+    <link rel="stylesheet" href="css/promocionales.css"> 
+    <link rel="shortcut icon" href="assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon" sizes="32x10">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
 
 <body>
     <header class="header">
@@ -69,19 +71,17 @@
                 <input type="text" id="buscador" placeholder="Buscar..." class="search-input" />
             </div>
         </section>
-        <section id="iframe">
-            <div class="calendario-video-grid">
-                <div class="calendario-box">
-                    <h2>Calendario de eventos</h2>
-                    <div id="calendar"></div>
-                </div>
-
+        
+        <section id="facebook-promo-grid">
+            
+            <div id="facebook-col">
                 <div class="video-box">
-                    <h2>Última publicación</h2>
+                    <h2 class="promocion-title">Últimas Publicaciones</h2> 
                     <iframe
-                        id="facebook-iframe" src="https://www.facebook.com/plugins/post.php?href=..."
-                        width="150%"
-                        height="700"
+                        id="facebook-iframe" 
+                        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fsubsecretariadeculturadesantiagodelestero&tabs=timeline&width=500&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                        width="100%"
+                        height="500"
                         style="border:none;overflow:hidden;border-radius:10px;"
                         scrolling="no"
                         frameborder="0"
@@ -90,8 +90,54 @@
                     </iframe>
                 </div>
             </div>
+            
+            <div id="promociones-col">
+                <h2 class="promocion-title">Visita también</h2>
+                <div class="cards-wrapper">
+                    <div class="card card-promo">
+                        <div class="additional">
+                            <div class="logo-placeholder">LOGO 1</div>
+                            <h1>Portal de Eventos</h1>
+                            <a href="https://www.google.com" target="_blank" class="visit-button">Visitar Página</a>
+                        </div>
+                        <div class="general">
+                            <h1>Portal de Eventos</h1>
+                            <p>Descubre los eventos culturales más relevantes de la región. Calendario, horarios y ubicaciones.</p>
+                            <span class="more">Pasa el mouse para más información</span>
+                        </div>
+                    </div>
+                
+                    <div class="card card-promo green">
+                        <div class="additional">
+                            <div class="logo-placeholder">LOGO 2</div>
+                            <h1>Directorio Creativo</h1>
+                            <a href="https://www.google.com" target="_blank" class="visit-button">Visitar Página</a>
+                        </div>
+                        <div class="general">
+                            <h1>Directorio Creativo</h1>
+                            <p>Conecta con artistas, diseñadores y creadores locales. Fomenta la colaboración y el trabajo en red.</p>
+                            <span class="more">Pasa el mouse para más información</span>
+                        </div>
+                    </div>
+                
+                    <div class="card card-promo blue">
+                        <div class="additional">
+                            <div class="logo-placeholder">LOGO 3</div>
+                            <h1>Archivo Digital</h1>
+                            <a href="https://www.google.com" target="_blank" class="visit-button">Visitar Página</a>
+                        </div>
+                        <div class="general">
+                            <h1>Archivo Digital</h1>
+                            <p>Accede a documentos históricos, galerías de fotos y material didáctico de la región.</p>
+                            <span class="more">Pasa el mouse para más información</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+
         </section>
-    </main>
+        </main>
 
     <footer id="footer">
         <div class="footer">
@@ -179,8 +225,6 @@
 
     <script src="js/config.js"></script>
     <script src="js/blurryNav.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-    <script src="js/calendario.js"></script>
     <script src="js/modal-handler.js"></script> 
     <script src="js/carrusel.js"></script>
     <script src="js/buscador.js"></script>

@@ -134,82 +134,48 @@ nav ul li a:hover {
     padding: 40px 20px;
 }
 
-#busqueda-eventos {
-    width: 100%;
-    max-width: 600px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin: 0 auto 30px auto;
-    display: block;
-}
-
-.calendario-video-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
-    max-width: 1000px;
+/* Estilo para la caja del video (Facebook) ahora que el calendario y el grid han sido eliminados */
+.video-box { 
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    /* max-width: 1000px;  - ELIMINADO: Se gestionará con flexbox/grid */
     margin: 0 auto;
 }
 
-.calendario-box, .video-box {
-    background: var(--color-fondo-claro);
-    padding: 20px;
-    border-radius: 10px;
+/* ==================================================== */
+/* INICIO: SECCIÓN FACEBOOK Y PROMOCIONES (NUEVO ESTILO) */
+/* ==================================================== */
+
+#facebook-promo-grid {
+    display: flex;
+    flex-direction: row-reverse; /* Esto invierte el orden: promociones (columna 1) a la izquierda, facebook (columna 2) a la derecha */
+    flex-wrap: wrap; /* Permite que las columnas se apilen en pantallas pequeñas */
+    gap: 40px; /* Espacio entre las columnas */
+    padding: 40px 20px;
+    max-width: 1200px; /* Límite para el ancho del contenedor */
+    margin: 0 auto;
+    align-items: flex-start; /* Alinea las columnas al inicio */
 }
 
-#calendar {
-    max-width: 900px;
-    height: 600px;
-    margin: 40px auto;
-    background-color: var(--color-texto-oscuro);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    font-family: 'Host Grotesk', sans-serif;
-    z-index:-1;
+#promociones-col {
+    /* ACTUALIZADO: Ocupa 48% del espacio */
+    flex: 1 1 48%; 
+    min-width: 300px; /* Ancho mínimo para evitar que se comprima demasiado */
+    order: 1; /* Orden forzado, aunque 'row-reverse' lo hace implícitamente */
 }
 
-/* Fuente general */
-.fc {
-    font-family: 'Host Grotesk', sans-serif;
+#facebook-col {
+    /* ACTUALIZADO: Ocupa 48% del espacio */
+    flex: 1 1 48%; 
+    min-width: 300px; /* Ancho mínimo */
+    order: 2; /* Orden forzado */
 }
 
-/* Título del calendario */
-.fc .fc-toolbar-title {
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: var(--color-texto-principal);
-}
+/* ==================================================== */
+/* FIN: SECCIÓN FACEBOOK Y PROMOCIONES */
+/* ==================================================== */
 
-/* Botones del calendario */
-.fc-button {
-    background-color: var(--color-primario);
-    border: none;
-    color: var(--color-texto-oscuro);
-    border-radius: 100px;
-    padding: 6px 14px;
-    font-weight: 600;
-    font-size: 12px;
-    transition: background-color 0.3s ease;
-}
-
-.fc-button:hover,
-.fc-button:focus {
-    background-color: var(--color-secundario);
-}
-
-/* Día actual */
-.fc-daygrid-day.fc-day-today {
-    background-color: var(--color-terciario);
-    border-radius: 4px;
-}
-
-/* Hover sobre días */
-.fc-daygrid-day:hover {
-    background-color: var(--color-neutro); 
-    cursor: pointer;
-}
 
 /* ==================================================== */
 /* INICIO: SECCIÓN CARRUSEL (STACK SLIDER) */
@@ -235,7 +201,7 @@ nav ul li a:hover {
     justify-content: center;
     min-height: 400px; 
     padding: 30px 10px;
-    background-color: var(white); 
+    background-color: white; /* CORREGIDO: Usar color directo o variable correcta */
     transition: background .4s ease-in;
 }
 
@@ -415,7 +381,7 @@ nav ul li a:hover {
     margin: 0 !important;
 }
 
-/* Estilos de limpieza del carrusel 3D anterior (ocultar) */
+/* Estilos de limpieza del carrusel 3d anterior (ocultar) */
 .carousel-3d-container, .carousel-3d, .carousel-pagination {
     display: none !important;
     height: 0 !important;
@@ -530,9 +496,9 @@ nav ul li a:hover {
     display: flex;
     width: 100%;
     height: auto;
-   
+    
     background: linear-gradient(to right, 
-        var(--color-primario) 0%,        
+        var(--color-primario) 0%,           
         var(--color-complementario) 30%,
         var(--color-terciario) 70%,
         var(--color-secundario) 100%
@@ -689,6 +655,21 @@ html, body {
     min-width: 0;
     box-sizing: border-box;
     display: block;
+}
+
+@media (max-width: 1024px) {
+    /* Responsividad de las columnas para apilamiento */
+    #facebook-promo-grid {
+        flex-direction: column; /* Apila las columnas */
+    }
+
+    #promociones-col,
+    #facebook-col {
+        flex: 1 1 100%; /* Ocupan todo el ancho */
+        order: initial; /* Restablece el orden al del HTML (promociones arriba, facebook abajo) */
+        min-width: unset;
+        width: 100%;
+    }
 }
 
 @media (max-width: 768px) {

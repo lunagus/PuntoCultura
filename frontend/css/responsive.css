@@ -110,7 +110,7 @@ body {
         max-height: 300px;
     }
     .cards .card {
-        width: 80%; /* Más ancho para tarjetas */
+        width: 90%; /* Más ancho para tarjetas */
     }
     .events-player {
         min-width: 100%;
