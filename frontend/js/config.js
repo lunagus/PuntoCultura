@@ -6,14 +6,14 @@ const hostname = window.location.hostname;
 const port = window.location.port;
 
 // Caso 1: Servidor ITSE
-const isITSE = hostname === '127.0.0.1' && port === '8030';
+const isITSE = hostname === '100.83.50.21' && port === '8030';
 
 // Caso 2: Desarrollo local normal
 const isLocalhost = (hostname === 'localhost' || hostname === '127.0.0.1') && !isITSE;
 
 // Configurar la URL base de la API
 if (isITSE) {
-    window.API_BASE_URL = 'http://127.0.0.1:8030'; // Ejemplo: backend ITSE
+    window.API_BASE_URL = 'http://100.83.50.21/:8030'; // Ejemplo: backend ITSE
     console.log('Modo ITSE detectado');
 } else if (isLocalhost) {
     window.API_BASE_URL = 'http://127.0.0.1:8000'; // Desarrollo local
