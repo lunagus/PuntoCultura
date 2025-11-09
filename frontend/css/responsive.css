@@ -1,6 +1,6 @@
 /* =======================
-   Responsive Styles
-   ======================= */
+    Responsive Styles
+    ======================= */
 
 /* 1. Ajustes generales */
 body {
@@ -8,340 +8,184 @@ body {
     line-height: 1.5;
 }
 
-/* Nota: Los estilos del header y nav para responsive ahora están en menu.css */
-
+/* LIMPIEZA: Ocultar o resetear estilos del carrusel 3D anterior si existen */
 .carousel-3d-container {
-    max-width: 900px;
-    margin: 0 auto;
+    display: none !important;
 }
 
+.stack-slider-container {
+    max-width: 100%;
+    overflow: visible; 
+}
+
+
+/* ------------------------------------------------------------------ */
 /* 2. Tablets (≤ 1024px) */
+/* ------------------------------------------------------------------ */
 @media (max-width: 1024px) {
     .header nav {
-        width: 95%; /* Ajusta el ancho de la navegación */
+        width: 95%; 
     }
-    .carousel-3d-container {
-        max-width: 100%; /* El carrusel ocupa todo el ancho disponible */
+    
+    /* Ajuste del carrusel Stack Slider */
+    .stack-slider-section {
+        min-height: 350px; 
     }
+    .stack-slider-container {
+        max-width: 500px;
+        max-height: 350px;
+    }
+    .cards .card {
+        width: 70%; 
+    }
+    .events-player {
+        max-width: 95%;
+    }
+
+    /* Sección Calendario/Videos */
     .calendario-video-grid {
-        grid-template-columns: 1fr; /* Una columna para el calendario y video */
+        grid-template-columns: 1fr; 
         gap: 32px;
     }
     .video-box {
-        height: 400px; /* Ajusta la altura del contenedor del video */
+        height: 400px; 
     }
+    
+    /* Sección Hero */
     .hero_content h1 {
-        font-size: 2.5rem; /* Ajusta el tamaño del título principal */
+        font-size: 2.5rem; 
     }
     .hero_content h2 {
-        font-size: 1.3rem; /* Ajusta el tamaño del subtítulo */
+        font-size: 1.3rem; 
     }
     .hero_content p {
-        width: 90%; /* Ajusta el ancho del párrafo */
+        width: 95%;
     }
-    .puntos-grid { /* Para espacios culturales */
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    }
-    .eventos-grid { /* Para eventos */
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    }
-    .filtros-bar { /* En eventos.html */
-        flex-direction: column;
-        gap: 10px;
-    }
-    .filtros-select {
-        width: 80%; /* Asegura que los filtros ocupen más espacio */
-        max-width: 300px;
-    }
-}
 
-/* 3. Móviles grandes (≤ 768px) */
-@media (max-width: 768px) {
-    /* Los estilos del menú hamburguesa se manejan en menu.css */
-    .logo img {
-        width: 40px; /* Ajusta el tamaño del logo */
-    }
-    .hero_content h1 {
-        font-size: 2rem;
-        text-align: center; /* Centra el título en móvil */
-    }
-    .hero_content h2 {
-        font-size: 1.1rem;
-        text-align: center;
-    }
-    .hero_content p {
-        width: 100%;
-        text-align: center;
-    }
-    .hero_content .btn {
-        margin: 0 auto; /* Centra el botón */
-    }
-    .carousel-3d-container {
-        padding: 0 10px; /* Reduce el padding del carrusel */
-    }
-    .carousel-3d .card {
-        width: 200px; /* Ajusta el tamaño de las tarjetas del carrusel */
-        height: 180px;
-    }
-    .calendario-video-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-    }
-    .calendario-box, .video-box {
-        width: 100%;
-        min-width: 0;
-    }
-    .video-box iframe {
-        width: 100% !important;
-        height: 300px !important;
-    }
+    /* Footer */
     .footer {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        height: auto; /* Ajusta la altura del footer */
+        height: auto;
         padding: 20px 0;
+        flex-direction: column;
+        gap: 20px;
     }
+
+    .footer-img, .footer-datos, .footer-social {
+        width: 90%;
+        text-align: center;
+        align-items: center;
+    }
+
     .footer-img {
-        width: 100%;
         justify-content: center;
         gap: 20px;
     }
+
     .footer-img img {
-        width: 50px; /* Ajuste: Imágenes más pequeñas en tablets */
-        margin-bottom: 10px;
+        height: 50px;
     }
-    .footer-datos {
-        width: 100%;
-        text-align: center;
-        align-items: center; /* Centra el texto del footer */
-    }
-    .footer-social {
-        justify-content: center; /* Centra los iconos sociales */
-    }
-    .footer-social h3 { /* Ajuste: Tamaño de fuente para el título de redes sociales */
-        font-size: 1rem;
-    }
-    .contacto-columna { /* En contacto.html */
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-    }
-    .contacto-text, .formulario-contacto {
-        max-width: 90%;
-    }
-    .puntos-grid { /* Para espacios culturales */
-        grid-template-columns: 1fr; /* Una columna */
-    }
-    .eventos-grid { /* Para eventos */
-        grid-template-columns: 1fr; /* Una columna */
-    }
-    .evento-card {
-        min-height: 380px; /* Ajusta la altura mínima de las tarjetas de evento */
-    }
-    .filtros-bar {
-        width: 90%;
-    }
-    .filtros-select {
-        width: 100%;
+
+    /* information cards */
+    .card { 
+        width: 45%; 
     }
 }
 
-/* 4. Móviles pequeños (≤ 480px) */
-@media (max-width: 480px) {
-    /* Los estilos del menú hamburguesa se manejan en menu.css */
-    .hero_content {
-        padding: 10px;
-    }
-    .hero_content h1 {
-        font-size: 1.8rem; /* Tamaño de fuente más pequeño */
-    }
-    .hero_content h2 {
-        font-size: 1rem;
-    }
-    .carousel-section {
-        padding: 0;
-    }
-    .carousel-3d-container {
-        padding: 0;
-    }
-    .carousel-3d .card {
-        width: 140px; /* Tarjetas aún más pequeñas */
-        height: 140px;
-    }
-    .search-section, .search-container {
-        width: 100%;
-        padding: 0 5px;
-    }
-    .search-input {
-        width: 100%;
-        font-size: 0.9rem;
-        padding: 10px 15px 10px 40px; /* Ajusta el padding para el icono */
-    }
-    .search-icon {
-        left: 20px; /* Ajusta la posición del icono de búsqueda */
-        font-size: 16px;
-    }
-    .calendario-box h2, .video-box h2 {
-        font-size: 1.1rem;
-    }
-    .video-box iframe {
-        height: 180px !important;
-    }
-    .footer-img img {
-        width: 35px; /* Ajuste: Imágenes más pequeñas en móviles */
-    }
-    .footer-datos {
-        font-size: 0.9rem;
-    }
-    .footer-social img {
-        width: 24px; /* Iconos sociales más pequeños */
-    }
-    .footer-social h3 { /* Ajuste: Tamaño de fuente para el título de redes sociales */
-        font-size: 0.9rem;
-    }
-    .punto-card, .evento-card {
-        min-height: auto; /* Permite que la altura se ajuste al contenido */
-    }
-    .punto-card-content, .evento-card-content {
-        padding: 10px; /* Reduce el padding interno */
-    }
-    .punto-titulo, .evento-titulo {
-        font-size: 1.1rem;
-    }
-    .punto-direccion, .evento-descripcion, .evento-fecha {
-        font-size: 0.85rem;
-    }
-    .punto-ubicacion-btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
-    }
-}
-
-/* 5. Ajustes para el carrusel y botones (ya presentes, pero se pueden refinar) */
-.carousel-btn {
-    font-size: 2rem;
-    width: 40px;
-    height: 40px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-@media (max-width: 480px) {
-    .carousel-btn {
-        font-size: 1.3rem;
-        width: 28px;
-        height: 28px;
-    }
-}
-
-/* 6. Ajustes para la barra de búsqueda (ya presentes, se mantienen) */
-.search-section {
-    margin: 20px auto; /* Centrar y añadir margen vertical */
-    display: flex;
-    justify-content: center;
-}
-.search-container {
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.search-input {
-    flex: 1;
-    padding: 10px 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-}
-
-/* 7. Footer responsive - Estilos específicos para el footer */
-.footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 30px;
-    padding: 20px;
-    /* Asegura que el footer ocupe todo el ancho disponible */
-    width: 100%;
-    box-sizing: border-box; /* Incluye padding y border en el ancho */
-}
-
-/* Ajustes para las imágenes del footer */
-.footer-img {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    /* Permite que las imágenes se ajusten al espacio disponible */
-    flex-grow: 1;
-    justify-content: flex-start; /* Alinea a la izquierda en pantallas grandes */
-}
-
-/* Ajustes para los datos del footer (dirección, teléfono, email) */
-.footer-datos {
-    flex: 1;
-    min-width: 200px;
-    /* Alinea a la derecha en pantallas grandes */
-    align-items: flex-end;
-}
-
-/* Ajustes para los iconos sociales del footer */
-.footer-social {
-    margin-bottom: 10px;
-    /* Alinea a la derecha en pantallas grandes */
-    justify-content: flex-end;
-}
-
-.footer-social img {
-    width: 28px;
-    margin: 0 5px;
-}
-
-/* Media Query para pantallas medianas (tablets) */
+/* ------------------------------------------------------------------ */
+/* 3. Móviles (≤ 768px) */
+/* ------------------------------------------------------------------ */
 @media (max-width: 768px) {
+    
+    /* Menú Hamburguesa */
+    .nav-links {
+        display: none; 
+    }
+
+    /* === ARREGLO CRÍTICO DE COLUMNAS (Facebook/Promociones) === */
+    #facebook-promo-grid {
+        display: flex;
+        flex-direction: column; /* Apila las columnas (Facebook y Promociones) */
+        padding: 0 15px; 
+        gap: 30px; 
+    }
+
+    /* Asegura que las columnas ocupen todo el ancho y CORRIGE SUPERPOSICIÓN */
+    #facebook-col,
+    #promociones-col {
+        width: 100%;
+        margin-bottom: 30px; 
+        /* CRÍTICO: Estas reglas aseguran que las columnas sigan el flujo normal del documento. */
+        position: static !important; 
+        float: none !important;
+    }
+    .video-box, #facebook-col > div { 
+    /* El contenedor del iframe debe tener una altura y desbordamiento definidos */
+    height: auto !important;
+    min-height: 350px; /* Asegura un tamaño mínimo visible para el iframe */
+    overflow: hidden !important; /* Evita que el iframe se "salga" de su contenedor */
+    width: 100% !important;
+}
+    
+    /* Ajustar el contenedor de las tarjetas */
+    .cards-wrapper {
+        display: flex; /* Cambiamos de grid a flex para apilar (1 columna) */
+        flex-direction: column; 
+        align-items: center;
+        gap: 20px; 
+    }
+
+    /* Ajuste del tamaño y comportamiento de las tarjetas */
+    .card.card-promo {
+        width: 90% !important; 
+        max-width: 400px;
+        height: auto !important; 
+        min-height: 200px;
+        transform: none !important; 
+    }
+    
+    /* Footer */
     .footer {
-        flex-direction: column; /* Apila los elementos del footer verticalmente */
-        align-items: center; /* Centra los elementos */
+        flex-direction: column; 
+        align-items: center; 
         gap: 20px;
-        height: auto; /* La altura se ajusta al contenido */
+        height: auto; 
         padding: 20px 0;
     }
-    .footer-img {
-        width: 100%; /* Ocupa todo el ancho */
-        justify-content: center; /* Centra las imágenes */
-        gap: 20px;
-    }
-    .footer-img img {
-        width: 50px; /* Ajuste: Imágenes más pequeñas en tablets */
-        margin-bottom: 10px;
-    }
-    .footer-datos {
-        width: 100%; /* Ocupa todo el ancho */
-        text-align: center; /* Centra el texto */
-        align-items: center; /* Centra los elementos */
-    }
-    .footer-social {
-        justify-content: center; /* Centra los iconos sociales */
-    }
-    .footer-social h3 { /* Ajuste: Tamaño de fuente para el título de redes sociales */
-        font-size: 1rem;
-    }
+    
 }
 
-/* Media Query para pantallas pequeñas (móviles) */
+/* ------------------------------------------------------------------ */
+/* 4. Pantallas muy pequeñas (≤ 480px) */
+/* ------------------------------------------------------------------ */
 @media (max-width: 480px) {
+    
+    /* Tarjetas promocionales (Ocupan todo el ancho disponible) */
+    .card.card-promo {
+        width: 100% !important; 
+        max-width: none !important;
+    }
+
+    /* Ajuste de título */
+    .promocion-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+    
+    /* Altura del reproductor de video/Facebook */
+    .video-box {
+        height: 300px;
+    }
+    
+    /* Hero Section */
+    .hero_content h1 {
+        font-size: 2rem; 
+    }
+    .hero_content h2 {
+        font-size: 1.1rem; 
+    }
+    
+    /* Footer: ajustar imágenes si es necesario */
     .footer-img img {
-        width: 35px; /* Ajuste: Imágenes más pequeñas en móviles */
-    }
-    .footer-datos {
-        font-size: 0.9rem; /* Fuente más pequeña en móviles */
-    }
-    .footer-social img {
-        width: 24px; /* Iconos sociales más pequeños */
-    }
-    .footer-social h3 { /* Ajuste: Tamaño de fuente para el título de redes sociales */
-        font-size: 0.9rem;
+        height: 40px;
     }
 }

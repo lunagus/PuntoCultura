@@ -12,10 +12,12 @@
         rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/menu.css"> <link rel="stylesheet" href="css/wpp.css"> <link rel="shortcut icon" href="assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon" sizes="32x10">
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.min.js"></script>
-</head>
+    <link rel="stylesheet" href="css/menu.css"> 
+    <link rel="stylesheet" href="css/wpp.css"> 
+    <link rel="stylesheet" href="css/promocionales.css"> 
+    <link rel="shortcut icon" href="assets/icons/sgo-cultura-removebg-preview.png" type="image/x-icon" sizes="32x10">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
 
 <body>
     <header class="header">
@@ -47,12 +49,20 @@
                 <a href="contacto.html" class="btn">Formulario de contacto</a>
             </div>
         </section>
-        <section class="carousel-section">
-            <div class="carousel-3d-container">
-                <div class="carousel-3d" id="carousel">
+        <section class="carousel-section stack-slider-section"> 
+            <h1>¡Proximos eventos!</h1>
+            <div class="container stack-slider-container">
+                <div class="cards events-cards">
                     </div>
-                <button class="carousel-btn prev">‹</button>
-                <button class="carousel-btn next">›</button>
+                <div class="player events-player">
+                    <div class="upper-part">
+                        <div class="play-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        </div>
+                        <div class="info-area events-info-area">
+                            </div>
+                    </div>
+                </div>
             </div>
         </section>
         <section class="search-section">
@@ -61,19 +71,73 @@
                 <input type="text" id="buscador" placeholder="Buscar..." class="search-input" />
             </div>
         </section>
-        <section id="iframe">
-            <div class="calendario-video-grid">
-                <div class="calendario-box">
-                    <h2>Calendario de eventos</h2>
-                    <div id="calendar"></div>
+        
+        <section id="facebook-promo-grid">
+            
+            <div id="promociones-col">
+                <h2 class="promocion-title">Visita también</h2>
+                <div class="cards-wrapper">
+                    <div class="card card-promo">
+                        <div class="additional">
+                            <div class="logo-placeholder">
+                                <img src="assets/icons/huella-dactilar.png" alt="LOGO 1">
+                            </div>
+                            <h1>ID Cultural</h1>
+                            <a href="https://www.google.com" target="_blank" class="visit-button">Visitar Página</a>
+                        </div>
+                        <div class="general">
+                            <h1>ID Cultural</h1>
+                            <p><strong>Nuestras raíces viven aquí.</strong> </p>
+                            <p>Explora y sé parte de la plataforma digital que visibiliza y preserva el arte y la identidad santiagueña.</p>
+                            <p><strong>¡Descubre tu historia!</strong></p>
+                            <span class="more">Pasa el mouse para más información</span>
+                        </div>
+                    </div>
+                
+                    <div class="card card-promo green">
+                        <div class="additional">
+                            <div class="logo-placeholder">
+                                <img src="assets/icons/patromonio.png" alt="LOGO 2">
+                            </div>
+                            <h1>Patrimonio Cultural</h1>
+                            <a href="https://www.google.com" target="_blank" class="visit-button">Visitar Página</a>
+                        </div>
+                        <div class="general">
+                            <h1>Patrimonio Cultural</h1>
+                            <p><strong>¡El Legado de Santiago!</strong></p>
+                            <p>Accede al archivo oficial y a las colecciones de Patrimonio Cultural (Bellas Artes, Antropología e Historia).</p>
+                            <p><strong>¡Explora nuestro pasado!</strong></p>
+                            <span class="more">Pasa el mouse para más información</span>
+                        </div>
+                    </div>
+                
+                    <div class="card card-promo blue">
+                        <div class="additional">
+                            <div class="logo-placeholder">
+                                <img src="assets/icons/libros.png" alt="LOGO 3">
+                            </div>
+                            <h1>Biblioteca Digital</h1>
+                            <a href="https://www.google.com" target="_blank" class="visit-button">Visitar Página</a>
+                        </div>
+                        <div class="general">
+                            <h1>Biblioteca Digital</h1>
+                            <p><strong>Orgullo Santiagueño.</p></strong>
+                            <p>Sumérgete en la historia y la literatura local. Colección exclusiva de nuestros escritores y documentos históricos de la provincia.</p> 
+                            <p><strong>¡Tu lectura digital gratuita!</strong></p>
+                            <span class="more">Pasa el mouse para más información</span>
+                        </div>
+                    </div>
+                
                 </div>
-
+            </div>
+            <div id="facebook-col">
                 <div class="video-box">
-                    <h2>Última publicación</h2>
+                    <h2 class="promocion-title">Últimas Publicaciones</h2> 
                     <iframe
-                        id="facebook-iframe" src="https://www.facebook.com/plugins/post.php?href=..."
-                        width="150%"
-                        height="700"
+                        id="facebook-iframe" 
+                        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fsubsecretariadeculturadesantiagodelestero&tabs=timeline&width=500&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                        width="100%"
+                        height="500"
                         style="border:none;overflow:hidden;border-radius:10px;"
                         scrolling="no"
                         frameborder="0"
@@ -82,8 +146,9 @@
                     </iframe>
                 </div>
             </div>
+
         </section>
-    </main>
+        </main>
 
     <footer id="footer">
         <div class="footer">
@@ -171,13 +236,12 @@
 
     <script src="js/config.js"></script>
     <script src="js/blurryNav.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-    <script src="js/calendario.js"></script>
     <script src="js/modal-handler.js"></script> 
     <script src="js/carrusel.js"></script>
     <script src="js/buscador.js"></script>
     <script src="js/menu.js"></script> 
     <script src="js/auto-refresh.js"></script>
+    <script src="js/flip.js"></script>
     
     <script src="js/wpp.js"></script>
 </body>

@@ -1,4 +1,3 @@
-
 :root {
     --color-primario: #004AAD;           /* Azul institucional */
     --color-secundario: #E63946;         /* Rojo cultural */
@@ -18,7 +17,6 @@
     box-sizing: border-box;
     font-family: "Montserrat", sans-serif;
     scroll-behavior: smooth;
-    /* overflow: auto;  Eliminar o ajustar esto si causa problemas de scroll */
 }
 
 .header {
@@ -44,7 +42,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
 }
 
 nav .logo {
@@ -61,7 +59,7 @@ nav ul {
 
 nav ul li a {
     text-decoration: none;
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
     font-size: 12px;
     transition: 0.1s;
 }
@@ -71,7 +69,7 @@ nav ul li a:hover {
 }
 
 #hero {
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -95,20 +93,20 @@ nav ul li a:hover {
 }
 
 .hero_content h1 {
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
     font-size: 4rem;
     text-shadow: 1px 1px 100px black;
 }
 
 .hero_content h2 {
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
     font-size: 1.5rem;
     width: 100%;
     text-shadow: 1px 1px 100px black;
 }
 
 .hero_content p {
-    color: lightgrey; /* Podríamos usar un tono de gris claro, pero lightgrey funciona */
+    color: lightgrey;
     margin: 0;
     text-shadow: 1px 1px 100px black;
     width: 70%;
@@ -117,7 +115,7 @@ nav ul li a:hover {
 
 .hero_content .btn {
     padding: 10px 30px;
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    color: var(--color-texto-oscuro);
     background: #6c6c6cb6;
     text-decoration: none;
     border-radius: 100px;
@@ -130,211 +128,279 @@ nav ul li a:hover {
     background: var(--color-complementario); 
     transition: 0.1s;
 }
-#calendario-video {
+
+/* Nota: La sección #calendario-video fue renombrada a #iframe en el HTML del usuario */
+#iframe {
     padding: 40px 20px;
 }
 
-#busqueda-eventos {
-    width: 100%;
-    max-width: 600px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin: 0 auto 30px auto;
-    display: block;
-}
-
-.calendario-video-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
-    max-width: 1000px;
+/* Estilo para la caja del video (Facebook) ahora que el calendario y el grid han sido eliminados */
+.video-box { 
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    /* max-width: 1000px;  - ELIMINADO: Se gestionará con flexbox/grid */
     margin: 0 auto;
 }
 
-.calendario-box, .video-box {
-    background: var(--color-fondo-claro); /* Cambiado a variable */
-    padding: 20px;
-    border-radius: 10px;
+/* ==================================================== */
+/* INICIO: SECCIÓN FACEBOOK Y PROMOCIONES (NUEVO ESTILO) */
+/* ==================================================== */
+
+#facebook-promo-grid {
+    display: flex;
+    flex-direction: row-reverse; /* Esto invierte el orden: promociones (columna 1) a la izquierda, facebook (columna 2) a la derecha */
+    flex-wrap: wrap; /* Permite que las columnas se apilen en pantallas pequeñas */
+    gap: 40px; /* Espacio entre las columnas */
+    padding: 40px 20px;
+    max-width: 1200px; /* Límite para el ancho del contenedor */
+    margin: 0 auto;
+    align-items: flex-start; /* Alinea las columnas al inicio */
 }
 
-#calendar {
-    max-width: 900px;
-    height: 600px;
-    margin: 40px auto;
-    background-color: var(--color-texto-oscuro); /* Cambiado a variable (Blanco) */
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    font-family: 'Host Grotesk', sans-serif;
-    z-index:-1;
+#promociones-col {
+    /* ACTUALIZADO: Ocupa 48% del espacio */
+    flex: 1 1 48%; 
+    min-width: 300px; /* Ancho mínimo para evitar que se comprima demasiado */
+    order: 1; /* Orden forzado, aunque 'row-reverse' lo hace implícitamente */
 }
 
-/* Fuente general */
-.fc {
-    font-family: 'Host Grotesk', sans-serif;
+#facebook-col {
+    /* ACTUALIZADO: Ocupa 48% del espacio */
+    flex: 1 1 48%; 
+    min-width: 300px; /* Ancho mínimo */
+    order: 2; /* Orden forzado */
 }
 
-/* Título del calendario */
-.fc .fc-toolbar-title {
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: var(--color-texto-principal); /* Cambiado a variable (Gris Oscuro) */
-}
+/* ==================================================== */
+/* FIN: SECCIÓN FACEBOOK Y PROMOCIONES */
+/* ==================================================== */
 
-/* Botones del calendario */
-.fc-button {
-    background-color: var(--color-primario); /* Cambiado a Azul Primario */
-    border: none;
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
-    border-radius: 100px;
-    padding: 6px 14px;
-    font-weight: 600;
-    font-size: 12px;
-    transition: background-color 0.3s ease;
-}
 
-.fc-button:hover,
-.fc-button:focus {
-    background-color: var(--color-secundario); /* Cambiado a Rojo Cultural */
-}
-
-/* Día actual */
-.fc-daygrid-day.fc-day-today {
-    background-color: var(--color-terciario); /* Cambiado a Amarillo Terciario */
-    border-radius: 4px;
-}
-
-/* Hover sobre días */
-.fc-daygrid-day:hover {
-    background-color: var(--color-neutro); 
-    cursor: pointer;
-}
+/* ==================================================== */
+/* INICIO: SECCIÓN CARRUSEL (STACK SLIDER) */
+/* ==================================================== */
 
 .carousel-section {
     display: flex;
+    flex-direction: column; 
     justify-content: center;
     align-items: center;
     margin-top: 40px;
     margin-bottom: 40px;
-    height: auto;
-}
-
-.carousel-3d-container {
-    width: 100%;
-    max-width: 1200px; /* Increased width to accommodate buttons outside */
-    margin: 0 auto;
+    height: 400px; 
     position: relative;
-    /* overflow: hidden; /* Remove this to allow buttons to go outside */
-    padding: 0 70px; /* Add padding to make space for buttons */
-    box-sizing: border-box; /* Include padding in width */
+    padding: 0 10px; 
+    overflow-x: hidden; /* Oculta el scroll horizontal */
 }
 
-.carousel-3d {
+/* Base del contenedor (simula el 'body' del ejemplo para centrado) */
+.stack-slider-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px; 
+    padding: 30px 10px;
+    background-color: white; /* CORREGIDO: Usar color directo o variable correcta */
+    transition: background .4s ease-in;
+}
+
+/* Contenedor principal del carrusel */
+.stack-slider-container {
+    width: 100%;
+    max-width: 600px; 
+    max-height: 400px;
+    height: 100%;
+    transform-style: preserve-3d;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
-    gap: 20px;
-    transition: transform 0.5s ease-in-out;
 }
 
-.carousel-3d .card {
-    width: 300px;
-    height: 260px;
-    flex-shrink: 0;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 0 12px rgba(0,0,0,0.2);
-    transform: scale(0.8);
-    opacity: 0.3;
-    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+/* Contenedor de las tarjetas */
+.events-cards {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 20px;
+}
+
+/* Ocultar los radio inputs (que se inyectan en el .stack-slider-container) */
+.stack-slider-container input[type=radio] {
+    display: none;
+}
+
+/* Estilo base de la tarjeta (label) */
+.cards .card { 
+    position: absolute;
+    width: 55%; /* Ancho de la tarjeta */
+    height: 110%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    /* MEJORA DE FLUIDEZ: Aumento de tiempo y curva personalizada */
+    transition: transform .6s cubic-bezier(0.19, 1, 0.22, 1), opacity .6s cubic-bezier(0.19, 1, 0.22, 1);
     cursor: pointer;
-    position: relative; /* Añadido para el overlay */
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-/* Estilos para el overlay del título en las tarjetas del carrusel */
-.carousel-3d .card .card-overlay {
+.cards .card img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+    transition: box-shadow .4s ease;
+}
+
+/* Lógica de Transformación CSS (¡CRUCIAL para hasta 5 elementos!) */
+
+/* Tarjeta en posición izquierda (anterior) */
+#item-1:checked ~ .cards #event-card-3, 
+#item-2:checked ~ .cards #event-card-1, 
+#item-3:checked ~ .cards #event-card-2,
+#item-4:checked ~ .cards #event-card-3, 
+#item-5:checked ~ .cards #event-card-4,
+#item-1:checked ~ .cards #event-card-5,
+#item-2:checked ~ .cards #event-card-5,
+#item-3:checked ~ .cards #event-card-5 {
+    transform: translatex(-40%) scale(.8);
+    opacity: 1; /* AHORA SÓLIDA: Opacidad total para eliminar el borde transparente */
+    z-index: 0;
+}
+
+/* Tarjeta en posición derecha (siguiente) */
+#item-1:checked ~ .cards #event-card-2, 
+#item-2:checked ~ .cards #event-card-3, 
+#item-3:checked ~ .cards #event-card-4,
+#item-4:checked ~ .cards #event-card-5, 
+#item-5:checked ~ .cards #event-card-1,
+#item-4:checked ~ .cards #event-card-1,
+#item-5:checked ~ .cards #event-card-2 {
+    transform: translatex(40%) scale(.8);
+    opacity: 1; /* AHORA SÓLIDA: Opacidad total para eliminar el borde transparente */
+    z-index: 0;
+}
+
+
+/* Tarjeta Central (Activa) */
+#item-1:checked ~ .cards #event-card-1, 
+#item-2:checked ~ .cards #event-card-2, 
+#item-3:checked ~ .cards #event-card-3,
+#item-4:checked ~ .cards #event-card-4, 
+#item-5:checked ~ .cards #event-card-5 {
+    transform: translatex(0) scale(1);
+    opacity: 1;
+    z-index: 10; /* CORREGIDO: Valor alto para que se vea siempre por encima. */
+}
+
+/* Estilo para la tarjeta activa (sombra) */
+#item-1:checked ~ .cards #event-card-1 img, 
+#item-2:checked ~ .cards #event-card-2 img, 
+#item-3:checked ~ .cards #event-card-3 img,
+#item-4:checked ~ .cards #event-card-4 img, 
+#item-5:checked ~ .cards #event-card-5 img {
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.4);
+}
+
+/* INICIO: Nuevos estilos para el Overlay de texto */
+.card-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
-    padding: 15px 10px 10px;
-    text-align: center;
-    font-size: 1.1em;
-    font-weight: bold;
-    transform: translateY(100%); /* Oculto por defecto */
-    transition: transform 0.3s ease-out;
-}
-
-/* Mostrar el overlay cuando la tarjeta está activa */
-.carousel-3d .card.active .card-overlay {
-    transform: translateY(0%);
-}
-
-/* Mostrar el overlay al pasar el cursor sobre cualquier tarjeta */
-.carousel-3d .card:hover .card-overlay {
-    transform: translateY(0%);
-}
-
-.carousel-3d .card.prev,
-.carousel-3d .card.next {
-    transform: scale(0.9);
-    opacity: 0.6;
-}
-
-.carousel-3d .card.active {
-    transform: scale(1);
-    opacity: 1;
-    box-shadow: 0 0 12px rgba(0,0,0,0.3);
-}
-
-.carousel-3d .card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.carousel-3d .card:not(.prev):not(.active):not(.next) {
-    display: none;
-}
-
-
-.carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.4);
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 10;
-    display: flex;
-    justify-content: center;
+    /* Altura completa con degradado en el fondo */
+    height: 100%; 
+    display: flex; /* Habilita Flexbox para centrar */
+    flex-direction: column;
+    justify-content: flex-end; /* Alinea el texto en la parte inferior */
     align-items: center;
-    transition: background 0.3s ease;
+    text-align: center;
+    padding: 15px;
+    
+    /* Degradado oscuro en la parte inferior para mejorar la lectura del texto */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 60%);
+    border-radius: 10px; /* Coincide con el borde de la tarjeta */
+    z-index: 5; /* Asegura que esté sobre la imagen */
+    transition: opacity 0.4s ease; /* Permite la transición de visibilidad del texto */
 }
 
-.carousel-btn:hover {
-    background: rgba(0, 0, 0, 0.6);
+.card-overlay h3 {
+    color: var(--color-texto-oscuro); /* Blanco */
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); /* Sombra para mejor lectura */
 }
 
-.carousel-btn.prev { left: -150px; }
-.carousel-btn.next { right: -150px; }
+.card-overlay p {
+    color: lightgray;
+    font-size: 0.85rem;
+    margin-bottom: 0;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+/* FIN: Nuevos estilos para el Overlay de texto */
+
+/* INICIO: Solución para ocultar el texto en tarjetas no activas */
+#item-1:checked ~ .cards #event-card-2 .card-overlay,
+#item-1:checked ~ .cards #event-card-3 .card-overlay,
+#item-1:checked ~ .cards #event-card-4 .card-overlay,
+#item-1:checked ~ .cards #event-card-5 .card-overlay,
+
+#item-2:checked ~ .cards #event-card-1 .card-overlay,
+#item-2:checked ~ .cards #event-card-3 .card-overlay,
+#item-2:checked ~ .cards #event-card-4 .card-overlay,
+#item-2:checked ~ .cards #event-card-5 .card-overlay,
+
+#item-3:checked ~ .cards #event-card-1 .card-overlay,
+#item-3:checked ~ .cards #event-card-2 .card-overlay,
+#item-3:checked ~ .cards #event-card-4 .card-overlay,
+#item-3:checked ~ .cards #event-card-5 .card-overlay,
+
+#item-4:checked ~ .cards #event-card-1 .card-overlay,
+#item-4:checked ~ .cards #event-card-2 .card-overlay,
+#item-4:checked ~ .cards #event-card-3 .card-overlay,
+#item-4:checked ~ .cards #event-card-5 .card-overlay,
+
+#item-5:checked ~ .cards #event-card-1 .card-overlay,
+#item-5:checked ~ .cards #event-card-2 .card-overlay,
+#item-5:checked ~ .cards #event-card-3 .card-overlay,
+#item-5:checked ~ .cards #event-card-4 .card-overlay {
+    opacity: 0; /* Oculta el texto de la tarjeta no activa, previniendo el filtrado */
+}
+/* FIN: Solución para ocultar el texto en tarjetas no activas */
+
+
+/* Estilos de limpieza: Desaparición del cuadro inferior de información */
+.events-player, .upper-part, .play-icon, .events-info-area, .event-info-item {
+    display: none !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Estilos de limpieza del carrusel 3d anterior (ocultar) */
+.carousel-3d-container, .carousel-3d, .carousel-pagination {
+    display: none !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* ==================================================== */
+/* FIN: SECCIÓN CARRUSEL */
+/* ==================================================== */
 
 
 .search-section {
     width: 100%;
-    margin: 0 auto 40px auto;
+    margin: 50px auto 40px auto;
     display: flex;
     justify-content: center;
-    position: relative; /* Cambiado de absolute a relative para que no se superponga con el header */
-    z-index: 1; /* Ajustado el z-index para que la barra de búsqueda sea interactuable */
+    position: relative;
+    z-index: 1;
 }
 
 .search-container {
@@ -350,27 +416,21 @@ nav ul li a:hover {
     font-size: 18px;
     border: none;
     border-radius: 50px;
-    /* Usaremos el fondo neutro para el input */
     background: var(--color-neutro); 
-    /* background: rgba(230, 230, 230, 0.95); <-- Valor anterior */
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: #000; <-- Valor anterior */
+    color: var(--color-texto-principal);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     outline: none;
     transition: box-shadow 0.3s ease, background 0.3s ease;
 }
 
 .search-input::placeholder {
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: #444; <-- Valor anterior */
+    color: var(--color-texto-principal);
     opacity: 0.7;
 }
 
 .search-input:focus {
-    /* Usaremos el primario con transparencia para el foco */
     background: rgba(240, 240, 240, 1);
-    box-shadow: 0 0 0 3px rgba(0, 74, 173, 0.25); /* #004AAD con opacidad */
-    /* box-shadow: 0 0 0 3px rgba(113, 99, 240, 0.25); <-- Valor anterior */
+    box-shadow: 0 0 0 3px rgba(0, 74, 173, 0.25);
 }
 
 .search-icon {
@@ -378,8 +438,7 @@ nav ul li a:hover {
     top: 50%;
     left: 36px;
     transform: translateY(-50%);
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: #555; <-- Valor anterior */
+    color: var(--color-texto-principal);
     font-size: 18px;
     pointer-events: none;
     opacity: 0.8;
@@ -387,8 +446,7 @@ nav ul li a:hover {
 
 #information {
     margin: 50px 0;
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: rgb(0, 0, 0); <-- Valor anterior */
+    color: var(--color-texto-principal);
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -407,26 +465,24 @@ nav ul li a:hover {
     gap: 20px;
 }
 
-.card {
+.card { /* Este es el estilo de la tarjeta de information, NO del carrusel Stack */
     display: flex;
     width: 30%;
     height: 80px;
     justify-content: center;
     align-items: center;
     box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.2);
-    border-color: var(--color-texto-principal); /* Cambiado a variable */
-    /* border-color: #000000; <-- Valor anterior */
+    border-color: var(--color-texto-principal);
     font-size: 11px;
     border-radius: 10px;
     gap: 20px;
     padding: 10px;
     text-decoration: none;
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: rgb(42, 61, 71); <-- Valor anterior */
+    color: var(--color-texto-principal);
 }
 
 .card:hover {
-    background: none; /* Elimina el fondo azulado */
+    background: none;
     transition: 0.1s;
     scale: 1.05;
 }
@@ -440,12 +496,12 @@ nav ul li a:hover {
     display: flex;
     width: 100%;
     height: auto;
-   
+    
     background: linear-gradient(to right, 
-        var(--color-primario) 0%,        /* Azul Institucional */
-        var(--color-complementario) 30%, /* Verde Natural */
-        var(--color-terciario) 70%,      /* Amarillo Cálido */
-        var(--color-secundario) 100%     /* Rojo Cultural */
+        var(--color-primario) 0%,           
+        var(--color-complementario) 30%,
+        var(--color-terciario) 70%,
+        var(--color-secundario) 100%
     );
     color: var(--color-texto-oscuro);
     justify-content: center;
@@ -453,10 +509,10 @@ nav ul li a:hover {
 
     border-top: 5px solid;
     border-image: linear-gradient(to left, 
-        var(--color-secundario) 0%,   /* Rojo Cultural */
-        var(--color-terciario) 30%,   /* Amarillo Cálido */
-        var(--color-complementario) 60%,  /* Verde Natural */
-        var(--color-primario) 100%    /* Azul Institucional */
+        var(--color-secundario) 0%,   
+        var(--color-terciario) 30%,
+        var(--color-complementario) 60%,
+        var(--color-primario) 100%
     ) 1;
 }
 
@@ -507,9 +563,9 @@ nav ul li a:hover {
     width: 20px;
 }
 
-/* Estilos para los modales (pueden ir en un archivo CSS común si aplica a más páginas) */
+/* Estilos para los modales */
 .modal-overlay {
-    display: none; /* Oculto por defecto */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -518,12 +574,11 @@ nav ul li a:hover {
     background-color: rgba(0, 0, 0, 0.7);
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Asegura que esté por encima de todo */
+    z-index: 1000;
 }
 
 .modal-content {
-    background-color: var(--color-texto-oscuro); /* Cambiado a variable */
-    /* background-color: #fff; <-- Valor anterior */
+    background-color: var(--color-texto-oscuro);
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -549,8 +604,7 @@ nav ul li a:hover {
     border: none;
     font-size: 24px;
     cursor: pointer;
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: #333; <-- Valor anterior */
+    color: var(--color-texto-principal);
 }
 
 .modal-img {
@@ -564,8 +618,7 @@ nav ul li a:hover {
 .modal-title {
     font-size: 2em;
     margin-bottom: 10px;
-    color: var(--color-texto-principal); /* Cambiado a variable */
-    /* color: #333; <-- Valor anterior */
+    color: var(--color-texto-principal);
 }
 
 .modal-horarios,
@@ -580,16 +633,14 @@ nav ul li a:hover {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: var(--color-primario); /* Cambiado a Azul Primario */
-    /* background-color: #007bff; <-- Valor anterior */
-    color: var(--color-texto-oscuro); /* Cambiado a variable */
+    background-color: var(--color-primario);
+    color: var(--color-texto-oscuro);
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
 .modal-map-btn:hover {
-    background-color: var(--color-secundario); /* Cambiado a Rojo Cultural */
-    /* background-color: #0056b3; <-- Valor anterior */
+    background-color: var(--color-secundario);
 }
 
 /* --- GLOBAL OVERFLOW PROTECTION --- */
@@ -604,6 +655,21 @@ html, body {
     min-width: 0;
     box-sizing: border-box;
     display: block;
+}
+
+@media (max-width: 1024px) {
+    /* Responsividad de las columnas para apilamiento */
+    #facebook-promo-grid {
+        flex-direction: column; /* Apila las columnas */
+    }
+
+    #promociones-col,
+    #facebook-col {
+        flex: 1 1 100%; /* Ocupan todo el ancho */
+        order: initial; /* Restablece el orden al del HTML (promociones arriba, facebook abajo) */
+        min-width: unset;
+        width: 100%;
+    }
 }
 
 @media (max-width: 768px) {
