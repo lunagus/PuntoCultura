@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "100.83.50.21",
+    ".trycloudflare.com",
 ]
 
 
