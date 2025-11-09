@@ -35,6 +35,8 @@ ALLOWED_HOSTS = [
     "lunagus.pythonanywhere.com",
     "localhost",
     "127.0.0.1",
+    "100.83.50.21",
+    ".trycloudflare.com",
 ]
 
 
@@ -89,8 +91,10 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 
 ON_PYTHONANYWHERE = "PYTHONANYWHERE_DOMAIN" in os.environ
+ON_SERVERITSE = os.uname().nodename.lower().startswith("server-")
 
-if ON_PYTHONANYWHERE:
+
+if ON_PYTHONANYWHERE or ON_SERVERITSE:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -100,14 +104,13 @@ if ON_PYTHONANYWHERE:
 else:
     DATABASES = {
         "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "puntocultura",
-	    "USER": "postgres",
-	    "PASSWORD": "admin",
-	    "HOST": "localhost",
-	    "PORT": "5432",
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "puntocultura",
+            "USER": "postgres",
+            "PASSWORD": "admin",
+            "HOST": "localhost",
+            "PORT": "5432",
         }
-
     }
 
 
@@ -158,9 +161,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",
     "https://puntocultura.netlify.app",
     "https://lunagus.pythonanywhere.com",
+    "http://100.83.50.21:8031",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_ALL_ORIGINS = True  ## Cambiar en producción REAL!
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     "authorization",
@@ -216,5 +222,3 @@ LOGGING = {
         },
     },
 }
-
-
