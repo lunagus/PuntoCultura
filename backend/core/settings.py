@@ -35,6 +35,7 @@ ALLOWED_HOSTS = [
     "lunagus.pythonanywhere.com",
     "localhost",
     "127.0.0.1",
+    "100.83.50.21",
 ]
 
 
