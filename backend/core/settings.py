@@ -89,8 +89,10 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 
 ON_PYTHONANYWHERE = "PYTHONANYWHERE_DOMAIN" in os.environ
+ON_SERVERITSE = os.uname().nodename.lower().startswith("server-")
 
-if ON_PYTHONANYWHERE:
+
+if ON_PYTHONANYWHERE or ON_SERVERITSE:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -100,14 +102,13 @@ if ON_PYTHONANYWHERE:
 else:
     DATABASES = {
         "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "puntocultura",
-	    "USER": "postgres",
-	    "PASSWORD": "admin",
-	    "HOST": "localhost",
-	    "PORT": "5432",
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "puntocultura",
+            "USER": "postgres",
+            "PASSWORD": "admin",
+            "HOST": "localhost",
+            "PORT": "5432",
         }
-
     }
 
 
@@ -216,5 +217,3 @@ LOGGING = {
         },
     },
 }
-
-
