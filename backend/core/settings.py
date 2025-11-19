@@ -14,6 +14,7 @@ from pathlib import Path
 from datetime import timedelta
 from corsheaders.defaults import default_headers
 import os
+import platform
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -91,8 +92,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 
 ON_PYTHONANYWHERE = "PYTHONANYWHERE_DOMAIN" in os.environ
-ON_SERVERITSE = os.uname().nodename.lower().startswith("server-")
-
+ON_SERVERITSE = platform.node().lower().startswith("server-")
 
 if ON_PYTHONANYWHERE or ON_SERVERITSE:
     DATABASES = {
