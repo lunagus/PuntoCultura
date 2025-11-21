@@ -189,3 +189,35 @@ body {
         height: 40px;
     }
 }
+
+/* Ajuste Responsive para la flecha VOLVER ATRÁS */
+
+@media (max-width: 1024px) {
+    .back-btn {
+        top: 90px;  
+        left: 20px;
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .back-btn {
+        top: 110px; /* No tapa el logo */
+        left: 15px;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .back-btn {
+        top: 125px; 
+        left: 10px;
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+}
