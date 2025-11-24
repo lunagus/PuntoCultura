@@ -939,7 +939,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Función para enviar evento a Zapier
 async function enviarEventoAZapier(evento) {
     
-    const zapierWebhookURL = "https://hooks.zapier.com/hooks/catch/25170606/ui86l44/"; 
+    const zapierWebhookURL = "https://hooks.zapier.com/hooks/catch/25481964/uzex3o6/"; 
 
     try {
         const response = await fetch(zapierWebhookURL, {
