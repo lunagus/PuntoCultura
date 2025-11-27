@@ -112,21 +112,28 @@ async function loadEventsForCarousel() {
                 </div>
             `;
             
-            // Agregar listener para mostrar modal al hacer clic en el overlay de texto
+            // Agregar listener para manejar el clic y el doble clic
             card.addEventListener('click', (e) => {
-                 // Capturamos el índice de la tarjeta que recibió el clic.
+                 // 1. Evitar el comportamiento por defecto de la etiqueta <label> (chequear el radio input)
+                 e.preventDefault(); 
+                 
                  const clickedIndex = index;
-
-                 // Usamos un delay (100ms)
-                 setTimeout(() => {
-                    // ✅ CONDICIÓN FINAL: SOLO verifica que el índice clicado sea el central
-                    if (clickedIndex === currentIndex) {
-                        showEventModal(evento);
-                        console.log(`[CARRUSEL] Abriendo modal para tarjeta activa: ${evento.titulo}`);
-                    } else {
-                        console.log(`[CARRUSEL] Tarjeta ${evento.titulo} clicada, pero no estaba activa. Solo transición.`);
-                    }
-                 }, 100); 
+                 
+                 if (clickedIndex === currentIndex) {
+                     // 2. Si la tarjeta ya está en el centro, ABRIR MODAL
+                     showEventModal(evento);
+                 } else {
+                     // 3. Si la tarjeta NO está en el centro, FORZAR el desplazamiento (Primer Clic)
+                     
+                     // Chequear el input asociado para forzar la transición CSS
+                     const targetInput = document.getElementById(`item-${id}`);
+                     if (targetInput) {
+                        targetInput.checked = true;
+                        // Actualizar el índice central inmediatamente
+                        currentIndex = index; 
+                        startAutoSlide(); 
+                     }
+                 }
             });
 
             cardsContainer.appendChild(card);
