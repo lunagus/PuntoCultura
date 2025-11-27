@@ -8,13 +8,7 @@ let eventsData = [];
 let currentIndex = 0; 
 let interval; 
 
-function showEventModal(evento) {
-    if (typeof window.showEventModal === 'function') {
-        window.showEventModal(evento);
-    } else {
-        console.error("Función showEventModal no definida.");
-    }
-}
+// ❌ Función local showEventModal eliminada (usamos la global)
 
 function nextSlide() {
     if (eventsData.length === 0) return;
@@ -110,7 +104,6 @@ async function loadEventsForCarousel() {
             const fecha = fechaFin && fechaFin !== fechaInicio ? `${fechaInicio} - ${fechaFin}` : fechaInicio;
             
             // 3. INYECTAR EL HTML CON EL OVERLAY (Título Centrado)
-            // *** CORRECCIÓN CLAVE: Usamos evento.imagen para la URL ***
             card.innerHTML = `
                 <img src="${evento.imagen || 'assets/img/default.jpg'}" alt="${evento.titulo}">
                 <div class="card-overlay">
@@ -121,13 +114,19 @@ async function loadEventsForCarousel() {
             
             // Agregar listener para mostrar modal al hacer clic en el overlay de texto
             card.addEventListener('click', (e) => {
-                 // Usamos un pequeño delay para que la transición de radio input se complete si no estaba activa.
+                 // Capturamos el índice de la tarjeta que recibió el clic.
+                 const clickedIndex = index;
+
+                 // Usamos un delay (100ms)
                  setTimeout(() => {
-                    // Solo abre el modal si es la tarjeta activa
-                    if (document.getElementById(`item-${id}`).checked) {
+                    // ✅ CONDICIÓN FINAL: SOLO verifica que el índice clicado sea el central
+                    if (clickedIndex === currentIndex) {
                         showEventModal(evento);
+                        console.log(`[CARRUSEL] Abriendo modal para tarjeta activa: ${evento.titulo}`);
+                    } else {
+                        console.log(`[CARRUSEL] Tarjeta ${evento.titulo} clicada, pero no estaba activa. Solo transición.`);
                     }
-                 }, 50);
+                 }, 100); 
             });
 
             cardsContainer.appendChild(card);

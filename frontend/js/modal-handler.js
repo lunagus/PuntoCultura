@@ -21,11 +21,13 @@ function showEventModal(event) {
         return;
     }
 
+    console.log(`[MODAL] Abriendo modal para: ${event.titulo}`); // Línea de depuración útil.
+
     modalImg.src = event.imagen || 'assets/img/feria-del-libro.jpg';
     modalTitulo.textContent = event.titulo || 'Título no disponible';
+    // Nota: Aquí se está usando la fecha_inicio y fecha_fin tal como vienen, sin formatear.
     modalFecha.textContent = `Fecha: ${event.fecha_inicio} ${event.fecha_fin ? ' - ' + event.fecha_fin : ''}`;
     // Asumiendo que el campo centro_cultural contiene el nombre o un identificador que se puede mostrar.
-    // Si solo es un ID, se necesitaría una llamada adicional a la API de centros para obtener el nombre.
     modalCentro.textContent = `Centro Cultural ID: ${event.centro_cultural || 'No especificado'}`; // Ajusta si tu API devuelve el nombre del centro directamente
     modalDescripcion.textContent = event.descripcion || 'No hay descripción disponible.';
     modalHorario.textContent = `Horario: ${event.horario_apertura} - ${event.horario_cierre}`;
@@ -112,3 +114,6 @@ function showCentroModal(espacio) {
         modalContent.classList.add('active');
     }, 10);
 }
+
+// ✅ Exponer la función globalmente para que carrusel.js pueda usarla
+window.showEventModal = showEventModal;
